@@ -10,6 +10,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 import './theme.css';
 import { AuthProvider } from '@/auth/context/AuthProvider';
+import { QueryProvider } from './providers/query-provider';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -67,8 +68,10 @@ export default async function RootLayout({
             enableColorScheme
           >
             <Providers activeThemeValue={activeThemeValue as string}>
-              <Toaster />
-              <AuthProvider>{children}</AuthProvider>
+              <QueryProvider>
+                <Toaster />
+                <AuthProvider>{children}</AuthProvider>
+              </QueryProvider>
             </Providers>
           </ThemeProvider>
         </NuqsAdapter>

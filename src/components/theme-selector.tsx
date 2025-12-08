@@ -1,102 +1,63 @@
 'use client';
 
 import { useThemeConfig } from '@/components/active-theme';
-import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { IconPalette } from '@tabler/icons-react';
+import * as React from 'react';
 
-const DEFAULT_THEMES = [
-  {
-    name: 'Default',
-    value: 'default'
-  },
-  {
-    name: 'Blue',
-    value: 'blue'
-  },
-  {
-    name: 'Green',
-    value: 'green'
-  },
-  {
-    name: 'Amber',
-    value: 'amber'
-  }
-];
-
-const SCALED_THEMES = [
-  {
-    name: 'Default',
-    value: 'default-scaled'
-  },
-  {
-    name: 'Blue',
-    value: 'blue-scaled'
-  }
-];
-
-const MONO_THEMES = [
-  {
-    name: 'Mono',
-    value: 'mono-scaled'
-  }
+const THEMES = [
+  { label: 'Default', value: 'default' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Green', value: 'green' },
+  { label: 'Amber', value: 'amber' },
+  { label: 'Default Scaled', value: 'default-scaled' },
+  { label: 'Blue Scaled', value: 'blue-scaled' },
+  { label: 'Mono', value: 'mono-scaled' }
 ];
 
 export function ThemeSelector() {
   const { activeTheme, setActiveTheme } = useThemeConfig();
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <div className='flex items-center gap-2'>
-      <Label htmlFor='theme-selector' className='sr-only'>
-        Theme
-      </Label>
-      <Select value={activeTheme} onValueChange={setActiveTheme}>
-        <SelectTrigger
-          id='theme-selector'
-          className='justify-start *:data-[slot=select-value]:w-12'
-        >
-          <span className='text-muted-foreground hidden sm:block'>
-            Select a theme:
-          </span>
-          <span className='text-muted-foreground block sm:hidden'>Theme</span>
-          <SelectValue placeholder='Select a theme' />
-        </SelectTrigger>
-        <SelectContent align='end'>
-          <SelectGroup>
-            <SelectLabel>Default</SelectLabel>
-            {DEFAULT_THEMES.map((theme) => (
-              <SelectItem key={theme.name} value={theme.value}>
-                {theme.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-          <SelectSeparator />
-          <SelectGroup>
-            <SelectLabel>Scaled</SelectLabel>
-            {SCALED_THEMES.map((theme) => (
-              <SelectItem key={theme.name} value={theme.value}>
-                {theme.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Monospaced</SelectLabel>
-            {MONO_THEMES.map((theme) => (
-              <SelectItem key={theme.name} value={theme.value}>
-                {theme.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger
+        asChild
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
+        <button className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-lg p-2 transition-colors'>
+          <IconPalette className='h-5 w-5' />
+        </button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent
+        side='bottom'
+        align='end'
+        sideOffset={4}
+        className='border-border bg-background rounded-lg border p-1 shadow-md'
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
+        {THEMES.map((theme) => (
+          <DropdownMenuItem
+            key={theme.value}
+            className={`hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-md px-3 py-2 transition-colors ${
+              activeTheme === theme.value
+                ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                : ''
+            }`}
+            onClick={() => setActiveTheme(theme.value)}
+          >
+            {theme.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

@@ -31,18 +31,15 @@ export default async function Page(props: pageProps) {
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>
         <div className='flex items-start justify-between'>
-          <Heading
-            title='Products'
-            description='Manage products (Server side table functionalities.)'
-          />
-          <Link
+          <Heading title='Products' />
+          {/* <Link
             href='/dashboard/product/new'
             className={cn(buttonVariants(), 'text-xs md:text-sm')}
           >
             <IconPlus className='mr-2 h-4 w-4' /> Add New
-          </Link>
+          </Link> */}
         </div>
-        <Separator />
+        {/* <Separator />
         <Suspense
           // key={key}
           fallback={
@@ -50,7 +47,7 @@ export default async function Page(props: pageProps) {
           }
         >
           <ProductListingPage />
-        </Suspense>
+        </Suspense> */}
       </div>
     </PageContainer>
   );
