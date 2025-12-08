@@ -1,3 +1,5 @@
+import { Accordion } from '@radix-ui/react-accordion';
+
 interface HeadingProps {
   title: string;
 }
