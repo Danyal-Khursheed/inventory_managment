@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table';
 
 async function fetchUsers() {
-  const res = await fetch('/api/test-users');
+  const res = await fetch('/api/test-users/User');
   return res.json();
 }
 
