@@ -29,6 +29,13 @@ export const navItems: NavItem[] = [
     isActive: false,
     items: [] // No child items
   },
+  {
+    title: 'Test',
+    url: '/dashboard/testing',
+    icon: 'product',
+    shortcut: ['p', 'p'],
+    isActive: true
+  },
   // {
   //   title: 'Account',
   //   url: '#', // Placeholder as there is no direct link for the parent

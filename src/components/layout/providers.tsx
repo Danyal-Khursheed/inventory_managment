@@ -22,6 +22,20 @@ export default function Providers({
           appearance={{
             baseTheme: resolvedTheme === 'dark' ? dark : undefined
           }}
+          signInUrl={
+            process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/auth/sign-in'
+          }
+          signUpUrl={
+            process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/auth/sign-up'
+          }
+          afterSignInUrl={
+            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL ||
+            '/dashboard/overview'
+          }
+          afterSignUpUrl={
+            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL ||
+            '/dashboard/overview'
+          }
         >
           {children}
         </ClerkProvider>
