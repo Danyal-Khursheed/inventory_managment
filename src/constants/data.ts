@@ -30,6 +30,34 @@ export const navItems: NavItem[] = [
     items: [] // No child items
   },
   {
+    title: 'Test',
+    url: '/dashboard/testing',
+    icon: 'product',
+    shortcut: ['p', 'p'],
+    isActive: true
+  },
+  // {
+  //   title: 'Account',
+  //   url: '#', // Placeholder as there is no direct link for the parent
+  //   icon: 'billing',
+  //   isActive: true,
+
+  //   items: [
+  //     {
+  //       title: 'Profile',
+  //       url: '/dashboard/profile',
+  //       icon: 'userPen',
+  //       shortcut: ['m', 'm']
+  //     },
+  //     {
+  //       title: 'Login',
+  //       shortcut: ['l', 'l'],
+  //       url: '/',
+  //       icon: 'login'
+  //     }
+  //   ]
+  // },
+  {
     title: 'Kanban',
     url: '/dashboard/kanban',
     icon: 'kanban',
