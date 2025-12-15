@@ -84,25 +84,9 @@ export default function SignUpViewPage() {
   };
 
   return (
-    <div className='h-screen bg-gray-200 lg:grid lg:grid-cols-2'>
-      <div className='hidden h-full border-r p-9 lg:flex dark:border-neutral-800 dark:bg-neutral-900'>
-        <div className='relative h-full w-full overflow-hidden border border-gray-100 dark:border-neutral-800'>
-          <Image
-            src={SignIn}
-            alt='Sign Up Illustration'
-            fill
-            className='object-cover'
-          />
-          <div className='absolute inset-0 from-gray-700 to-transparent' />
-          <div className='absolute bottom-3 left-6 text-gray-700'>
-            <p className='text-xl font-semibold'>Create Your Account</p>
-            <p className='text-sm opacity-90'>Join us and get started today.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className='flex h-screen flex-col items-center justify-start overflow-y-auto p-6 lg:p-10'>
-        <div className='w-full max-w-md'>
+    <div className=''>
+      <div className='flex h-screen flex-col items-center justify-start overflow-y-auto p-6'>
+        <div className='w-full max-w-lg'>
           <Card className='w-full border border-gray-200 shadow-sm dark:border-neutral-800'>
             <CardHeader className='space-y-1 text-center'>
               <CardTitle className='text-3xl font-bold'>

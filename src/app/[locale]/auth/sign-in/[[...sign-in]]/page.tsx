@@ -52,25 +52,7 @@ export default function Page() {
   };
 
   return (
-    <div className='bg-muted/10 relative flex h-screen flex-col lg:grid lg:grid-cols-2'>
-      <div className='relative hidden h-full flex-col border-r bg-white p-6 lg:flex dark:bg-neutral-900'>
-        <div className='relative h-full w-full overflow-hidden rounded-2xl border border-gray-100 shadow-lg dark:border-neutral-800'>
-          <Image
-            src={SignIn}
-            alt='Sign In Illustration'
-            fill
-            className='object-cover'
-          />
-          <div className='absolute inset-0 from-black/20 to-transparent' />
-          <div className='absolute bottom-2 left-6 space-y-1 text-gray-700 drop-shadow'>
-            <p className='text-xl font-semibold'>Welcome back!</p>
-            <p className='text-sm opacity-90'>
-              Sign in to continue your journey with us.
-            </p>
-          </div>
-        </div>
-      </div>
-
+    <div className=''>
       <div className='flex flex-1 items-center justify-center p-6 lg:p-10'>
         <div className='w-full max-w-md space-y-6'>
           <Card className='w-full border border-gray-200 shadow-sm dark:border-neutral-800'>
@@ -143,7 +125,11 @@ export default function Page() {
                   )}
                 </div>
 
-                <Button type='submit' className='w-full' disabled={isLoading}>
+                <Button
+                  type='submit'
+                  className='w-full bg-[#CCCAE6] hover:bg-[#CCCAE6]/50'
+                  disabled={isLoading}
+                >
                   {isLoading && (
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                   )}
