@@ -1,3 +1,4 @@
+import DummyTable from '@/components/DummyTable';
 import PageContainer from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -25,7 +26,9 @@ export default function OverViewLayout({
   return (
     <PageContainer>
       <div className='flex flex-1 flex-col space-y-2'>
-        <div className='flex items-center justify-between space-y-2'></div>
+        <div className='flex items-center justify-between space-y-2'>
+          <DummyTable />
+        </div>
       </div>
     </PageContainer>
   );

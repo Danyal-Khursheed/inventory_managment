@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useEffect, useState } from 'react';
-import api from '../api/axios';
 import { useRouter } from 'next/navigation';
-import { AuthContextType, User } from '../types/auth';
+import api from '../api/axios';
 import { getToken, saveToken, removeToken } from '../utils/auth-helpers';
+import { User, AuthContextType, SignupPayload } from '@/types/auth';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -22,33 +22,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const res = await api.post(`/auth/login`, { email, password });
-    const jwt = res.data.token;
+  // ✅ SIGNUP
+  const signup = async (data: SignupPayload) => {
+    try {
+      const res = await api.post('/users/register', data);
 
-    saveToken(jwt);
-    setToken(jwt);
+      const { token, user } = res.data;
 
-    await refreshUser();
+      saveToken(token);
+      setToken(token);
+      setUser(user);
 
-    router.push('/dashboard');
+      router.push('/dashboard');
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const signup = async (email: string, password: string, name?: string) => {
-    const res = await api.post('/auth/signup', { email, password, name });
+  // ✅ LOGIN
+  const login = async (email: string, password: string) => {
+    const res = await api.post('/users/login', {
+      email,
+      password
+    });
+
     const jwt = res.data.token;
 
     saveToken(jwt);
     setToken(jwt);
 
     await refreshUser();
-
     router.push('/dashboard');
   };
 
   const refreshUser = async () => {
     try {
-      const res = await api.get('/auth/me');
+      const res = await api.get('/api/users/me');
       setUser(res.data);
     } catch {
       setUser(null);
@@ -59,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     removeToken();
     setUser(null);
     setToken(null);
-    router.push('/sign-in');
+    router.push('/auth/sign-in');
   };
 
   return (
@@ -68,8 +77,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         token,
         isAuthenticated: !!user,
-        login,
         signup,
+        login,
         logout,
         refreshUser
       }}

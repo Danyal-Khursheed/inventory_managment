@@ -10,7 +10,9 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 import './theme.css';
 import { AuthProvider } from '@/auth/context/AuthProvider';
-import { QueryProvider } from './providers/query-provider';
+import { QueryProvider } from '../providers/query-provider';
+import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -27,16 +29,31 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({
-  children
+  children,
+  params
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
+  let { locale } = await params;
+
+  let messages;
+  try {
+    messages = (await import(`../../locales/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   const cookieStore = await cookies();
   const activeThemeValue = cookieStore.get('active_theme')?.value;
   const isScaled = activeThemeValue?.endsWith('-scaled');
 
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={locale === 'ar' ? 'rtl' : 'ltr'}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -70,7 +87,11 @@ export default async function RootLayout({
             <Providers activeThemeValue={activeThemeValue as string}>
               <QueryProvider>
                 <Toaster />
-                <AuthProvider>{children}</AuthProvider>
+                <AuthProvider>
+                  <NextIntlClientProvider locale={locale} messages={messages}>
+                    {children}
+                  </NextIntlClientProvider>
+                </AuthProvider>
               </QueryProvider>
             </Providers>
           </ThemeProvider>
