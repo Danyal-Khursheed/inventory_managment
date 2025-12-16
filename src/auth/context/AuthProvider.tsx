@@ -29,8 +29,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const { token, user } = res.data;
 
-      saveToken(token);
-      setToken(token);
+      saveToken(token.token);
+      setToken(token.token);
       setUser(user);
 
       router.push('/dashboard');
@@ -46,10 +46,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password
     });
 
-    const jwt = res.data.token;
+    const jwt = res.data.token.token;
 
     saveToken(jwt);
     setToken(jwt);
+    console.log(res.data, 'token');
 
     await refreshUser();
     router.push('/dashboard');

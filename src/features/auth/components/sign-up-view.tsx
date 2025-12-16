@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import useAuth from '@/auth/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import PhoneInput, { getCountryCallingCode } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 import {
   Card,
@@ -18,45 +20,33 @@ import {
   CardTitle
 } from '@/components/ui/card';
 
-import Image from 'next/image';
-import SignIn from '@/app/Assets/Images/SignIn.png';
-
 type FormData = {
   fullName: string;
   email: string;
   password: string;
-  confirmPassword: string;
   countryCode: string;
   phoneNumber: string;
-  companyName: string;
-  companyEmail: string;
-  companyCountryCode: string;
-  companyPhoneNumber: string;
   address: string;
 };
 
 export default function SignUpViewPage() {
   const { signup } = useAuth();
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(true);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors }
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
+    console.log('Form Data:', data);
     setError('');
-
-    if (data.password !== data.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
     setIsLoading(true);
 
     try {
@@ -66,14 +56,10 @@ export default function SignUpViewPage() {
         password: data.password,
         countryCode: data.countryCode,
         phoneNumber: data.phoneNumber,
-        companyName: data.companyName,
-        companyEmail: data.companyEmail,
-        companyCountryCode: data.companyCountryCode,
-        companyPhoneNumber: data.companyPhoneNumber,
         address: data.address
       });
 
-      router.push('/auth/sign-in');
+      router.push('/dashboard/overview');
     } catch (err: any) {
       setError(
         err.response?.data?.message || 'Failed to sign up. Please try again.'
@@ -84,173 +70,162 @@ export default function SignUpViewPage() {
   };
 
   return (
-    <div className=''>
-      <div className='flex h-screen flex-col items-center justify-start overflow-y-auto p-6'>
-        <div className='w-full max-w-lg'>
-          <Card className='w-full border border-gray-200 shadow-sm dark:border-neutral-800'>
-            <CardHeader className='space-y-1 text-center'>
-              <CardTitle className='text-3xl font-bold'>
-                Create Account
-              </CardTitle>
-              <CardDescription>
-                Enter your information to register your new account
-              </CardDescription>
-            </CardHeader>
+    <div className='flex h-screen items-center justify-center overflow-y-auto'>
+      <div className='w-full max-w-lg'>
+        <Card className='border shadow-sm'>
+          <CardHeader className='space-y-1 text-center'>
+            <CardTitle className='text-3xl font-bold'>Create Account</CardTitle>
+            <CardDescription>
+              Enter your information to register your new account
+            </CardDescription>
+          </CardHeader>
 
-            <CardContent className='space-y-5'>
-              {error && (
-                <div className='rounded bg-red-100 p-3 text-sm text-red-600 dark:bg-red-900/30 dark:text-red-400'>
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-                <div className='flex flex-col gap-2'>
-                  <Label>Full Name</Label>
-                  <Input
-                    placeholder='John Doe'
-                    disabled={isLoading}
-                    {...register('fullName', {
-                      required: 'Full name is required'
-                    })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Email</Label>
-                  <Input
-                    type='email'
-                    placeholder='name@example.com'
-                    disabled={isLoading}
-                    {...register('email', { required: 'Email is required' })}
-                  />
-                </div>
-
-                <div className='relative flex flex-col gap-2'>
-                  <Label>Password</Label>
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder='At least 6 characters'
-                    disabled={isLoading}
-                    className='pr-10'
-                    {...register('password', {
-                      required: 'Password is required',
-                      minLength: 6
-                    })}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => setShowPassword(!showPassword)}
-                    className='absolute top-10 right-3 -translate-y-1/2 text-gray-500'
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-
-                <div className='relative flex flex-col gap-2'>
-                  <Label>Confirm Password</Label>
-                  <Input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder='Confirm your password'
-                    disabled={isLoading}
-                    className='pr-10'
-                    {...register('confirmPassword', { required: true })}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className='absolute top-10 right-3 -translate-y-1/2 text-gray-500'
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff size={18} />
-                    ) : (
-                      <Eye size={18} />
-                    )}
-                  </button>
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Country Code</Label>
-                  <Input
-                    disabled={isLoading}
-                    {...register('countryCode', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Phone Number</Label>
-                  <Input
-                    type='number'
-                    disabled={isLoading}
-                    {...register('phoneNumber', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Company Name</Label>
-                  <Input
-                    disabled={isLoading}
-                    {...register('companyName', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Company Email</Label>
-                  <Input
-                    type='email'
-                    disabled={isLoading}
-                    {...register('companyEmail', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Company Country Code</Label>
-                  <Input
-                    type='number'
-                    disabled={isLoading}
-                    {...register('companyCountryCode', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Company Phone Number</Label>
-                  <Input
-                    type='number'
-                    disabled={isLoading}
-                    {...register('companyPhoneNumber', { required: true })}
-                  />
-                </div>
-
-                <div className='flex flex-col gap-2'>
-                  <Label>Address</Label>
-                  <Input
-                    disabled={isLoading}
-                    {...register('address', { required: true })}
-                  />
-                </div>
-
-                <Button type='submit' className='w-full' disabled={isLoading}>
-                  {isLoading && (
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  )}
-                  Create Account
-                </Button>
-              </form>
-
-              <div className='mt-6 text-center text-sm'>
-                <span className='text-muted-foreground'>
-                  Already have an account?{' '}
-                </span>
-                <Link
-                  href='/auth/sign-in'
-                  className='text-primary font-medium hover:underline'
-                >
-                  Sign in
-                </Link>
+          <CardContent className='space-y-5'>
+            {error && (
+              <div className='rounded bg-red-100 p-3 text-sm text-red-600'>
+                {error}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+              <div className='flex flex-col gap-2'>
+                <Label>Full Name</Label>
+                <Input
+                  placeholder='John Doe'
+                  disabled={isLoading}
+                  {...register('fullName', {
+                    required: 'Full name is required'
+                  })}
+                />
+                {errors.fullName && (
+                  <p className='text-sm text-red-500'>
+                    {errors.fullName.message}
+                  </p>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label>Email</Label>
+                <Input
+                  type='email'
+                  placeholder='name@example.com'
+                  disabled={isLoading}
+                  {...register('email', { required: 'Email is required' })}
+                />
+                {errors.email && (
+                  <p className='text-sm text-red-500'>{errors.email.message}</p>
+                )}
+              </div>
+
+              <div className='relative flex flex-col gap-2'>
+                <Label>Password</Label>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='At least 6 characters'
+                  disabled={isLoading}
+                  className='pr-10'
+                  {...register('password', {
+                    required: 'Password is required',
+                    minLength: { value: 6, message: 'Minimum 6 characters' }
+                  })}
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='absolute top-8 right-3 text-gray-500'
+                >
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                </button>
+                {errors.password && (
+                  <p className='text-sm text-red-500'>
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label>Phone</Label>
+                <div className='flex gap-2'>
+                  <Controller
+                    name='countryCode'
+                    control={control}
+                    rules={{ required: 'Country code is required' }}
+                    render={({ field }) => (
+                      <PhoneInput
+                        international
+                        defaultCountry='PK'
+                        value={field.value}
+                        onChange={() => {}}
+                        onCountryChange={(country) => {
+                          if (country)
+                            field.onChange(
+                              `+${getCountryCallingCode(country)}`
+                            );
+                        }}
+                        className='border-input bg-background h-10 w-28 rounded-md border px-3 py-2 text-sm'
+                      />
+                    )}
+                  />
+
+                  <Input
+                    type='number'
+                    placeholder='Phone Number'
+                    disabled={isLoading}
+                    className='h-10 flex-1 appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
+                    {...register('phoneNumber', {
+                      required: 'Phone number is required'
+                    })}
+                  />
+                </div>
+                {errors.countryCode && (
+                  <p className='text-sm text-red-500'>
+                    {errors.countryCode.message}
+                  </p>
+                )}
+                {errors.phoneNumber && (
+                  <p className='text-sm text-red-500'>
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label>Address</Label>
+                <Input
+                  placeholder='Address'
+                  disabled={isLoading}
+                  {...register('address', { required: 'Address is required' })}
+                />
+                {errors.address && (
+                  <p className='text-sm text-red-500'>
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type='submit'
+                className='w-full bg-[#CCCAE6] text-black hover:bg-[#CCCAE6]/50 hover:text-black'
+                disabled={isLoading}
+              >
+                {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                Create Account
+              </Button>
+            </form>
+
+            <div className='mt-6 text-center text-sm'>
+              <span className='text-muted-foreground'>
+                Already have an account?{' '}
+              </span>
+              <Link
+                href='/auth/sign-in'
+                className='text-primary font-medium hover:underline'
+              >
+                Sign in
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

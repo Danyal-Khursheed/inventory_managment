@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import useAuth from '@/auth/hooks/useAuth';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import useAuth from '@/auth/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -14,10 +16,6 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import SignIn from '@/app/Assets/Images/SignIn.png';
-import { useRouter } from 'next/navigation';
 
 type FormData = {
   email: string;
@@ -25,11 +23,11 @@ type FormData = {
 };
 
 export default function Page() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-
+  const [showPassword, setShowPassword] = useState(true);
   const {
     register,
     handleSubmit,
@@ -50,9 +48,11 @@ export default function Page() {
       setIsLoading(false);
     }
   };
+  if (showPassword) {
+  }
 
   return (
-    <div className=''>
+    <div>
       <div className='flex flex-1 items-center justify-center p-6 lg:p-10'>
         <div className='w-full max-w-md space-y-6'>
           <Card className='w-full border border-gray-200 shadow-sm dark:border-neutral-800'>
@@ -94,8 +94,7 @@ export default function Page() {
                     </p>
                   )}
                 </div>
-
-                <div className='space-y-2'>
+                <div className='relative space-y-2'>
                   <div className='flex items-center justify-between'>
                     <Label htmlFor='password'>Password</Label>
                     <Link
@@ -105,11 +104,13 @@ export default function Page() {
                       Forgot password?
                     </Link>
                   </div>
+
                   <Input
                     id='password'
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     placeholder='Enter your password'
                     disabled={isLoading}
+                    className='pr-10'
                     {...register('password', {
                       required: 'Password is required',
                       minLength: {
@@ -118,6 +119,15 @@ export default function Page() {
                       }
                     })}
                   />
+
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword(!showPassword)}
+                    className='absolute top-9 right-3 text-gray-500'
+                  >
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </button>
+
                   {errors.password && (
                     <p className='text-sm text-red-600'>
                       {errors.password.message}
@@ -127,7 +137,7 @@ export default function Page() {
 
                 <Button
                   type='submit'
-                  className='w-full bg-[#CCCAE6] hover:bg-[#CCCAE6]/50'
+                  className='w-full bg-[#CCCAE6] text-black/80 hover:bg-[#CCCAE6]/50 hover:text-black'
                   disabled={isLoading}
                 >
                   {isLoading && (
@@ -143,7 +153,7 @@ export default function Page() {
                 </span>
                 <Link
                   href='/auth/sign-up'
-                  className='text-primary font-medium underline-offset-4 hover:underline'
+                  className='text-primary font-medium hover:underline'
                 >
                   Sign up
                 </Link>

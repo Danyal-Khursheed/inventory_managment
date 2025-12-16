@@ -1,5 +1,8 @@
+'use client';
+import { useLocale } from 'next-intl';
 import Image from 'next/image';
-import React from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 import { Images } from '~/Images';
 
 type LayoutProps = {
@@ -7,9 +10,18 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
+  const locale = useLocale();
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      redirect(`/${locale}/dashboard/overview`);
+    }
+  }, [locale, router]);
   return (
     <div className='flex min-h-screen flex-row items-center justify-center'>
-      <div className='flex h-screen w-full items-center justify-center bg-[#CCCAE6] lg:w-1/2'>
+      <div className='hidden h-screen w-full items-center justify-center bg-[#CCCAE6] lg:flex lg:w-1/2'>
         <Image
           src={Images.layoutImage}
           width={600}
@@ -18,7 +30,9 @@ const Layout = ({ children }: LayoutProps) => {
           className='rounded-lg'
         />
       </div>
-      <div className='w-full flex-1 lg:w-1/2'>{children}</div>
+      <div className='w-full flex-1 items-center justify-center lg:w-1/2'>
+        {children}
+      </div>
     </div>
   );
 };
