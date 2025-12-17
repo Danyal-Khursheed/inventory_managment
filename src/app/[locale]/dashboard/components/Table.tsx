@@ -6,40 +6,7 @@ import { HiDotsVertical } from 'react-icons/hi';
 import { CreateModal } from '../../../../components/modal/Createmodal';
 import { DeleteModal } from './DeleteModal';
 import { UpdateModal } from './UpdateModal';
-import { fetchAllUsers } from '@/auth/api/User/page';
-
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-    createdAt: '2023-01-01',
-    dueDate: '2023-01-15',
-    item: 'Item 1',
-    size: 10,
-    name: 'Item 1 Name',
-    color: 'Red',
-    sku: 'SKU001',
-    quantity: 100,
-    upc: 'UPC001'
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-    createdAt: '2023-02-01',
-    dueDate: '2023-02-15',
-    item: 'Item 2',
-    size: 5,
-    name: 'Item 2 Name',
-    color: 'Blue',
-    sku: 'SKU002',
-    quantity: 200,
-    upc: 'UPC002'
-  }
-];
+import { useGetAllUsers } from '../User/hook';
 
 const Table = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,8 +16,25 @@ const Table = () => {
   const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null);
   const [invoiceToUpdate, setInvoiceToUpdate] = useState<any | null>(null);
 
-  const [tableData, setTableData] = useState(invoices);
-  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+
+  const { data: usersData, isLoading: loading } = useGetAllUsers(
+    page,
+    pageSize
+  );
+
+  const tableData =
+    usersData?.data?.map((user: any) => ({
+      invoice: user.id || user.item || '—',
+      item: user.item ?? '—',
+      size: user.size ?? '—',
+      name: user.name ?? '—',
+      color: user.color ?? '—',
+      sku: user.sku ?? '—',
+      quantity: user.quantity ?? 0,
+      upc: user.upc ?? '—'
+    })) || [];
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -87,41 +71,6 @@ const Table = () => {
     setIsUpdateModalOpen(false);
     setInvoiceToUpdate(null);
   };
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      const token = localStorage.getItem('auth_token');
-      console.log(token, 'token token token token');
-      if (!token) {
-        console.error('Token not found. Please login.');
-        return;
-      }
-      try {
-        setLoading(true);
-        const response = await fetchAllUsers();
-        console.log('API response:', response);
-
-        const mappedData = response.map((user: any) => ({
-          item: user.item ?? '—',
-          size: user.size ?? '—',
-          name: user.name ?? '—',
-          color: user.color ?? '—',
-          sku: user.sku ?? '—',
-          quantity: user.quantity ?? 0,
-          upc: user.upc ?? '—'
-        }));
-
-        setTableData(mappedData);
-      } catch (error) {
-        console.error('API error:', error);
-        setTableData([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

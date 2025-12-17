@@ -1,87 +1,52 @@
 'use client';
 
-import { createContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import api from '../api/axios';
-import { getToken, saveToken, removeToken } from '../utils/auth-helpers';
-import { User, AuthContextType, SignupPayload } from '@/types/auth';
+import { createContext, useEffect } from 'react';
+import { getToken } from '../utils/auth-helpers';
+import { AuthContextType, SignupPayload } from '@/types/auth';
+import { useLogin, useSignup, useCurrentUser, useLogout } from '@/hooks/auth';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  const { data: user, refetch: refreshUser } = useCurrentUser();
+  const loginMutation = useLogin();
+  const signupMutation = useSignup();
+  const logoutMutation = useLogout();
 
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-
+  // Auto-fetch user if token exists
   useEffect(() => {
     const existingToken = getToken();
-    if (existingToken) {
-      setToken(existingToken);
+    if (existingToken && !user) {
       refreshUser();
     }
   }, []);
 
-  // ✅ SIGNUP
   const signup = async (data: SignupPayload) => {
-    try {
-      const res = await api.post('/users/register', data);
-
-      const { token, user } = res.data;
-
-      saveToken(token.token);
-      setToken(token.token);
-      setUser(user);
-
-      router.push('/dashboard');
-    } catch (error) {
-      throw error;
-    }
+    await signupMutation.mutateAsync(data);
   };
 
-  // ✅ LOGIN
   const login = async (email: string, password: string) => {
-    const res = await api.post('/users/login', {
-      email,
-      password
-    });
-
-    const jwt = res.data.token.token;
-
-    saveToken(jwt);
-    setToken(jwt);
-    console.log(res.data, 'token');
-
-    await refreshUser();
-    router.push('/dashboard');
-  };
-
-  const refreshUser = async () => {
-    try {
-      const res = await api.get('/api/users/me');
-      setUser(res.data);
-    } catch {
-      setUser(null);
-    }
+    await loginMutation.mutateAsync({ email, password });
   };
 
   const logout = () => {
-    removeToken();
-    setUser(null);
-    setToken(null);
-    router.push('/auth/sign-in');
+    logoutMutation.mutate();
   };
+
+  const token = getToken();
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: user || null,
         token,
         isAuthenticated: !!user,
         signup,
         login,
         logout,
-        refreshUser
+        refreshUser: async () => {
+          await refreshUser();
+        }
       }}
     >
       {children}

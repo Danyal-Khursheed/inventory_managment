@@ -13,7 +13,7 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { toast } from 'sonner';
-import api from '@/auth/api/axios';
+import api from '@/lib/api';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
