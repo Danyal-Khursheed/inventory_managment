@@ -1,4 +1,3 @@
-import DummyTable from '@/components/DummyTable';
 import PageContainer from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { IconTrendingDown, IconTrendingUp } from '@tabler/icons-react';
 import React from 'react';
+import DummyTable from '../components/DummyTable';
 
 export default function OverViewLayout({
   sales,

@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import PhoneInput, { getCountryCallingCode } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 import {
   Card,
@@ -32,6 +34,9 @@ type FormData = {
 export default function SignUpViewPage() {
   const { signup } = useAuth();
   const router = useRouter();
+  const t = useTranslations('SignUp');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -59,10 +64,10 @@ export default function SignUpViewPage() {
         address: data.address
       });
 
-      router.push('/dashboard/overview');
+      router.push('/dashboard/User');
     } catch (err: any) {
       setError(
-        err.response?.data?.message || 'Failed to sign up. Please try again.'
+        err.response?.data?.message || t('Failed to sign up. Please try again.')
       );
     } finally {
       setIsLoading(false);
@@ -74,9 +79,11 @@ export default function SignUpViewPage() {
       <div className='w-full max-w-lg'>
         <Card className='border shadow-sm'>
           <CardHeader className='space-y-1 text-center'>
-            <CardTitle className='text-3xl font-bold'>Create Account</CardTitle>
-            <CardDescription>
-              Enter your information to register your new account
+            <CardTitle className='text-3xl font-bold'>
+              {t('Create Account')}
+            </CardTitle>
+            <CardDescription className='text-lg'>
+              {t('Enter your information to register your new account')}
             </CardDescription>
           </CardHeader>
 
@@ -89,12 +96,12 @@ export default function SignUpViewPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
               <div className='flex flex-col gap-2'>
-                <Label>Full Name</Label>
+                <Label>{t('Full Name')}</Label>
                 <Input
-                  placeholder='John Doe'
+                  placeholder={t('John Doe')}
                   disabled={isLoading}
                   {...register('fullName', {
-                    required: 'Full name is required'
+                    required: t('Full name is required')
                   })}
                 />
                 {errors.fullName && (
@@ -105,12 +112,14 @@ export default function SignUpViewPage() {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <Label>Email</Label>
+                <Label>{t('Email')}</Label>
                 <Input
                   type='email'
-                  placeholder='name@example.com'
+                  placeholder={t('emailPlaceholder')}
                   disabled={isLoading}
-                  {...register('email', { required: 'Email is required' })}
+                  {...register('email', {
+                    required: t('Email is required')
+                  })}
                 />
                 {errors.email && (
                   <p className='text-sm text-red-500'>{errors.email.message}</p>
@@ -118,24 +127,32 @@ export default function SignUpViewPage() {
               </div>
 
               <div className='relative flex flex-col gap-2'>
-                <Label>Password</Label>
+                <Label>{t('Password')}</Label>
+
                 <Input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder='At least 6 characters'
+                  placeholder={t('At least 6 characters')}
                   disabled={isLoading}
-                  className='pr-10'
+                  className={`${isRTL ? 'pl-10 text-right' : 'pr-10 text-left'}`}
                   {...register('password', {
-                    required: 'Password is required',
-                    minLength: { value: 6, message: 'Minimum 6 characters' }
+                    required: t('Password is required'),
+                    minLength: {
+                      value: 6,
+                      message: t('Minimum 6 characters')
+                    }
                   })}
                 />
+
                 <button
                   type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className='absolute top-8 right-3 text-gray-500'
+                  className={`absolute top-8 text-gray-500 ${
+                    isRTL ? 'left-3' : 'right-3'
+                  }`}
                 >
                   {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
+
                 {errors.password && (
                   <p className='text-sm text-red-500'>
                     {errors.password.message}
@@ -144,12 +161,12 @@ export default function SignUpViewPage() {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <Label>Phone</Label>
+                <Label>{t('Phone')}</Label>
                 <div className='flex gap-2'>
                   <Controller
                     name='countryCode'
                     control={control}
-                    rules={{ required: 'Country code is required' }}
+                    rules={{ required: t('Country code is required') }}
                     render={({ field }) => (
                       <PhoneInput
                         international
@@ -162,18 +179,21 @@ export default function SignUpViewPage() {
                               `+${getCountryCallingCode(country)}`
                             );
                         }}
-                        className='border-input bg-background h-10 w-28 rounded-md border px-3 py-2 text-sm'
+                        className='border-input bg-background h-10 w-32 rounded-md border px-2 text-sm'
+                        countrySelectProps={{
+                          className: 'flex items-center gap-2'
+                        }}
                       />
                     )}
                   />
 
                   <Input
                     type='number'
-                    placeholder='Phone Number'
+                    placeholder={t('Phone Number')}
                     disabled={isLoading}
                     className='h-10 flex-1 appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
                     {...register('phoneNumber', {
-                      required: 'Phone number is required'
+                      required: t('Phone number is required')
                     })}
                   />
                 </div>
@@ -190,11 +210,13 @@ export default function SignUpViewPage() {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <Label>Address</Label>
+                <Label>{t('Address')}</Label>
                 <Input
-                  placeholder='Address'
+                  placeholder={t('Address')}
                   disabled={isLoading}
-                  {...register('address', { required: 'Address is required' })}
+                  {...register('address', {
+                    required: t('Address is required')
+                  })}
                 />
                 {errors.address && (
                   <p className='text-sm text-red-500'>
@@ -209,19 +231,19 @@ export default function SignUpViewPage() {
                 disabled={isLoading}
               >
                 {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                Create Account
+                {t('Create Account')}
               </Button>
             </form>
 
             <div className='mt-6 text-center text-sm'>
               <span className='text-muted-foreground'>
-                Already have an account?{' '}
+                {t('Already have an account?')}{' '}
               </span>
               <Link
                 href='/auth/sign-in'
-                className='text-primary font-medium hover:underline'
+                className='text-primary cusror-pointer font-medium hover:underline'
               >
-                Sign in
+                {t('Sign in')}
               </Link>
             </div>
           </CardContent>

@@ -1,7 +1,71 @@
 {
- "ForgotPassword": {
+  "SignUp": {
+    "Create Account": "إنشاء حساب",
+    "Enter your information to register your new account": "أدخل معلوماتك لتسجيل حسابك الجديد",
+    "Full Name": "الاسم الكامل",
+    "Email": "البريد الإلكتروني",
+    "Password": "كلمة المرور",
+    "Phone": "رقم الهاتف",
+    "Address": "العنوان",
+    "Already have an account?": "هل لديك حساب بالفعل؟",
+    "Sign in": "تسجيل الدخول",
+    "John Doe":"جون دو",
+    "emailPlaceholder": "البريد@مثال.com",
+    "Phone Number":"رقم التليفون",
+    "Full name is required": "الاسم الكامل مطلوب",
+    "Email is required": "البريد الإلكتروني مطلوب",
+    "Password is required": "كلمة المرور مطلوبة",
+    "Minimum 6 characters": "الحد الأدنى 6 أحرف",
+    "At least 6 characters":"ستة أحرف على الأقل",
+    "Country code is required": "رمز الدولة مطلوب",
+    "Phone number is required": "رقم الهاتف مطلوب",
+    "Address is required": "العنوان مطلوب",
+    "Failed to sign up. Please try again.": "فشل إنشاء الحساب. يرجى المحاولة مرة أخرى."
+  },
+
+    "SignIn": {
+    "Sign In": "تسجيل الدخول",
+    "Access your dashboard by entering your credentials": "قم بالدخول إلى لوحة التحكم بإدخال بياناتك",
+    "Email": "البريد الإلكتروني",
+    "Password": "كلمة المرور",
+    "Forgot password?": "هل نسيت كلمة المرور؟",
+    "Enter your password": "أدخل كلمة المرور",
+    "emailPlaceholder": "البريد@مثال.com",
+    "Email is required": "البريد الإلكتروني مطلوب",
+    "Invalid email address": "عنوان البريد الإلكتروني غير صالح",
+    "Password is required": "كلمة المرور مطلوبة",
+    "Password must be at least 6 characters": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    "Failed to sign in. Please try again.": "فشل تسجيل الدخول، يرجى المحاولة مرة أخرى",
+    "Don't have an account?": "ليس لديك حساب؟",
+    "Sign up": "إنشاء حساب"
+  },
+
+  "ForgotPassword": {
     "Forgot Password": "نسيت كلمة المرور",
-    "Enter your email below and we will send you a reset link":"أدخل بريدك الإلكتروني أدناه وسنرسل لك رابط إعادة التعيين",
-    "Email":"بريد إلكتروني"
+    "Enter your email below and we will send you a reset link": "أدخل بريدك الإلكتروني أدناه وسنرسل لك رابط إعادة التعيين",
+    "Email": "البريد الإلكتروني",
+    "emailPlaceholder": "البريد@مثال.com",
+    "Please enter your email.": "الرجاء إدخال بريدك الإلكتروني.",
+    "Password reset link sent to your email!": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني!",
+    "Failed to send reset link.": "فشل إرسال رابط إعادة التعيين.",
+    "Send Reset Link": "إرسال رابط إعادة التعيين",
+    "Sending": "جاري الإرسال",
+    "Remembered your password?": "تذكرت كلمة المرور؟",
+    "Sign In": "تسجيل الدخول"
+  },
+
+  "ResetPassword": {
+    "Reset Password": "إعادة تعيين كلمة المرور",
+    "Enter your new password to reset": "أدخل كلمة المرور الجديدة لإعادة التعيين",
+    "New Password": "كلمة المرور الجديدة",
+    "Enter new password": "أدخل كلمة المرور الجديدة",
+    "Please enter a new password.": "الرجاء إدخال كلمة مرور جديدة.",
+    "Password must be at least 6 characters long.": "يجب أن تكون كلمة المرور 6 أحرف على الأقل.",
+    "Invalid or missing token.": "رمز غير صالح أو مفقود.",
+    "Password reset successfully!": "تم إعادة تعيين كلمة المرور بنجاح!",
+    "Failed to reset password.": "فشل إعادة تعيين كلمة المرور.",
+    "Reset Password Button": "إعادة تعيين كلمة المرور",
+    "Resetting...": "جاري إعادة التعيين..."
   }
+
 }

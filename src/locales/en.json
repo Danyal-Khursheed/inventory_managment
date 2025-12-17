@@ -1,7 +1,71 @@
 {
+  "SignUp": {
+    "Create Account": "Create Account",
+    "Enter your information to register your new account": "Enter your information to register your new account",
+    "Full Name": "Full Name",
+    "Email": "Email",
+    "Password": "Password",
+    "Phone": "Phone",
+    "Address": "Address",
+    "Already have an account?": "Already have an account?",
+    "Sign in": "Sign in",
+    "John Doe": "John Doe",
+    "emailPlaceholder": "name@example.com",
+    "Phone Number":"Phone Number",
+    "Full name is required": "Full name is required",
+    "Email is required": "Email is required",
+    "Password is required": "Password is required",
+    "Minimum 6 characters": "Minimum 6 characters",
+    "At least 6 characters":"At least 6 characters",
+    "Country code is required": "Country code is required",
+    "Phone number is required": "Phone number is required",
+    "Address is required": "Address is required",
+    "Failed to sign up. Please try again.": "Failed to sign up. Please try again."
+  },
+
+   "SignIn": {
+    "Sign In": "Sign In",
+    "Access your dashboard by entering your credentials": "Access your dashboard by entering your credentials",
+    "Email": "Email",
+    "Password": "Password",
+    "Forgot password?": "Forgot password?",
+    "Enter your password": "Enter your password",
+    "emailPlaceholder": "name@example.com",
+    "Email is required": "Email is required",
+    "Invalid email address": "Invalid email address",
+    "Password is required": "Password is required",
+    "Password must be at least 6 characters": "Password must be at least 6 characters",
+    "Failed to sign in. Please try again.": "Failed to sign in. Please try again.",
+    "Don't have an account?": "Don't have an account?",
+    "Sign up": "Sign up"
+  },
+
   "ForgotPassword": {
     "Forgot Password": "Forgot Password",
-    "Enter your email below and we will send you a reset link":"Enter your email below and we will send you a reset link",
-    "Email":"Email"
+    "Enter your email below and we will send you a reset link": "Enter your email below and we will send you a reset link",
+    "Email": "Email",
+    "emailPlaceholder": "name@example.com",
+    "Please enter your email.": "Please enter your email.",
+    "Password reset link sent to your email!": "Password reset link sent to your email!",
+    "Failed to send reset link.": "Failed to send reset link.",
+    "Send Reset Link": "Send Reset Link",
+    "Sending": "Sending",
+    "Remembered your password?": "Remembered your password?",
+    "Sign In": "Sign In"
+  },
+
+  "ResetPassword": {
+    "Reset Password": "Reset Password",
+    "Enter your new password to reset": "Enter your new password to reset",
+    "New Password": "New Password",
+    "Enter new password": "Enter new password",
+    "Please enter a new password.": "Please enter a new password.",
+    "Password must be at least 6 characters long.": "Password must be at least 6 characters long.",
+    "Invalid or missing token.": "Invalid or missing token.",
+    "Password reset successfully!": "Password reset successfully!",
+    "Failed to reset password.": "Failed to reset password.",
+    "Reset Password Button": "Reset Password",
+    "Resetting": "Resetting"
   }
+
 }

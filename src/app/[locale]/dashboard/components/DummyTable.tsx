@@ -46,26 +46,29 @@ export default function DummyTable() {
 
   return (
     <div className='w-full overflow-x-auto'>
-      <table className='w-full divide-y divide-gray-200 border border-gray-200 dark:divide-neutral-700 dark:border-neutral-800'>
+      <table className='w-full divide-gray-200 border border-gray-200 dark:divide-neutral-700 dark:border-neutral-800'>
         <thead className='bg-gray-50 dark:bg-neutral-900'>
           <tr>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              ID
+              Item
             </th>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              Company
+              Size
             </th>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              Full Name
+              Name
             </th>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              Email
+              Color
             </th>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              Phone
+              Sku
             </th>
             <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
-              Role
+              Quantity
+            </th>
+            <th className='px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400'>
+              UPC
             </th>
           </tr>
         </thead>

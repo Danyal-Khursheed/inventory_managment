@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
-import SignIn from '@/app/Assets/Images/SignIn.png';
 
 import {
   Card,
@@ -16,9 +15,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import Image from 'next/image';
 import { toast } from 'sonner';
-import { log } from 'console';
 
 export default function Page() {
   const router = useRouter();
@@ -28,7 +25,7 @@ export default function Page() {
 
   const handleReset = async () => {
     if (!email) {
-      toast.error('Please enter your email.');
+      toast.error(t('Please enter your email.'));
       return;
     }
 
@@ -46,11 +43,11 @@ export default function Page() {
       const data = await res.json();
       console.log(data);
 
-      toast.success('Password reset link sent to your email!');
+      toast.success(t('Password reset link sent to your email!'));
 
       router.push(`/auth/Reset-Pasword?token=${data.token}`);
     } catch (err) {
-      toast.error('Failed to send reset link.');
+      toast.error(t('Failed to send reset link.'));
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +74,7 @@ export default function Page() {
                   <Input
                     id='email'
                     type='email'
-                    placeholder='name@example.com'
+                    placeholder={t('emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -88,18 +85,18 @@ export default function Page() {
                   onClick={handleReset}
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Sending...' : 'Send Reset Link'}
+                  {isLoading ? t('Sending') : t('Send Reset Link')}
                 </Button>
 
                 <div className='mt-6 text-center text-sm'>
                   <span className='text-muted-foreground'>
-                    Remembered your password?{' '}
+                    {t('Remembered your password?')}{' '}
                   </span>
                   <Link
                     href='/auth/sign-in'
                     className='text-primary font-medium underline-offset-4 hover:underline'
                   >
-                    Sign In
+                    {t('Sign In')}
                   </Link>
                 </div>
               </div>

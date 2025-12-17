@@ -32,7 +32,7 @@ export function ThemeSelector() {
         onMouseLeave={() => setOpen(false)}
       >
         <button className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-lg p-2 transition-colors'>
-          <IconPalette className='h-5 w-5' />
+          <IconPalette className='h-6 w-6' />
         </button>
       </DropdownMenuTrigger>
 

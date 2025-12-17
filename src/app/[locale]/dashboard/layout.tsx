@@ -2,7 +2,6 @@
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import type { Metadata } from 'next';
 import { useLocale } from 'next-intl';
 import { redirect, useRouter } from 'next/navigation';
 import { useEffect } from 'react';

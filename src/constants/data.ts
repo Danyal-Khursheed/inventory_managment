@@ -14,28 +14,28 @@ export type Product = {
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
-    url: '/dashboard/overview',
+    title: 'User',
+    url: '/dashboard/User',
     icon: 'dashboard',
     isActive: false,
     shortcut: ['d', 'd'],
     items: [] // Empty array as there are no child items for Dashboard
-  },
-  {
-    title: 'Product',
-    url: '/dashboard/product',
-    icon: 'product',
-    shortcut: ['p', 'p'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Test',
-    url: '/dashboard/testing',
-    icon: 'product',
-    shortcut: ['p', 'p'],
-    isActive: true
-  },
+  }
+  // {
+  //   title: 'Product',
+  //   url: '/dashboard/product',
+  //   icon: 'product',
+  //   shortcut: ['p', 'p'],
+  //   isActive: false,
+  //   items: [] // No child items
+  // },
+  // {
+  //   title: 'Test',
+  //   url: '/dashboard/testing',
+  //   icon: 'product',
+  //   shortcut: ['p', 'p'],
+  //   isActive: true
+  // },
   // {
   //   title: 'Account',
   //   url: '#', // Placeholder as there is no direct link for the parent
@@ -57,12 +57,12 @@ export const navItems: NavItem[] = [
   //     }
   //   ]
   // },
-  {
-    title: 'Kanban',
-    url: '/dashboard/kanban',
-    icon: 'kanban',
-    shortcut: ['k', 'k'],
-    isActive: false,
-    items: [] // No child items
-  }
+  // {
+  //   title: 'Kanban',
+  //   url: '/dashboard/kanban',
+  //   icon: 'kanban',
+  //   shortcut: ['k', 'k'],
+  //   isActive: false,
+  //   items: [] // No child items
+  // }
 ];

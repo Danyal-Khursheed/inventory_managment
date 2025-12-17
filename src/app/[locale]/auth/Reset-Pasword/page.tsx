@@ -14,32 +14,35 @@ import {
 } from '@/components/ui/card';
 import { toast } from 'sonner';
 import api from '@/auth/api/axios';
-import { useForm, Controller } from 'react-hook-form';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('ResetPassword');
 
   const token = searchParams.get('token') || '';
 
   const [newPassword, setNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
 
   const handleResetPassword = async () => {
     if (!newPassword) {
-      toast.error('Please enter a new password.');
+      toast.error(t('Enter new password'));
       return;
     }
 
     if (newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long.');
+      toast.error(t('Enter new password'));
       return;
     }
 
     if (!token) {
-      toast.error('Invalid or missing token.');
+      toast.error(t('Reset Password'));
       return;
     }
 
@@ -50,10 +53,10 @@ export default function ResetPasswordPage() {
         newPassword
       });
 
-      toast.success(response.data.message || 'Password reset successfully!');
+      toast.success(response.data.message || t('Reset Password'));
       router.push('/auth/sign-in');
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Failed to reset password.');
+      toast.error(err?.response?.data?.message || t('Reset Password'));
     } finally {
       setIsLoading(false);
     }
@@ -66,31 +69,31 @@ export default function ResetPasswordPage() {
           <Card className='w-full border border-gray-200 shadow-sm dark:border-neutral-800'>
             <CardHeader className='space-y-1 text-center'>
               <CardTitle className='text-3xl font-bold tracking-tight'>
-                Reset Password
+                {t('Reset Password')}
               </CardTitle>
               <CardDescription>
-                Enter your new password to reset
+                {t('Enter your new password to reset')}
               </CardDescription>
             </CardHeader>
 
             <CardContent className='space-y-5'>
               <div className='relative space-y-2'>
-                <Label htmlFor='newPassword'>New Password</Label>
+                <Label htmlFor='newPassword'>{t('New Password')}</Label>
 
                 <Input
                   id='newPassword'
                   type={showPassword ? 'text' : 'password'}
-                  placeholder='Enter new password'
+                  placeholder={t('Enter new password')}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   disabled={isLoading}
-                  className='pr-10'
+                  className={`pr-10 pl-10 ${isRTL ? 'pr-3 pl-10 text-right' : 'pr-10 pl-3 text-left'}`}
                 />
 
                 <button
                   type='button'
                   onClick={() => setShowPassword(!showPassword)}
-                  className='absolute top-8 right-3 text-gray-500'
+                  className={`absolute top-8 ${isRTL ? 'left-3' : 'right-3'} text-gray-500`}
                 >
                   {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
@@ -101,7 +104,7 @@ export default function ResetPasswordPage() {
                 onClick={handleResetPassword}
                 disabled={isLoading}
               >
-                {isLoading ? 'Resetting...' : 'Reset Password'}
+                {isLoading ? t('Resetting') : t('Reset Password')}
               </Button>
             </CardContent>
           </Card>

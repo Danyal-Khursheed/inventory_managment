@@ -3,18 +3,22 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 
-interface ResetPasswordModal {
+interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
+  title: string;
+  description: string;
 }
 
-export const ResetPasswordModal: React.FC<ResetPasswordModal> = ({
+export const DeleteModal: React.FC<DeleteModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
+  title,
+  description
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -28,8 +32,8 @@ export const ResetPasswordModal: React.FC<ResetPasswordModal> = ({
 
   return (
     <Modal
-      title='Are you sure?'
-      description='This action cannot be undone.'
+      title={title}
+      description={description}
       isOpen={isOpen}
       onClose={onClose}
     >

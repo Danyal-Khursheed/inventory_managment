@@ -1,18 +1,13 @@
 'use client';
+
+import { useParams, usePathname } from 'next/navigation';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { useUser } from '@clerk/nextjs';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
 } from '@/components/ui/collapsible';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -30,23 +25,22 @@ import {
 } from '@/components/ui/sidebar';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
 import { navItems } from '@/constants/data';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import { useUser } from '@clerk/nextjs';
 import {
-  IconBell,
+  IconLogout,
   IconChevronRight,
   IconChevronsDown,
-  IconCreditCard,
-  IconLogout,
-  IconPhotoUp,
-  IconUserCircle
+  IconPhotoUp
 } from '@tabler/icons-react';
 import { SignOutButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import * as React from 'react';
 import { Icons } from '../icons';
 import { OrgSwitcher } from '../org-switcher';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@radix-ui/react-dropdown-menu';
 
 export const company = {
   name: 'Acme Inc',
@@ -57,26 +51,17 @@ export const company = {
 const tenants = [{ id: '1', name: 'Acme Inc' }];
 
 export default function AppSidebar() {
+  const { locale } = useParams();
   const pathname = usePathname();
   const { isOpen } = useMediaQuery();
   const { user } = useUser();
-  const router = useRouter();
-  const handleSwitchTenant = (_tenantId: string) => {
-    // Tenant switching functionality would be implemented here
-  };
 
   const activeTenant = tenants[0];
 
-  React.useEffect(() => {
-    // Side effects based on sidebar state changes
-  }, [isOpen]);
-
   return (
-    <Sidebar collapsible='icon'>
+    <Sidebar side={locale === 'ar' ? 'right' : 'left'}>
       <SidebarHeader>
-        <OrgSwitcher
-          defaultTenant={activeTenant} // Only one tenant now
-        />
+        <OrgSwitcher defaultTenant={activeTenant} />
       </SidebarHeader>
 
       <SidebarContent className='overflow-x-hidden'>
@@ -139,6 +124,7 @@ export default function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
