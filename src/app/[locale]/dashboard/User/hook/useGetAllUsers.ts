@@ -5,6 +5,6 @@ export const useGetAllUsers = (pageNumber = 1, pageSize = 10) => {
   return useQuery({
     queryKey: ['users', pageNumber, pageSize],
     queryFn: () => usersService.getAllUsers(pageNumber, pageSize),
-    staleTime: 30 * 1000 // 30 seconds
+    staleTime: 30 * 1000
   });
 };

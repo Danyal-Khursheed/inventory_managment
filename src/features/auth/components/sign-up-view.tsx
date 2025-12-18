@@ -8,22 +8,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Eye,
-  EyeOff,
-  Loader2,
-  User,
-  Mail,
-  Lock,
-  Phone,
-  MapPin,
-  UserPlus
-} from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import PhoneInput, { getCountryCallingCode } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
-import { cn } from '@/lib/utils';
 
 import {
   Card,
@@ -86,275 +75,175 @@ export default function SignUpViewPage() {
   };
 
   return (
-    <div className='relative flex min-h-screen items-center justify-center overflow-y-auto bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 p-4 py-12 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950'>
-      {/* Background decoration */}
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl' />
-        <div className='absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-pink-400/20 blur-3xl' />
-      </div>
-
-      <div className='relative w-full max-w-2xl'>
-        <Card className='border-0 shadow-2xl backdrop-blur-sm dark:bg-slate-900/80'>
-          <CardHeader className='space-y-3 pb-8 text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg'>
-              <UserPlus className='h-8 w-8 text-white' />
-            </div>
-            <CardTitle className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent'>
+    <div className='flex h-screen items-center justify-center overflow-y-auto'>
+      <div className='w-full max-w-lg'>
+        <Card className='border shadow-sm'>
+          <CardHeader className='space-y-1 text-center'>
+            <CardTitle className='text-3xl font-bold'>
               {t('Create Account')}
             </CardTitle>
-            <CardDescription className='text-muted-foreground text-base'>
+            <CardDescription className='text-lg'>
               {t('Enter your information to register your new account')}
             </CardDescription>
           </CardHeader>
 
           <CardContent className='space-y-5'>
             {error && (
-              <div className='animate-in slide-in-from-top-2 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800 shadow-sm dark:border-red-800 dark:bg-red-950/50 dark:text-red-200'>
-                <div className='flex items-center gap-2'>
-                  <div className='h-1.5 w-1.5 rounded-full bg-red-600' />
-                  {error}
-                </div>
+              <div className='rounded bg-red-100 p-3 text-sm text-red-600'>
+                {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-              <div className='grid gap-5 md:grid-cols-2'>
-                <div className='space-y-2'>
-                  <Label htmlFor='fullName' className='text-sm font-medium'>
-                    {t('Full Name')}
-                  </Label>
-                  <div className='relative'>
-                    <User className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
-                    <Input
-                      id='fullName'
-                      placeholder={t('John Doe')}
-                      disabled={isLoading}
-                      className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
-                        errors.fullName &&
-                          'border-red-500 focus:border-red-500',
-                        isRTL && 'pr-12 pl-3 text-right'
-                      )}
-                      {...register('fullName', {
-                        required: t('Full name is required')
-                      })}
-                    />
-                  </div>
-                  {errors.fullName && (
-                    <p className='text-sm text-red-600 dark:text-red-400'>
-                      {errors.fullName.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className='space-y-2'>
-                  <Label htmlFor='email' className='text-sm font-medium'>
-                    {t('Email')}
-                  </Label>
-                  <div className='relative'>
-                    <Mail className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
-                    <Input
-                      id='email'
-                      type='email'
-                      placeholder={t('emailPlaceholder')}
-                      disabled={isLoading}
-                      className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
-                        errors.email && 'border-red-500 focus:border-red-500',
-                        isRTL && 'pr-12 pl-3 text-right'
-                      )}
-                      {...register('email', {
-                        required: t('Email is required'),
-                        pattern: {
-                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                          message: t('Invalid email address')
-                        }
-                      })}
-                    />
-                  </div>
-                  {errors.email && (
-                    <p className='text-sm text-red-600 dark:text-red-400'>
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
+              <div className='flex flex-col gap-2'>
+                <Label>{t('Full Name')}</Label>
+                <Input
+                  placeholder={t('John Doe')}
+                  disabled={isLoading}
+                  {...register('fullName', {
+                    required: t('Full name is required')
+                  })}
+                />
+                {errors.fullName && (
+                  <p className='text-sm text-red-500'>
+                    {errors.fullName.message}
+                  </p>
+                )}
               </div>
 
-              <div className='space-y-2'>
-                <Label htmlFor='password' className='text-sm font-medium'>
-                  {t('Password')}
-                </Label>
-                <div className='relative'>
-                  <Lock className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
-                  <Input
-                    id='password'
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder={t('At least 6 characters')}
-                    disabled={isLoading}
-                    className={cn(
-                      'h-18 pr-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
-                      errors.password && 'border-red-500 focus:border-red-500',
-                      isRTL && 'pr-12 pl-3 text-right'
-                    )}
-                    {...register('password', {
-                      required: t('Password is required'),
-                      minLength: {
-                        value: 6,
-                        message: t('Minimum 6 characters')
-                      }
-                    })}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => setShowPassword(!showPassword)}
-                    className={cn(
-                      'text-muted-foreground hover:text-foreground absolute top-1/2 -translate-y-1/2 transition-colors',
-                      isRTL ? 'left-4' : 'right-4'
-                    )}
-                    tabIndex={-1}
-                  >
-                    {showPassword ? (
-                      <EyeOff className='h-5 w-5' />
-                    ) : (
-                      <Eye className='h-5 w-5' />
-                    )}
-                  </button>
-                </div>
+              <div className='flex flex-col gap-2'>
+                <Label>{t('Email')}</Label>
+                <Input
+                  type='email'
+                  placeholder={t('emailPlaceholder')}
+                  disabled={isLoading}
+                  {...register('email', {
+                    required: t('Email is required')
+                  })}
+                />
+                {errors.email && (
+                  <p className='text-sm text-red-500'>{errors.email.message}</p>
+                )}
+              </div>
+
+              <div className='relative flex flex-col gap-2'>
+                <Label>{t('Password')}</Label>
+
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder={t('At least 6 characters')}
+                  disabled={isLoading}
+                  className={`${isRTL ? 'pl-10 text-right' : 'pr-10 text-left'}`}
+                  {...register('password', {
+                    required: t('Password is required'),
+                    minLength: {
+                      value: 6,
+                      message: t('Minimum 6 characters')
+                    }
+                  })}
+                />
+
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={`absolute top-8 text-gray-500 ${
+                    isRTL ? 'left-3' : 'right-3'
+                  }`}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+
                 {errors.password && (
-                  <p className='text-sm text-red-600 dark:text-red-400'>
+                  <p className='text-sm text-red-500'>
                     {errors.password.message}
                   </p>
                 )}
               </div>
 
-              <div className='grid gap-5 md:grid-cols-2'>
-                <div className='space-y-2'>
-                  <Label className='text-sm font-medium'>{t('Phone')}</Label>
-                  <div className='flex gap-2'>
-                    <Controller
-                      name='countryCode'
-                      control={control}
-                      rules={{ required: t('Country code is required') }}
-                      render={({ field }) => (
-                        <div className='relative'>
-                          <PhoneInput
-                            international
-                            defaultCountry='PK'
-                            value={field.value}
-                            onChange={() => {}}
-                            onCountryChange={(country) => {
-                              if (country)
-                                field.onChange(
-                                  `+${getCountryCallingCode(country)}`
-                                );
-                            }}
-                            className={cn(
-                              'border-input bg-background h-18 w-32 rounded-md border px-2 text-sm transition-all focus-within:ring-2 focus-within:ring-purple-500/20',
-                              errors.countryCode && 'border-red-500'
-                            )}
-                            countrySelectProps={{
-                              className: 'flex items-center gap-2'
-                            }}
-                          />
-                        </div>
-                      )}
-                    />
-
-                    <div className='relative flex-1'>
-                      <Phone className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
-                      <Input
-                        type='tel'
-                        placeholder={t('Phone Number')}
-                        disabled={isLoading}
-                        className={cn(
-                          'h-18 appearance-none pl-12 transition-all [-moz-appearance:textfield] focus:ring-2 focus:ring-purple-500/20 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
-                          errors.phoneNumber &&
-                            'border-red-500 focus:border-red-500',
-                          isRTL && 'pr-12 pl-3 text-right'
-                        )}
-                        {...register('phoneNumber', {
-                          required: t('Phone number is required')
-                        })}
+              <div className='flex flex-col gap-2'>
+                <Label>{t('Phone')}</Label>
+                <div className='flex gap-2'>
+                  <Controller
+                    name='countryCode'
+                    control={control}
+                    rules={{ required: t('Country code is required') }}
+                    render={({ field }) => (
+                      <PhoneInput
+                        international
+                        defaultCountry='PK'
+                        value={field.value}
+                        onChange={() => {}}
+                        onCountryChange={(country) => {
+                          if (country)
+                            field.onChange(
+                              `+${getCountryCallingCode(country)}`
+                            );
+                        }}
+                        className='border-input bg-background h-10 w-32 rounded-md border px-2 text-sm'
+                        countrySelectProps={{
+                          className: 'flex items-center gap-2'
+                        }}
                       />
-                    </div>
-                  </div>
-                  {errors.countryCode && (
-                    <p className='text-sm text-red-600 dark:text-red-400'>
-                      {errors.countryCode.message}
-                    </p>
-                  )}
-                  {errors.phoneNumber && (
-                    <p className='text-sm text-red-600 dark:text-red-400'>
-                      {errors.phoneNumber.message}
-                    </p>
-                  )}
-                </div>
+                    )}
+                  />
 
-                <div className='space-y-2'>
-                  <Label htmlFor='address' className='text-sm font-medium'>
-                    {t('Address')}
-                  </Label>
-                  <div className='relative'>
-                    <MapPin className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
-                    <Input
-                      id='address'
-                      placeholder={t('Address')}
-                      disabled={isLoading}
-                      className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
-                        errors.address && 'border-red-500 focus:border-red-500',
-                        isRTL && 'pr-12 pl-3 text-right'
-                      )}
-                      {...register('address', {
-                        required: t('Address is required')
-                      })}
-                    />
-                  </div>
-                  {errors.address && (
-                    <p className='text-sm text-red-600 dark:text-red-400'>
-                      {errors.address.message}
-                    </p>
-                  )}
+                  <Input
+                    type='number'
+                    placeholder={t('Phone Number')}
+                    disabled={isLoading}
+                    className='h-10 flex-1 appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
+                    {...register('phoneNumber', {
+                      required: t('Phone number is required')
+                    })}
+                  />
                 </div>
+                {errors.countryCode && (
+                  <p className='text-sm text-red-500'>
+                    {errors.countryCode.message}
+                  </p>
+                )}
+                {errors.phoneNumber && (
+                  <p className='text-sm text-red-500'>
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                <Label>{t('Address')}</Label>
+                <Input
+                  placeholder={t('Address')}
+                  disabled={isLoading}
+                  {...register('address', {
+                    required: t('Address is required')
+                  })}
+                />
+                {errors.address && (
+                  <p className='text-sm text-red-500'>
+                    {errors.address.message}
+                  </p>
+                )}
               </div>
 
               <Button
                 type='submit'
-                className='h-18 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700 hover:shadow-xl disabled:opacity-50'
+                className='w-full bg-[#CCCAE6] text-black hover:bg-[#CCCAE6]/50 hover:text-black'
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  <>
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    {t('Creating account...')}
-                  </>
-                ) : (
-                  <>
-                    <UserPlus className='mr-2 h-4 w-4' />
-                    {t('Create Account')}
-                  </>
-                )}
+                {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                {t('Create Account')}
               </Button>
             </form>
 
-            <div className='relative mt-6'>
-              <div className='absolute inset-0 flex items-center'>
-                <span className='w-full border-t' />
-              </div>
-              <div className='relative flex justify-center text-xs uppercase'>
-                <span className='bg-card text-muted-foreground px-2'>
-                  {t('Already have an account?')}
-                </span>
-              </div>
-            </div>
-
-            <div className='text-center'>
+            <div className='mt-6 text-center text-sm'>
+              <span className='text-muted-foreground'>
+                {t('Already have an account?')}{' '}
+              </span>
               <Link
                 href='/auth/sign-in'
-                className='inline-flex items-center text-sm font-medium text-purple-600 transition-colors hover:text-purple-700 hover:underline dark:text-purple-400'
+                className='text-primary cusror-pointer font-medium hover:underline'
               >
                 {t('Sign in')}
-                <span className='ml-1'>→</span>
               </Link>
             </div>
           </CardContent>

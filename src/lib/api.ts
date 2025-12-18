@@ -2,7 +2,9 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { getToken, removeToken } from '@/auth/utils/auth-helpers';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api',
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL ||
+    'https://kingshipbackend-production.up.railway.app/api/',
   headers: {
     'Content-Type': 'application/json'
   },
