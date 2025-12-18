@@ -12,12 +12,7 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 
-interface DeleteUserModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
-  loading?: boolean;
-}
+import { DeleteUserModalProps } from '../types/types';
 
 export const DeleteUserModal: React.FC<DeleteUserModalProps> = ({
   open,
@@ -29,7 +24,7 @@ export const DeleteUserModal: React.FC<DeleteUserModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='text-red-600'>Delete User</DialogTitle>
+          <DialogTitle className='text-bg-foreground'>Delete User</DialogTitle>
           <DialogDescription>
             Are you sure you want to delete this user? This action cannot be
             undone.
@@ -40,7 +35,12 @@ export const DeleteUserModal: React.FC<DeleteUserModalProps> = ({
           <Button variant='outline' onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button variant='destructive' onClick={onConfirm} disabled={loading}>
+          <Button
+            variant='destructive'
+            className=''
+            onClick={onConfirm}
+            disabled={loading}
+          >
             {loading ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogFooter>

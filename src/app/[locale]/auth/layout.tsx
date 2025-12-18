@@ -16,7 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
-      redirect(`/${locale}/dashboard/User`);
+      redirect(`/${locale}/dashboard/Packages`);
     }
   }, [locale, router]);
   return (

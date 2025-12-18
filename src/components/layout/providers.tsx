@@ -29,10 +29,12 @@ export default function Providers({
             process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/auth/sign-up'
           }
           afterSignInUrl={
-            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard/User'
+            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL ||
+            '/dashboard/Packages'
           }
           afterSignUpUrl={
-            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/dashboard/User'
+            process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL ||
+            '/dashboard/Packages'
           }
         >
           {children}

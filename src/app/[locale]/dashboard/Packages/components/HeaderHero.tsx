@@ -1,11 +1,6 @@
 import { Button } from '@/components/ui/button';
 import React, { FC } from 'react';
-
-interface HeroHeaderProps {
-  componentName: string;
-  buttonName: string;
-  handleButton: (state: boolean) => void;
-}
+import { HeroHeaderProps } from '../types/types';
 
 const HeaderHero: FC<HeroHeaderProps> = ({
   componentName,

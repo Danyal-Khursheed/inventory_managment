@@ -24,7 +24,7 @@ export default function NotFound() {
           Go back
         </Button>
         <Button
-          onClick={() => router.push('/dashboard/User')}
+          onClick={() => router.push('/dashboard/Packages')}
           variant='ghost'
           size='lg'
         >

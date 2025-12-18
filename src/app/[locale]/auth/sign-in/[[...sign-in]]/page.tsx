@@ -45,7 +45,7 @@ export default function Page() {
     setIsLoading(true);
     try {
       await login(data.email, data.password);
-      router.push('/dashboard/User');
+      router.push('/dashboard/Packages');
     } catch (err: any) {
       setError(
         err.response?.data?.message || t('Failed to sign in. Please try again.')

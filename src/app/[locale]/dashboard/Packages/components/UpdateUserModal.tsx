@@ -1,5 +1,4 @@
 'use client';
-
 import * as React from 'react';
 import {
   Dialog,
@@ -12,32 +11,22 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { CreateUserFormData, UpdateUserModalProps } from '../types/types';
 
-export interface CreateUserFormData {
-  name: string;
-  sku: string;
-  quantity: number;
-}
-
-interface CreateUserModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSubmit: (data: CreateUserFormData) => void;
-  loading?: boolean;
-}
-
-export const CreateUserModal: React.FC<CreateUserModalProps> = ({
+export const UpdateUserModal: React.FC<UpdateUserModalProps> = ({
   open,
   onOpenChange,
   onSubmit,
   loading = false
 }) => {
+  // Correctly typed formData as CreateUserFormData.
   const [formData, setFormData] = React.useState<CreateUserFormData>({
     name: '',
     sku: '',
     quantity: 0
   });
 
+  // Handle change event for form inputs.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -46,6 +35,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
     }));
   };
 
+  // Handle form submission (onSubmit callback).
   const handleSubmit = () => {
     onSubmit(formData);
   };
@@ -54,9 +44,9 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create User</DialogTitle>
+          <DialogTitle>Update User</DialogTitle>
           <DialogDescription>
-            Fill the form below to create a new user.
+            Fill the form below to update the user.
           </DialogDescription>
         </DialogHeader>
 
@@ -96,7 +86,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
             Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={loading}>
-            {loading ? 'Creating...' : 'Create'}
+            {loading ? 'Updating...' : 'Update'}
           </Button>
         </DialogFooter>
       </DialogContent>
