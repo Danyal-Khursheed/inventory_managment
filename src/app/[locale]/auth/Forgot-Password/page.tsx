@@ -81,7 +81,7 @@ export default function Page() {
                 </div>
 
                 <Button
-                  className='w-full bg-[#CCCAE6] text-black/80 hover:bg-[#CCCAE6]/50 hover:text-black'
+                  className='g-[#CCCAE6]/50 w-full text-white'
                   onClick={handleReset}
                   disabled={isLoading}
                 >

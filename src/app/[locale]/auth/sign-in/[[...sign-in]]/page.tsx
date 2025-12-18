@@ -29,7 +29,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
@@ -56,20 +56,14 @@ export default function Page() {
   };
 
   return (
-    <div className='relative flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950'>
-      {/* Background decoration */}
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute -top-40 -right-40 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl' />
-        <div className='absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl' />
-      </div>
-
+    <div className='relative flex min-h-screen items-center justify-center'>
       <div className='relative w-full max-w-md'>
-        <Card className='border-0 shadow-2xl backdrop-blur-sm dark:bg-slate-900/80'>
-          <CardHeader className='space-y-3 pb-8 text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg'>
+        <Card className='mx-2 border-2 backdrop-blur-sm md:shadow-2xl dark:bg-slate-900/80'>
+          <CardHeader className='space-y-3 text-center'>
+            <div className='bg-muted-foreground mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg shadow-lg'>
               <LogIn className='h-8 w-8 text-white' />
             </div>
-            <CardTitle className='bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent'>
+            <CardTitle className='text-muted-foreground text-3xl font-bold tracking-tight'>
               {t('Sign In')}
             </CardTitle>
             <CardDescription className='text-muted-foreground text-base'>
@@ -100,7 +94,7 @@ export default function Page() {
                     placeholder={t('emailPlaceholder')}
                     disabled={isLoading}
                     className={cn(
-                      'h-18 pl-12 transition-all focus:ring-2 focus:ring-blue-500/20',
+                      'h-12 pl-12 transition-all focus:ring-2 focus:ring-blue-500/20',
                       errors.email && 'border-red-500 focus:border-red-500',
                       isRTL && 'pr-12 pl-3 text-right'
                     )}
@@ -127,7 +121,7 @@ export default function Page() {
                   </Label>
                   <Link
                     href='/auth/Forgot-Password'
-                    className='text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 hover:underline dark:text-blue-400'
+                    className='text-sm font-medium'
                   >
                     {t('Forgot password?')}
                   </Link>
@@ -140,7 +134,7 @@ export default function Page() {
                     placeholder={t('Enter your password')}
                     disabled={isLoading}
                     className={cn(
-                      'h-18 pr-12 pl-12 transition-all focus:ring-2 focus:ring-blue-500/20',
+                      'h-12 pr-12 pl-12 transition-all focus:ring-2 focus:ring-blue-500/20',
                       errors.password && 'border-red-500 focus:border-red-500',
                       isRTL && 'pr-12 pl-3 text-right'
                     )}
@@ -177,7 +171,7 @@ export default function Page() {
 
               <Button
                 type='submit'
-                className='h-18 w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl disabled:opacity-50'
+                className='transition-all-700 h-12 w-full text-white shadow-lg disabled:opacity-50'
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -199,7 +193,7 @@ export default function Page() {
                 <span className='w-full border-t' />
               </div>
               <div className='relative flex justify-center text-xs uppercase'>
-                <span className='bg-card text-muted-foreground px-2'>
+                <span className='bg-card text-muted-foreground'>
                   {t("Don't have an account?")}
                 </span>
               </div>
@@ -208,7 +202,7 @@ export default function Page() {
             <div className='text-center'>
               <Link
                 href='/auth/sign-up'
-                className='inline-flex items-center text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 hover:underline dark:text-blue-400'
+                className='text-md text-bg-muted-foreground inline-flex items-center font-medium hover:text-black'
               >
                 {t('Sign up')}
                 <span className='ml-1'>→</span>

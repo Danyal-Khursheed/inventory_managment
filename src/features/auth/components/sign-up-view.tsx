@@ -58,7 +58,11 @@ export default function SignUpViewPage() {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      countryCode: '+92'
+    }
+  });
 
   const onSubmit = async (data: FormData) => {
     console.log('Form Data:', data);
@@ -86,20 +90,14 @@ export default function SignUpViewPage() {
   };
 
   return (
-    <div className='relative flex min-h-screen items-center justify-center overflow-y-auto bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 p-4 py-12 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950'>
-      {/* Background decoration */}
-      <div className='absolute inset-0 overflow-hidden'>
-        <div className='absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl' />
-        <div className='absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-pink-400/20 blur-3xl' />
-      </div>
-
-      <div className='relative w-full max-w-2xl'>
-        <Card className='border-0 shadow-2xl backdrop-blur-sm dark:bg-slate-900/80'>
-          <CardHeader className='space-y-3 pb-8 text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg'>
+    <div className='relative flex min-h-screen items-center justify-center overflow-hidden sm:overflow-y-auto'>
+      <div className='relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-xl'>
+        <Card className='mx-2 border-2 backdrop-blur-sm md:shadow-2xl dark:bg-slate-900/80'>
+          <CardHeader className='space-y-3 text-center'>
+            <div className='bg-muted-foreground mx-auto flex h-12 w-12 items-center justify-center rounded-lg from-purple-500 to-pink-600 shadow-lg'>
               <UserPlus className='h-8 w-8 text-white' />
             </div>
-            <CardTitle className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent'>
+            <CardTitle className='text-muted-foreground bg-clip-text text-3xl font-bold tracking-tight'>
               {t('Create Account')}
             </CardTitle>
             <CardDescription className='text-muted-foreground text-base'>
@@ -117,7 +115,7 @@ export default function SignUpViewPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
               <div className='grid gap-5 md:grid-cols-2'>
                 <div className='space-y-2'>
                   <Label htmlFor='fullName' className='text-sm font-medium'>
@@ -130,7 +128,7 @@ export default function SignUpViewPage() {
                       placeholder={t('John Doe')}
                       disabled={isLoading}
                       className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
+                        'h-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
                         errors.fullName &&
                           'border-red-500 focus:border-red-500',
                         isRTL && 'pr-12 pl-3 text-right'
@@ -159,7 +157,7 @@ export default function SignUpViewPage() {
                       placeholder={t('emailPlaceholder')}
                       disabled={isLoading}
                       className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
+                        'h-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
                         errors.email && 'border-red-500 focus:border-red-500',
                         isRTL && 'pr-12 pl-3 text-right'
                       )}
@@ -192,7 +190,7 @@ export default function SignUpViewPage() {
                     placeholder={t('At least 6 characters')}
                     disabled={isLoading}
                     className={cn(
-                      'h-18 pr-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
+                      'h-12 pr-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
                       errors.password && 'border-red-500 focus:border-red-500',
                       isRTL && 'pr-12 pl-3 text-right'
                     )}
@@ -236,30 +234,25 @@ export default function SignUpViewPage() {
                       control={control}
                       rules={{ required: t('Country code is required') }}
                       render={({ field }) => (
-                        <div className='relative'>
-                          <PhoneInput
-                            international
-                            defaultCountry='PK'
-                            value={field.value}
-                            onChange={() => {}}
-                            onCountryChange={(country) => {
-                              if (country)
-                                field.onChange(
-                                  `+${getCountryCallingCode(country)}`
-                                );
-                            }}
-                            className={cn(
-                              'border-input bg-background h-18 w-32 rounded-md border px-2 text-sm transition-all focus-within:ring-2 focus-within:ring-purple-500/20',
-                              errors.countryCode && 'border-red-500'
-                            )}
-                            countrySelectProps={{
-                              className: 'flex items-center gap-2'
-                            }}
-                          />
-                        </div>
+                        <PhoneInput
+                          international
+                          defaultCountry='PK'
+                          value={field.value}
+                          onChange={(value) => field.onChange(value)}
+                          onCountryChange={(country) => {
+                            if (country) {
+                              field.onChange(
+                                `+${getCountryCallingCode(country)}`
+                              );
+                            }
+                          }}
+                          className={cn(
+                            'border-input bg-background h-12 w-20 rounded-md border px-2 text-sm transition-all focus-within:ring-2 focus-within:ring-purple-500/20',
+                            errors.countryCode && 'border-red-500'
+                          )}
+                        />
                       )}
                     />
-
                     <div className='relative flex-1'>
                       <Phone className='text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2' />
                       <Input
@@ -267,7 +260,7 @@ export default function SignUpViewPage() {
                         placeholder={t('Phone Number')}
                         disabled={isLoading}
                         className={cn(
-                          'h-18 appearance-none pl-12 transition-all [-moz-appearance:textfield] focus:ring-2 focus:ring-purple-500/20 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+                          'h-12 appearance-none pl-12 transition-all [-moz-appearance:textfield] focus:ring-2 focus:ring-purple-500/20 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
                           errors.phoneNumber &&
                             'border-red-500 focus:border-red-500',
                           isRTL && 'pr-12 pl-3 text-right'
@@ -301,7 +294,7 @@ export default function SignUpViewPage() {
                       placeholder={t('Address')}
                       disabled={isLoading}
                       className={cn(
-                        'h-18 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
+                        'h-12 pl-12 transition-all focus:ring-2 focus:ring-purple-500/20',
                         errors.address && 'border-red-500 focus:border-red-500',
                         isRTL && 'pr-12 pl-3 text-right'
                       )}
@@ -320,7 +313,7 @@ export default function SignUpViewPage() {
 
               <Button
                 type='submit'
-                className='h-18 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700 hover:shadow-xl disabled:opacity-50'
+                className='h-12 w-full from-purple-600 to-pink-600 text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700 hover:shadow-xl disabled:opacity-50'
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -337,7 +330,7 @@ export default function SignUpViewPage() {
               </Button>
             </form>
 
-            <div className='relative mt-6'>
+            <div className='relative'>
               <div className='absolute inset-0 flex items-center'>
                 <span className='w-full border-t' />
               </div>
@@ -351,7 +344,7 @@ export default function SignUpViewPage() {
             <div className='text-center'>
               <Link
                 href='/auth/sign-in'
-                className='inline-flex items-center text-sm font-medium text-purple-600 transition-colors hover:text-purple-700 hover:underline dark:text-purple-400'
+                className='text-md inline-flex items-center font-medium text-black transition-colors hover:text-black'
               >
                 {t('Sign in')}
                 <span className='ml-1'>→</span>

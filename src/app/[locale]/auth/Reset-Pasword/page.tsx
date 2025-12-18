@@ -26,7 +26,7 @@ export default function ResetPasswordPage() {
 
   const [newPassword, setNewPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
@@ -100,7 +100,7 @@ export default function ResetPasswordPage() {
               </div>
 
               <Button
-                className='w-full bg-[#CCCAE6] text-black/80 hover:bg-[#CCCAE6]/50 hover:text-black'
+                className='w-full'
                 onClick={handleResetPassword}
                 disabled={isLoading}
               >
