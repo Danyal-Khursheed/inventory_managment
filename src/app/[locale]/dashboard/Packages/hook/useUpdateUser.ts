@@ -4,7 +4,6 @@ import type { User } from '@/services/users.service';
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: ({
       userId,

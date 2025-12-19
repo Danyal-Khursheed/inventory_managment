@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,100 +12,114 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CreateNewUserPopupProps, FormValues } from '../types/types';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { AnyAaaaRecord } from 'dns';
+import { CreateNewUserPopupProps, FormValues } from '../types/types';
+import { useCreateUser } from '../hook';
 
 const CreateNewUserPopUp = ({
   open,
   onOpenChange
 }: CreateNewUserPopupProps) => {
-  const { register, handleSubmit, reset } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('Form Data:', data); // This will log the form data
-    // reset();
-    // onOpenChange(false);
+  const { mutate, isPending } = useCreateUser();
+
+  const handleFormSubmit: SubmitHandler<FormValues> = (data) => {
+    mutate(data, {
+      onSuccess: () => {
+        reset();
+        onOpenChange(false);
+      }
+    });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <DialogHeader className='flex flex-col items-center'>
+      <DialogContent className='max-h-[85%] overflow-y-auto'>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
+          <DialogHeader className='items-center'>
             <DialogTitle className='text-2xl'>Create User</DialogTitle>
-            <DialogDescription className='text-center text-lg'>
+            <DialogDescription>
               Fill in the details and save the user.
             </DialogDescription>
           </DialogHeader>
 
           <div className='mt-4 grid gap-4'>
-            <div className='grid gap-2'>
-              <Label htmlFor='name'>Name</Label>
-              <Input
-                id='name'
-                {...register('name', { required: true })}
-                placeholder='Name'
-              />
+            <div className='flex flex-col gap-2'>
+              <Label>Name</Label>
+              <Input {...register('name', { required: 'Name is required' })} />
+              {errors.name && (
+                <p className='text-red-500'>{errors.name.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='item'>Item</Label>
-              <Input
-                id='item'
-                {...register('item', { required: true })}
-                placeholder='Item'
-              />
+            <div className='flex flex-col gap-2'>
+              <Label>Item</Label>
+              <Input {...register('item', { required: 'Item is required' })} />
+              {errors.item && (
+                <p className='text-red-500'>{errors.item.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='sku'>SKU</Label>
-              <Input
-                id='sku'
-                {...register('sku', { required: true })}
-                placeholder='SKU'
-              />
+            <div className='flex flex-col gap-2'>
+              <Label>SKU</Label>
+              <Input {...register('sku', { required: 'SKU is required' })} />
+              {errors.sku && (
+                <p className='text-red-500'>{errors.sku.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='color'>Color</Label>
+            <div className='flex flex-col gap-2'>
+              <Label>Color</Label>
               <Input
-                id='color'
-                {...register('color', { required: true })}
-                placeholder='Color'
+                {...register('color', { required: 'Color is required' })}
               />
+              {errors.color && (
+                <p className='text-red-500'>{errors.color.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='upc'>UPC</Label>
-              <Input
-                id='upc'
-                {...register('upc', { required: true })}
-                placeholder='UPC'
-              />
+            <div className='flex flex-col gap-2'>
+              <Label>UPC</Label>
+              <Input {...register('upc', { required: 'UPC is required' })} />
+              {errors.upc && (
+                <p className='text-red-500'>{errors.upc.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='quantity'>Quantity</Label>
+            <div className='flex flex-col gap-2'>
+              <Label>Quantity</Label>
               <Input
-                id='quantity'
                 type='number'
                 {...register('quantity', {
                   valueAsNumber: true,
-                  required: true
+                  required: 'Quantity is required',
+                  min: 1
                 })}
-                placeholder='Quantity'
               />
+              {errors.quantity && (
+                <p className='text-red-500'>{errors.quantity.message}</p>
+              )}
             </div>
 
-            <div className='grid gap-2'>
-              <Label htmlFor='size'>Size</Label>
+            <div className='flex flex-col gap-2'>
+              <Label>Size</Label>
               <Input
-                id='size'
                 type='number'
-                {...register('size', { valueAsNumber: true, required: true })}
-                placeholder='Size'
+                {...register('size', {
+                  valueAsNumber: true,
+                  required: 'Size is required',
+                  min: 1
+                })}
               />
+              {errors.size && (
+                <p className='text-red-500'>{errors.size.message}</p>
+              )}
             </div>
           </div>
 
@@ -111,10 +127,13 @@ const CreateNewUserPopUp = ({
             <DialogClose asChild>
               <Button variant='outline'>Cancel</Button>
             </DialogClose>
-            <Button type='submit'>Create</Button>
+
+            <Button type='submit' disabled={isPending}>
+              {isPending ? 'Creating...' : 'Create'}
+            </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };

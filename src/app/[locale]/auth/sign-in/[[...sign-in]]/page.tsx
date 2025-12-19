@@ -29,7 +29,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const locale = useLocale();
   const isRTL = locale === 'ar';
 

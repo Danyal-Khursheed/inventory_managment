@@ -23,17 +23,14 @@ export const usersService = {
     pageNumber = 1,
     pageSize = 10
   ): Promise<UsersResponse> => {
-    const { data } = await api.get<UsersResponse>(
-      '/dashboardUsers/get-all-users',
-      {
-        params: { pageNumber, pageSize }
-      }
-    );
+    const { data } = await api.get<UsersResponse>('packages/get-all-packages', {
+      params: { pageNumber, pageSize }
+    });
     return data;
   },
 
   createUser: async (userData: Partial<User>): Promise<User> => {
-    const { data } = await api.post<User>('/dashboardUsers/create', userData);
+    const { data } = await api.post<User>('/packages/create-package', userData);
     return data;
   },
 
@@ -41,14 +38,18 @@ export const usersService = {
     userId: string,
     userData: Partial<User>
   ): Promise<User> => {
-    const { data } = await api.put<User>(
-      `/dashboardUsers/update/${userId}`,
+    const { data } = await api.patch<User>(
+      `/packages/update-package?id=${userId}`,
       userData
     );
     return data;
   },
 
   deleteUser: async (userId: string): Promise<void> => {
-    await api.delete(`/dashboardUsers/delete/${userId}`);
+    console.log('DELETE API CALLED WITH ID:', userId);
+
+    await api.delete('/packages/get-single-package', {
+      params: { id: userId }
+    });
   }
 };

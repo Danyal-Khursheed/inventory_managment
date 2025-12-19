@@ -51,7 +51,7 @@ export default function SignUpViewPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,

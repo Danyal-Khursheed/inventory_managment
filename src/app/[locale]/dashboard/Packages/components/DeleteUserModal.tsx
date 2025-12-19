@@ -1,10 +1,9 @@
 'use client';
 
-import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -12,35 +11,36 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 
-import { DeleteUserModalProps } from '../types/types';
+interface DeleteUserModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+  loading?: boolean;
+}
 
-export const DeleteUserModal: React.FC<DeleteUserModalProps> = ({
+export const DeleteUserModal = ({
   open,
   onOpenChange,
   onConfirm,
   loading = false
-}) => {
+}: DeleteUserModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle className='text-bg-foreground'>Delete User</DialogTitle>
-          <DialogDescription>
+        <DialogHeader className='flex flex-col items-center'>
+          <DialogTitle className='text-2xl'>Delete User</DialogTitle>
+          <DialogDescription className='text-start text-lg'>
             Are you sure you want to delete this user? This action cannot be
             undone.
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter>
-          <Button variant='outline' onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button
-            variant='destructive'
-            className=''
-            onClick={onConfirm}
-            disabled={loading}
-          >
+        <DialogFooter className='mt-4'>
+          <DialogClose asChild>
+            <Button variant='outline'>Cancel</Button>
+          </DialogClose>
+
+          <Button variant='destructive' onClick={onConfirm} disabled={loading}>
             {loading ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogFooter>
