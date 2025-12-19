@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 
 export function useBreadcrumbs() {
-  const pathname = usePathname(); // e.g., /en/dashboard/Packages
+  const pathname = usePathname(); // e.g., /en/dashboard/Warehouse
   const segments = pathname.split('/').filter(Boolean); // ["en", "dashboard", "Packages"]
 
   return useMemo(() => {

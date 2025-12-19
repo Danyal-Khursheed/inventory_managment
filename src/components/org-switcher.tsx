@@ -27,9 +27,10 @@ export function OrgSwitcher({ defaultTenant }: { defaultTenant: Tenant }) {
           </div>
 
           {/* Tenant Name */}
-          <div className='flex flex-col gap-0.5 leading-none'>
-            <span className='font-semibold'>Next Starter</span>
-            <span>{defaultTenant.name}</span>
+          <div className='flex flex-col gap-1'>
+            <span className='md:text-md mt-2 text-sm font-bold text-gray-900 dark:text-gray-100'>
+              {defaultTenant.name}
+            </span>
           </div>
         </SidebarMenuButton>
       </SidebarMenuItem>

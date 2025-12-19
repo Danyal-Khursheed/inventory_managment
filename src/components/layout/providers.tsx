@@ -30,11 +30,11 @@ export default function Providers({
           }
           afterSignInUrl={
             process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL ||
-            '/dashboard/Packages'
+            '/dashboard/Warehouse'
           }
           afterSignUpUrl={
             process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL ||
-            '/dashboard/Packages'
+            '/dashboard/Warehouse'
           }
         >
           {children}

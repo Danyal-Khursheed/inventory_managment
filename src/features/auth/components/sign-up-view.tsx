@@ -79,7 +79,7 @@ export default function SignUpViewPage() {
         address: data.address
       });
 
-      router.push('/dashboard/Packages');
+      router.push('/dashboard/Warehouse');
     } catch (err: any) {
       setError(
         err.response?.data?.message || t('Failed to sign up. Please try again.')

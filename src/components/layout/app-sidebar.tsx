@@ -43,12 +43,12 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 
 export const company = {
-  name: 'Acme Inc',
-  logo: IconPhotoUp,
-  plan: 'Enterprise'
+  name: 'Inventory Managment',
+  logo: IconPhotoUp
+  // plan: 'Enterprise'
 };
 
-const tenants = [{ id: '1', name: 'Acme Inc' }];
+const tenants = [{ id: '1', name: 'Inventory Managment' }];
 
 export default function AppSidebar() {
   const { locale } = useParams();

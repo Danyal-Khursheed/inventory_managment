@@ -27,7 +27,7 @@ export default async function DashboardLayout({
       <SidebarInset>
         <Header />
         {/* page main content */}
-        {children}
+        <div className='mx-auto w-full max-w-[1400px] px-4'>{children}</div>
         {/* page main content ends */}
       </SidebarInset>
     </SidebarProvider>
