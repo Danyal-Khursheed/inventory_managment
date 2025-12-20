@@ -1,43 +1,31 @@
+import { Warehouse } from '@/services/warehouse.service';
 import { User } from '@sentry/nextjs';
 
 // create modal interface
-export interface CreateNewUserPopupProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
 export interface FormValues {
   name: string;
-  item: string;
-  sku: string;
-  color: string;
-  upc: string;
-  quantity: number;
-  size: number;
+  address: string;
+  city: string;
+  country: string;
 }
 
-// update modal interface
+export interface CreateNewWarehousePopupProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+// updat modal interface
 export interface FormValues {
   name: string;
-  item: string;
-  sku: string;
-  color: string;
-  upc: string;
-  quantity: number;
-  size: number;
+  address: string;
+  city: string;
+  country: string;
 }
 
-export interface UpdateUserModalProps {
+export interface UpdateWarehouseModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}
-
-// Delete modal interface
-export interface DeleteUserModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
-  loading?: boolean;
+  warehouse: Warehouse | null;
 }
 
 // Heroheader section interface
@@ -47,14 +35,14 @@ export interface HeroHeaderProps {
   handleButton: (state: boolean) => void;
 }
 
-export type RowActionMenuProps = {
-  onUpdate: () => void;
-  onDelete: () => void;
-};
+// API response for fetching warehouses
+export interface WarehousePage {
+  data: Warehouse[];
+  totalCount: number;
+}
 
-// User Table Props
-export interface UserTableProps {
-  users: User[];
-  onUpdate: (user: User) => void;
-  onDelete: (user: User) => void;
+// types/warehouse.ts
+export interface WarehousesResponse {
+  data: Warehouse[];
+  totalCount: number;
 }

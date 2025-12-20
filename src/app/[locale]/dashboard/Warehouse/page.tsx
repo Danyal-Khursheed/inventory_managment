@@ -19,7 +19,7 @@ export default function WarehousePage() {
   );
 
   const [pageNumber, setPageNumber] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
   const { data, isLoading } = useGetAllWarehouses({ pageNumber, pageSize });
 
   return (
@@ -43,7 +43,7 @@ export default function WarehousePage() {
               setSelectedWarehouse(w);
               setDeleteOpen(true);
             }}
-            totalItems={data?.total ?? 0}
+            totalItems={data?.totalCount ?? 0}
             pageSize={pageSize}
             currentPage={pageNumber}
             onPageChange={(page) => setPageNumber(page)}

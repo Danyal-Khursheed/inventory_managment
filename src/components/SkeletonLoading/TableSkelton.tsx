@@ -17,6 +17,7 @@ const SkeletonTable = ({ rows = 10 }: SkeletonTableProps) => {
         <Skeleton className='h-4 w-full' />
         <Skeleton className='h-4 w-full' />
         <Skeleton className='h-4 w-full' />
+        <Skeleton className='h-4 w-full' />
       </div>
 
       {skeletonRows.map((_, idx) => (

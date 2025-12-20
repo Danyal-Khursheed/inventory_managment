@@ -13,7 +13,6 @@ export const useGetAllWarehouses = ({
 }: UseGetAllWarehousesParams) => {
   return useQuery({
     queryKey: ['warehouses', pageNumber, pageSize],
-    queryFn: () => warehouseService.getAllWarehouses(pageNumber, pageSize),
-    staleTime: 30 * 1000
+    queryFn: () => warehouseService.getAllWarehouses(pageNumber, pageSize)
   });
 };

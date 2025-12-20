@@ -11,9 +11,7 @@ export interface Warehouse {
 
 export interface WarehousesResponse {
   data: Warehouse[];
-  total: number;
-  page: number;
-  pageSize: number;
+  totalCount: number;
 }
 
 export const warehouseService = {

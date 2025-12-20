@@ -66,6 +66,72 @@
     "Failed to reset password.": "فشل إعادة تعيين كلمة المرور.",
     "Reset Password Button": "إعادة تعيين كلمة المرور",
     "Resetting...": "جاري إعادة التعيين..."
+  },
+  "Warehouse": {
+    "createTitle": "إنشاء مستودع",
+    "createDescription": "أدخل تفاصيل المستودع ثم احفظ.",
+    "name": "الاسم",
+    "namePlaceholder": "اسم المستودع",
+    "nameRequired": "الاسم مطلوب",
+    "country": "الدولة",
+    "selectCountry": "اختر الدولة",
+    "countryRequired": "الدولة مطلوبة",
+    "city": "المدينة",
+    "selectCity": "اختر المدينة",
+    "cityRequired": "المدينة مطلوبة",
+    "address": "العنوان",
+    "addressPlaceholder": "عنوان المستودع",
+    "addressRequired": "العنوان مطلوب",
+    "cancel": "إلغاء",
+    "create": "إنشاء",
+    "creating": "جاري الإنشاء..."
+  },
+  "UpdateWarehouseModal": {
+    "updateTitle": "تحديث المخزن",
+    "updateDescription": "تعديل بيانات المخزن.",
+    "name": "الاسم",
+    "namePlaceholder": "أدخل اسم المخزن",
+    "nameRequired": "الاسم مطلوب",
+    "country": "الدولة",
+    "countryRequired": "الدولة مطلوبة",
+    "selectCountry": "اختر الدولة",
+    "city": "المدينة",
+    "cityRequired": "المدينة مطلوبة",
+    "selectCity": "اختر المدينة",
+    "address": "العنوان",
+    "addressPlaceholder": "أدخل العنوان",
+    "addressRequired": "العنوان مطلوب",
+    "update": "تحديث",
+    "updating": "جاري التحديث...",
+    "cancel": "إلغاء"
+  },
+  "headerHero": {
+    "componentName": "لوحة التحكم",
+    "buttonName": "إنشاء جديد"
+  },
+  "DeleteWarehouseModal": {
+    "Delete Warehouse": "حذف المستودع",
+    "Are you sure you want to delete This action cannot be undone": "هل أنت متأكد أنك تريد حذف ؟ هذا الإجراء لا يمكن التراجع عنه",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "deleting": "جارٍ الحذف..."
+  },
+  "WarehouseTable": {
+    "sNo": "م",
+    "name": "الاسم",
+    "address": "العنوان",
+    "city": "المدينة",
+    "country": "الدولة",
+    "actions": "الإجراءات",
+    "updateWarehouse": "تحديث المستودع",
+    "deleteWarehouse": "حذف المستودع"
+  },
+  "WarehouseToast": {
+    "createSuccess": "تم إنشاء المستودع بنجاح",
+    "createError": "فشل في إنشاء المستودع",
+    "updateSuccess": "تم تحديث المستودع بنجاح",
+    "updateError": "فشل في تحديث المستودع",
+    "deleteSuccess": "تم حذف المستودع بنجاح",
+    "deleteError": "فشل في حذف المستودع"
   }
-
 }

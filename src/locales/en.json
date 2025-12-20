@@ -66,6 +66,76 @@
     "Failed to reset password.": "Failed to reset password.",
     "Reset Password Button": "Reset Password",
     "Resetting": "Resetting"
+  },
+  "Warehouse": {
+    "createTitle": "Create Warehouse",
+    "createDescription": "Fill warehouse details and save.",
+    "name": "Name",
+    "namePlaceholder": "Warehouse name",
+    "nameRequired": "Name is required",
+    "country": "Country",
+    "selectCountry": "Select country",
+    "countryRequired": "Country is required",
+    "city": "City",
+    "selectCity": "Select city",
+    "cityRequired": "City is required",
+    "address": "Address",
+    "addressPlaceholder": "Warehouse address",
+    "addressRequired": "Address is required",
+    "cancel": "Cancel",
+    "create": "Create",
+    "creating": "Creating..."
+  },
+  
+  "UpdateWarehouseModal": {
+    "updateTitle": "Update Warehouse",
+    "updateDescription": "Edit warehouse details.",
+    "name": "Name",
+    "namePlaceholder": "Enter warehouse name",
+    "nameRequired": "Name is required",
+    "country": "Country",
+    "countryRequired": "Country is required",
+    "selectCountry": "Select country",
+    "city": "City",
+    "cityRequired": "City is required",
+    "selectCity": "Select city",
+    "address": "Address",
+    "addressPlaceholder": "Enter address",
+    "addressRequired": "Address is required",
+    "update": "Update",
+    "updating": "Updating...",
+    "cancel": "Cancel"
+  },
+  "headerHero": {
+    "componentName": "Warehouse",
+    "buttonName": "Create New"
+  },
+  "DeleteWarehouseModal": {
+    "Delete Warehouse": "Delete Warehouse",
+    "Are you sure you want to delete <name>? This action cannot be undone": "Are you sure you want to delete <name>? This action cannot be undone",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+  "WarehouseTable": {
+    "sNo": "S No",
+    "name": "Name",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "actions": "Actions",
+    "updateWarehouse": "Update Warehouse",
+    "deleteWarehouse": "Delete Warehouse"
+  },
+  "WarehouseToast": {
+    "createSuccess": "Warehouse created successfully",
+    "createError": "Failed to create warehouse",
+    "updateSuccess": "Warehouse updated successfully",
+    "updateError": "Failed to update warehouse",
+    "deleteSuccess": "Warehouse deleted successfully",
+    "deleteError": "Failed to delete warehouse"
   }
-
 }
+
+
+

@@ -45,7 +45,7 @@ const TablePagination = ({
   };
 
   return (
-    <div className='mt-4 flex items-center justify-center space-x-2'>
+    <div className='flex items-center justify-end space-x-2 pr-12 pb-2'>
       <Button
         size='sm'
         variant='outline'
@@ -79,7 +79,7 @@ const TablePagination = ({
         onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
         disabled={currentPage === totalPages}
       >
-        <ChevronRight size={16} />
+        <ChevronRight size={10} />
       </Button>
     </div>
   );

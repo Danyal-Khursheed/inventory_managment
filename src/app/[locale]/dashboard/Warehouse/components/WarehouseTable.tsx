@@ -10,20 +10,19 @@ import {
 } from '@/components/ui/table';
 import { Warehouse } from '@/services/warehouse.service';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2 } from 'lucide-react'; // prettier icons
+import { Edit, Trash2 } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import TablePagination from '@/components/pagination/TablePagination';
-import { useState } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Props {
   warehouses: Warehouse[];
   onUpdate: (warehouse: Warehouse) => void;
   onDelete: (warehouse: Warehouse) => void;
-  // Pagination props
   totalItems: number;
   pageSize: number;
   currentPage: number;
@@ -39,64 +38,71 @@ const WarehouseTable = ({
   currentPage,
   onPageChange
 }: Props) => {
+  const t = useTranslations('WarehouseTable');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
+
+  console.log('@@ totaItems', totalItems);
+
   return (
-    <div className='overflow-x-auto rounded-md border shadow-sm'>
-      <Table className='min-w-[700px]'>
-        <TableHeader className='bg-gray-100 dark:bg-gray-800'>
-          <TableRow>
-            <TableHead className='text-left'>s no</TableHead>
-            <TableHead className='text-left'>Name</TableHead>
-            <TableHead className='text-left'>Address</TableHead>
-            <TableHead className='text-left'>City</TableHead>
-            <TableHead className='text-left'>Country</TableHead>
-            <TableHead className='text-right'>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
+    <div
+      className='max-h-[600px] max-w-[1400px] overflow-x-auto overflow-y-auto rounded-md border shadow-sm'
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
+      <div className='flex bg-gray-100 dark:bg-gray-800'>
+        <div className='flex-1 px-4 py-2 text-left'>{t('sNo')}</div>
+        <div className='flex-1 px-4 py-2 text-left'>{t('name')}</div>
+        <div className='flex-1 px-4 py-2 text-left'>{t('address')}</div>
+        <div className='flex-1 px-4 py-2 text-left'>{t('city')}</div>
+        <div className='flex-1 px-4 py-2 text-left'>{t('country')}</div>
+        <div className='flex flex-1 justify-end px-4 py-2'>{t('actions')}</div>
+      </div>
 
-        <TableBody>
-          {warehouses.map((w, idx) => (
-            <TableRow
-              key={w.id}
-              className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} transition-colors hover:bg-gray-100 dark:hover:bg-gray-700`}
-            >
-              <TableCell>{idx + 1}</TableCell>
-              <TableCell className='font-medium'>{w.name}</TableCell>
-              <TableCell>{w.address}</TableCell>
-              <TableCell>{w.city}</TableCell>
-              <TableCell>{w.country}</TableCell>
-              <TableCell className='flex justify-end gap-2'>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size='sm'
-                      variant='outline'
-                      className='p-2 text-blue-500 hover:bg-blue-50'
-                      onClick={() => onUpdate(w)}
-                    >
-                      <Edit size={16} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Update Warehouse</TooltipContent>
-                </Tooltip>
+      {warehouses.map((w, idx) => (
+        <div
+          key={w.id}
+          className={`flex ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100 dark:hover:bg-gray-700`}
+        >
+          <div className='flex-1 px-4 py-2'>
+            {pageSize * (currentPage - 1) + (idx + 1)}
+          </div>
+          <div className='flex-1 px-4 py-2 font-medium'>{w.name}</div>
+          <div className='flex-1 px-4 py-2'>{w.address}</div>
+          <div className='flex-1 px-4 py-2'>{w.city}</div>
+          <div className='flex-1 px-4 py-2'>{w.country}</div>
+          <div className='flex flex-1 justify-end gap-2 px-4 py-2'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  className='p-2 text-blue-500 hover:bg-blue-50'
+                  onClick={() => onUpdate(w)}
+                >
+                  <Edit size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('updateWarehouse')}</TooltipContent>
+            </Tooltip>
 
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      size='sm'
-                      variant='destructive'
-                      className='p-2'
-                      onClick={() => onDelete(w)}
-                    >
-                      <Trash2 size={16} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Delete Warehouse</TooltipContent>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size='sm'
+                  variant='destructive'
+                  className='p-2'
+                  onClick={() => onDelete(w)}
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+      ))}
+
+      {/* Pagination */}
       <div className='mt-4'>
         <TablePagination
           totalItems={totalItems}
