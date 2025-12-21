@@ -29,18 +29,23 @@ const DeleteWarehouseItemModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className='mx-auto w-full sm:max-w-md md:max-w-md lg:max-w-md xl:max-w-2xl'>
         <DialogHeader>
           <DialogTitle>Delete Warehouse Item</DialogTitle>
         </DialogHeader>
-        <p className='py-4'>
-          Are you sure you want to delete <strong>{warehouseItem?.name}</strong>
-          ?
-        </p>
-        <DialogFooter className='flex justify-end gap-2'>
+
+        <div className='mt-4 flex flex-col gap-4'>
+          <p>
+            Are you sure you want to delete{' '}
+            <strong>{warehouseItem?.name}</strong>?
+          </p>
+        </div>
+
+        <DialogFooter className='mt-4 flex justify-end gap-2'>
           <DialogClose asChild>
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
+
           <Button variant='destructive' onClick={handleDelete}>
             Delete
           </Button>

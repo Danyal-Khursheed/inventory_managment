@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useCreateWarehouse } from '../hook';
 import { Country, City } from 'country-state-city';
@@ -45,9 +45,30 @@ const CreateNewWarehousePopUp = ({
   } = useForm<FormValues>({
     defaultValues: { name: '', country: '', city: '', address: '' }
   });
+
+  const [countrySearch, setCountrySearch] = useState('');
+  const [citySearch, setCitySearch] = useState('');
+
   const selectedCountry = watch('country');
-  const countries = Country.getAllCountries();
-  const cities = City.getCitiesOfCountry(selectedCountry || '') || [];
+  const allCountries = Country.getAllCountries();
+  const filteredCountries = useMemo(
+    () =>
+      allCountries.filter((c) =>
+        c.name.toLowerCase().includes(countrySearch.toLowerCase())
+      ),
+    [allCountries, countrySearch]
+  );
+
+  const allCities = selectedCountry
+    ? City.getCitiesOfCountry(selectedCountry)
+    : [];
+  const filteredCities = useMemo(
+    () =>
+      (allCities || []).filter((c) =>
+        c.name.toLowerCase().includes(citySearch.toLowerCase())
+      ),
+    [allCities, citySearch]
+  );
 
   const { mutate, isPending } = useCreateWarehouse();
 
@@ -55,6 +76,8 @@ const CreateNewWarehousePopUp = ({
     mutate(data, {
       onSuccess: () => {
         reset();
+        setCountrySearch('');
+        setCitySearch('');
         onOpenChange(false);
       }
     });
@@ -62,7 +85,10 @@ const CreateNewWarehousePopUp = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir={isRTL ? 'rtl' : 'ltr'}>
+      <DialogContent
+        dir={isRTL ? 'rtl' : 'ltr'}
+        className='mx-auto max-h-[90vh] w-md max-w-md overflow-y-auto'
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className='items-center'>
             <DialogTitle className='text-2xl'>{t('createTitle')}</DialogTitle>
@@ -95,21 +121,38 @@ const CreateNewWarehousePopUp = ({
                     onValueChange={(value) => {
                       field.onChange(value);
                       setValue('city', '');
+                      setCitySearch('');
                     }}
                   >
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
-                    <SelectContent>
-                      {countries.map((country) => (
-                        <SelectItem
-                          key={country.isoCode}
-                          value={country.isoCode}
-                        >
-                          {country.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <div className='relative'>
+                      <SelectContent className='max-h-60 overflow-y-auto'>
+                        <div className='sticky top-0 z-10 bg-white p-2'>
+                          <Input
+                            placeholder={t('searchCountry')}
+                            value={countrySearch}
+                            onChange={(e) => setCountrySearch(e.target.value)}
+                            className='w-full'
+                          />
+                        </div>
+                        {filteredCountries.length > 0 ? (
+                          filteredCountries.map((country) => (
+                            <SelectItem
+                              key={country.isoCode}
+                              value={country.isoCode}
+                            >
+                              {country.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className='p-2 text-gray-500'>
+                            {t('noCountriesFound')}
+                          </div>
+                        )}
+                      </SelectContent>
+                    </div>
                   </Select>
                 )}
               />
@@ -133,13 +176,30 @@ const CreateNewWarehousePopUp = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCity')} />
                     </SelectTrigger>
-                    <SelectContent>
-                      {cities.map((city) => (
-                        <SelectItem key={city.name} value={city.name}>
-                          {city.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                    <div className='relative'>
+                      <SelectContent className='max-h-60 overflow-y-auto'>
+                        <div className='sticky top-0 z-10 bg-white p-2'>
+                          <Input
+                            placeholder={t('searchCity')}
+                            value={citySearch}
+                            onChange={(e) => setCitySearch(e.target.value)}
+                            className='w-full'
+                            disabled={!selectedCountry}
+                          />
+                        </div>
+                        {filteredCities.length > 0 ? (
+                          filteredCities.map((city) => (
+                            <SelectItem key={city.name} value={city.name}>
+                              {city.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className='p-2 text-gray-500'>
+                            {t('noCitiesFound')}
+                          </div>
+                        )}
+                      </SelectContent>
+                    </div>
                   </Select>
                 )}
               />
@@ -162,7 +222,7 @@ const CreateNewWarehousePopUp = ({
             </div>
           </div>
 
-          <DialogFooter className='mt-4'>
+          <DialogFooter className='mt-4 flex justify-end gap-2'>
             <DialogClose asChild>
               <Button variant='outline'>{t('cancel')}</Button>
             </DialogClose>

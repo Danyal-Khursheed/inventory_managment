@@ -9,8 +9,10 @@ import { DeleteWarehouseModal } from './components/DeleteWarehouseModal';
 import { useGetAllWarehouses, useDeleteWarehouse } from './hook';
 import { Warehouse } from '@/services/warehouse.service';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { useTranslations } from 'next-intl';
 
 export default function WarehousePage() {
+  const t = useTranslations('headerHero');
   const [createOpen, setCreateOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -26,8 +28,8 @@ export default function WarehousePage() {
     <>
       <div className='px-2'>
         <HeaderHero
-          componentName='Warehouse'
-          buttonName='Create Warehouse'
+          componentName={t('Warehouse')}
+          buttonName={t('Create Warehouse')}
           handleButton={setCreateOpen}
         />
         {isLoading ? (

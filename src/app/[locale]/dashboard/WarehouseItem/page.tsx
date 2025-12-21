@@ -6,6 +6,7 @@ import { WarehouseItem } from '@/services/warehouseItem';
 import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
 import UpdateWarehouseItemModal from './components/UpdateWarehouseItemModal';
 import DeleteWarehouseItemModal from './components/DeleteWarehouseItemModal';
+import HeaderHero from '../Warehouse/components/HeaderHero';
 
 export default function Page() {
   const [warehouseItems, setWarehouseItems] = useState<WarehouseItem[]>([
@@ -40,11 +41,11 @@ export default function Page() {
 
   return (
     <div className='px-2'>
-      {/* <HeaderHero
+      <HeaderHero
         componentName='Warehouse Items'
         buttonName='Create Warehouse Item'
         handleButton={setCreateOpen}
-      /> */}
+      />
       <WarehouseItemTable
         warehouseItems={warehouseItems}
         totalItems={warehouseItems.length}

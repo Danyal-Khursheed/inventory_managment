@@ -84,7 +84,10 @@
     "addressRequired": "العنوان مطلوب",
     "cancel": "إلغاء",
     "create": "إنشاء",
-    "creating": "جاري الإنشاء..."
+    "creating": "جاري الإنشاء...",
+    "noCitiesFound": "لم يتم العثور على مدن",
+    "searchCountry": "ابحث عن الدولة...",
+    "searchCity": "ابحث عن المدينة..."
   },
   "UpdateWarehouseModal": {
     "updateTitle": "تحديث المخزن",
@@ -103,11 +106,19 @@
     "addressRequired": "العنوان مطلوب",
     "update": "تحديث",
     "updating": "جاري التحديث...",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+     "sNo": "رقم تسلسلي",
+    "actions": "الإجراءات",
+    "updateWarehouse": "تحديث المستودع",
+    "deleteWarehouse": "حذف المستودع"
   },
   "headerHero": {
     "componentName": "لوحة التحكم",
     "buttonName": "إنشاء جديد"
+  },
+  "WarehouseItem": {
+    "componentName": "عناصر المستودع",
+    "buttonName": "إنشاء عنصر مستودع"
   },
   "DeleteWarehouseModal": {
     "Delete Warehouse": "حذف المستودع",

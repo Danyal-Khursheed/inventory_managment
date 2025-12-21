@@ -84,7 +84,10 @@
     "addressRequired": "Address is required",
     "cancel": "Cancel",
     "create": "Create",
-    "creating": "Creating..."
+    "creating": "Creating...",
+     "noCitiesFound": "No cities found",
+    "searchCountry": "Search country...",
+    "searchCity": "Search city..."
   },
   
   "UpdateWarehouseModal": {
@@ -110,9 +113,13 @@
     "componentName": "Warehouse",
     "buttonName": "Create New"
   },
+  "WarehouseItem": {
+    "componentName": "Warehouse Items",
+    "buttonName": "Create Warehouse Item"
+  },
   "DeleteWarehouseModal": {
     "Delete Warehouse": "Delete Warehouse",
-    "Are you sure you want to delete <name>? This action cannot be undone": "Are you sure you want to delete <name>? This action cannot be undone",
+    "Are you sure you want to delete This action cannot be undone": "Are you sure you want to delete This action cannot be undone",
     "cancel": "Cancel",
     "delete": "Delete",
     "deleting": "Deleting..."
