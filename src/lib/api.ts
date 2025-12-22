@@ -31,7 +31,11 @@ api.interceptors.response.use(
       // Unauthorized - clear token and redirect to login
       removeToken();
       if (typeof window !== 'undefined') {
-        window.location.href = '/auth/sign-in';
+        // Only redirect if not already on an auth page
+        const isAuthPage = window.location.pathname.includes('/auth');
+        if (!isAuthPage) {
+          window.location.href = '/auth/sign-in';
+        }
       }
     }
     return Promise.reject(error);

@@ -56,7 +56,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   const onSubmit = (data: any) => {
     console.log('Form Data on Create User:', data);
     onConfirm(data);
-    onClose();
+    // Don't close here - let parent handle it after async operation completes
   };
 
   if (!isMounted) {
@@ -236,7 +236,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
             Cancel
           </Button>
           <Button disabled={loading} variant='destructive' type='submit'>
-            Create User
+            {loading ? 'Creating...' : 'Create User'}
           </Button>
         </div>
       </form>

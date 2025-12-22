@@ -54,7 +54,7 @@ export function ModeToggle() {
         onClick={handleLanguageSwitch}
         variant='secondary'
         size='icon'
-        className='hover:bg-accent-light dark:hover:bg-accent-dark hover:text-accent-foreground flex transform items-center justify-center rounded-lg p-3 transition-colors duration-200 ease-in-out'
+        className='hover:bg-accent-light dark:hover:bg-accent-dark hover:text-accent-foreground flex transform items-center justify-center rounded-lg bg-red-500 p-3 transition-colors duration-200 ease-in-out'
         disabled={loading}
       >
         {loading ? (

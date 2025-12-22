@@ -12,12 +12,28 @@ export const useCreateWarehouseItem = () => {
   return useMutation({
     mutationFn: (itemData: WarehouseItem) =>
       warehouseService.createWarehouseItem(itemData),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['warehouse-items'] });
-      toast.success(t('createSuccess'));
+      // Show success message based on whether it's create or update
+      if (variables.id) {
+        toast.success(
+          t('updateSuccess') || 'Warehouse item updated successfully'
+        );
+      } else {
+        toast.success(t('createSuccess'));
+      }
     },
-    onError: (error: any) => {
-      toast.error(error?.message || t('createError'));
+    onError: (error: any, variables) => {
+      // Show error message based on whether it's create or update
+      if (variables.id) {
+        toast.error(
+          error?.message ||
+            t('updateError') ||
+            'Failed to update warehouse item'
+        );
+      } else {
+        toast.error(error?.message || t('createError'));
+      }
     }
   });
 };

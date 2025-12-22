@@ -32,17 +32,17 @@ export default function ResetPasswordPage() {
 
   const handleResetPassword = async () => {
     if (!newPassword) {
-      toast.error(t('Enter new password'));
+      toast.error(t('newPasswordRequired'));
       return;
     }
 
     if (newPassword.length < 6) {
-      toast.error(t('Enter new password'));
+      toast.error(t('passwordMinLength'));
       return;
     }
 
     if (!token) {
-      toast.error(t('Reset Password'));
+      toast.error(t('tokenInvalid'));
       return;
     }
 
@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
       toast.success(response.data.message || t('Reset Password'));
       router.push('/auth/sign-in');
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || t('Reset Password'));
+      toast.error(err?.response?.data?.message || t('resetPasswordFailed'));
     } finally {
       setIsLoading(false);
     }

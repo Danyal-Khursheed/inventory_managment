@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import WarehouseItemTable from './components/WarehouseItemTable';
 import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
-import UpdateWarehouseItemModal from './components/UpdateWarehouseItemModal';
 import DeleteWarehouseItemModal from './components/DeleteWarehouseItemModal';
 import HeaderHero from '../Warehouse/components/HeaderHero';
 import { useGetAllWarehouseItems } from './hooks/useGetAllWarehouseItems';
@@ -11,28 +10,25 @@ import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/type
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 
 export default function Page() {
-  const [warehouseItems, setWarehouseItems] = useState<WarehouseItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<WarehouseItem | null>(null);
-  const [createOpen, setCreateOpen] = useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 10;
 
   const { data, isLoading, error } = useGetAllWarehouseItems({
     pageNumber: currentPage,
     pageSize
   });
 
-  useEffect(() => {
-    if (data) {
-      setWarehouseItems(data.data);
-    }
-  }, [data]);
-
   const handleUpdate = (item: WarehouseItem) => {
     setSelectedItem(item);
-    setUpdateOpen(true);
+    setModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setSelectedItem(null);
+    setModalOpen(true);
   };
 
   const handleDelete = (item: WarehouseItem) => {
@@ -42,19 +38,26 @@ export default function Page() {
 
   const handlePageChange = (page: number) => setCurrentPage(page);
 
+  const handleModalClose = (open: boolean) => {
+    setModalOpen(open);
+    if (!open) {
+      setSelectedItem(null);
+    }
+  };
+
   return (
     <div className='px-2'>
       <HeaderHero
         componentName='Warehouse Items'
         buttonName='Create Warehouse Item'
-        handleButton={setCreateOpen}
+        handleButton={handleCreate}
       />
       {isLoading ? (
         <SkeletonTable />
       ) : (
         <WarehouseItemTable
-          warehouseItems={warehouseItems}
-          totalItems={warehouseItems.length}
+          warehouseItems={data?.data || []}
+          totalItems={Number(data?.totalCount)}
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={handlePageChange}
@@ -63,13 +66,8 @@ export default function Page() {
         />
       )}
       <CreateWarehouseItemModal
-        open={createOpen}
-        onOpenChange={setCreateOpen}
-      />
-
-      <UpdateWarehouseItemModal
-        open={updateOpen}
-        onOpenChange={setUpdateOpen}
+        open={modalOpen}
+        onOpenChange={handleModalClose}
         warehouseItem={selectedItem}
       />
 

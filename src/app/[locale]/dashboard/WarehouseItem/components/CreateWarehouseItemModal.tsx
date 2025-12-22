@@ -20,7 +20,8 @@ import {
   SelectContent
 } from '@/components/ui/select';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useGetAllWarehouses } from '../hooks';
 import { useCreateWarehouseItem } from '../hooks/useCreateWarehouseItem';
 import { WarehouseItem } from '../types/types';
@@ -28,6 +29,7 @@ import { WarehouseItem } from '../types/types';
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  warehouseItem: WarehouseItem | null;
 }
 
 interface FormValues {
@@ -38,20 +40,26 @@ interface FormValues {
   weight?: number;
 }
 
-const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
+const CreateWarehouseItemModal = ({
+  open,
+  onOpenChange,
+  warehouseItem
+}: Props) => {
+  const isEditMode = !!warehouseItem;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue
+    control
   } = useForm<FormValues>({
     defaultValues: {
-      name: '',
-      warehouseId: '',
-      price: undefined,
-      quantity: undefined,
-      weight: undefined
+      name: warehouseItem?.name || '',
+      warehouseId: warehouseItem?.warehouseId || '',
+      price: warehouseItem?.price || undefined,
+      quantity: warehouseItem?.quantity || undefined,
+      weight: warehouseItem?.weight || undefined
     }
   });
 
@@ -64,10 +72,32 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
     pageSize: 10
   });
 
-  const { mutate: createWarehouseItem } = useCreateWarehouseItem();
+  const { mutate: createWarehouseItem, isPending } = useCreateWarehouseItem();
+
+  // Update form when warehouseItem changes (switching between create/edit modes)
+  useEffect(() => {
+    if (warehouseItem) {
+      reset({
+        name: warehouseItem.name || '',
+        warehouseId: warehouseItem.warehouseId || '',
+        price: warehouseItem.price || undefined,
+        quantity: warehouseItem.quantity || undefined,
+        weight: warehouseItem.weight || undefined
+      });
+    } else {
+      reset({
+        name: '',
+        warehouseId: '',
+        price: undefined,
+        quantity: undefined,
+        weight: undefined
+      });
+    }
+  }, [warehouseItem, reset]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const payload: WarehouseItem = {
+      ...(isEditMode && { id: warehouseItem.id }),
       name: data.name,
       warehouseId: data.warehouseId,
       price: data.price ?? 0,
@@ -106,7 +136,7 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className='items-center'>
             <DialogTitle className='text-2xl'>
-              Create Warehouse Item
+              {isEditMode ? 'Update Warehouse Item' : 'Create Warehouse Item'}
             </DialogTitle>
           </DialogHeader>
 
@@ -131,27 +161,29 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
                   Error fetching warehouses.
                 </p>
               ) : (
-                <Select
-                  {...register('warehouseId', {
-                    required: 'Warehouse ID is required'
-                  })}
-                  onValueChange={(value) => setValue('warehouseId', value)}
-                >
-                  <SelectTrigger className='w-full'>
-                    <SelectValue placeholder='Select Warehouse' />
-                  </SelectTrigger>
-                  <SelectContent
-                    position='popper'
-                    sideOffset={4}
-                    className='max-h-52 overflow-y-auto'
-                  >
-                    {warehouses?.data?.map((warehouse) => (
-                      <SelectItem key={warehouse.id} value={warehouse.id}>
-                        {warehouse.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name='warehouseId'
+                  control={control}
+                  rules={{ required: 'Warehouse is required' }}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className='w-full'>
+                        <SelectValue placeholder='Select Warehouse' />
+                      </SelectTrigger>
+                      <SelectContent
+                        position='popper'
+                        sideOffset={4}
+                        className='max-h-52 overflow-y-auto'
+                      >
+                        {warehouses?.data?.map((warehouse) => (
+                          <SelectItem key={warehouse.id} value={warehouse.id}>
+                            {warehouse.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
               )}
               {errors.warehouseId && (
                 <p className='text-sm text-red-500'>
@@ -210,11 +242,23 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
 
           <DialogFooter className='mt-4 flex justify-end gap-2'>
             <DialogClose asChild>
-              <Button variant='outline' onClick={handleCancel}>
+              <Button
+                variant='outline'
+                onClick={handleCancel}
+                disabled={isPending}
+              >
                 Cancel
               </Button>
             </DialogClose>
-            <Button type='submit'>Create</Button>
+            <Button type='submit' disabled={isPending}>
+              {isPending
+                ? isEditMode
+                  ? 'Updating...'
+                  : 'Creating...'
+                : isEditMode
+                  ? 'Update'
+                  : 'Create'}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

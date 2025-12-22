@@ -49,11 +49,20 @@ export const warehouseService = {
   createWarehouseItem: async (
     payload: WarehouseItem
   ): Promise<WarehouseItem> => {
-    const { data } = await api.post(
-      '/warehouse-items/create-warehouse-item',
-      payload
-    );
-    return data;
+    // If ID exists, update; otherwise create
+    if (payload.id) {
+      const { data } = await api.patch(
+        `/warehouse-items/update-warehouse-item?id=${payload.id}`,
+        payload
+      );
+      return data;
+    } else {
+      const { data } = await api.post(
+        '/warehouse-items/create-warehouse-item',
+        payload
+      );
+      return data;
+    }
   }
 };
 

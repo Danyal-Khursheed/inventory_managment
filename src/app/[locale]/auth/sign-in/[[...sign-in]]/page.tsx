@@ -45,11 +45,9 @@ export default function Page() {
     setIsLoading(true);
     try {
       await login(data.email, data.password);
-      router.push('/dashboard/Warehouse');
+      router.push(`/${locale}/dashboard/Warehouse`);
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || t('Failed to sign in. Please try again.')
-      );
+      setError(err.response?.data?.message || t('signInFailed'));
     } finally {
       setIsLoading(false);
     }

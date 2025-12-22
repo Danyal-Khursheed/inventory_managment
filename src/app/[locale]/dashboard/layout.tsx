@@ -3,10 +3,10 @@ import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useLocale } from 'next-intl';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children
 }: {
   children: React.ReactNode;
@@ -14,20 +14,24 @@ export default async function DashboardLayout({
   const locale = useLocale();
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem('auth_token');
+  // useEffect(() => {
+  //   const token = localStorage.getItem('auth_token');
 
-    if (!token) {
-      redirect(`/${locale}/auth/sign-in`);
-    }
-  }, [locale, router]);
+  //   if (!token) {
+  //     const currentPath = window.location.pathname;
+  //     // Only redirect if we're not already on the sign-in page
+  //     if (!currentPath.includes('/auth/sign-in')) {
+  //       router.push(`/${locale}/auth/sign-in`);
+  //     }
+  //   }
+  // }, [locale, router]);
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
       <SidebarInset>
         <Header />
         {/* page main content */}
-        <div className='h-screen bg-gray-100'>
+        <div className='bg-background h-screen'>
           <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] overflow-y-auto px-4 py-10'>
             {children}
           </div>

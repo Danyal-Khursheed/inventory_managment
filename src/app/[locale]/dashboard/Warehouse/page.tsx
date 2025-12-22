@@ -10,6 +10,8 @@ import { useGetAllWarehouses, useDeleteWarehouse } from './hook';
 import { Warehouse } from '@/services/warehouse.service';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 import { useTranslations } from 'next-intl';
+import { useCurrentUser } from '@/hooks/auth';
+import useAuth from '@/auth/hooks/useAuth';
 
 export default function WarehousePage() {
   const t = useTranslations('headerHero');

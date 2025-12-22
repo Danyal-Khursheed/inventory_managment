@@ -40,7 +40,7 @@ const WarehouseTable = ({
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className='max-h-[700px] min-w-[700px]'>
-        <div className='sticky top-0 z-10 flex bg-gray-100 font-semibold'>
+        <div className='bg-background sticky top-0 z-10 flex font-semibold'>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('sNo')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('name')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
@@ -58,7 +58,7 @@ const WarehouseTable = ({
         {warehouses.map((w, idx) => (
           <div
             key={w.id}
-            className={`flex ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
+            className={`flex ${idx % 2 === 0 ? 'bg-white dark:bg-black' : 'bg-gray-50 dark:bg-black/10'} hover:bg-gray-100`}
           >
             <div className='flex-1 px-4 py-2'>
               {pageSize * (currentPage - 1) + (idx + 1)}

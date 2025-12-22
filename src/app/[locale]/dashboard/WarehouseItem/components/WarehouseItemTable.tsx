@@ -89,9 +89,9 @@ const WarehouseItemTable = ({
 
         <div className='mt-4'>
           <TablePagination
-            totalItems={100}
-            pageSize={1}
-            currentPage={1}
+            totalItems={totalItems}
+            pageSize={pageSize}
+            currentPage={currentPage}
             onPageChange={onPageChange}
           />
         </div>

@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { authService } from '@/services/auth.service';
 import { saveToken } from '@/auth/utils/auth-helpers';
 
 export const useLogin = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -13,7 +11,7 @@ export const useLogin = () => {
     onSuccess: (data) => {
       saveToken(data.token.token);
       queryClient.setQueryData(['currentUser'], data.user);
-      router.push('/dashboard');
+      // Don't redirect here - let the component handle it with locale
     }
   });
 };

@@ -25,7 +25,7 @@ export default function Page() {
 
   const handleReset = async () => {
     if (!email) {
-      toast.error(t('Please enter your email.'));
+      toast.error(t('emailRequired'));
       return;
     }
 
@@ -47,7 +47,7 @@ export default function Page() {
 
       router.push(`/auth/Reset-Pasword?token=${data.token}`);
     } catch (err) {
-      toast.error(t('Failed to send reset link.'));
+      toast.error(t('sendResetLinkFailed'));
     } finally {
       setIsLoading(false);
     }

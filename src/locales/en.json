@@ -20,7 +20,7 @@
     "Country code is required": "Country code is required",
     "Phone number is required": "Phone number is required",
     "Address is required": "Address is required",
-    "Failed to sign up. Please try again.": "Failed to sign up. Please try again."
+    "signUpFailed": "Failed to sign up. Please try again."
   },
 
    "SignIn": {
@@ -35,7 +35,7 @@
     "Invalid email address": "Invalid email address",
     "Password is required": "Password is required",
     "Password must be at least 6 characters": "Password must be at least 6 characters",
-    "Failed to sign in. Please try again.": "Failed to sign in. Please try again.",
+    "signInFailed": "Failed to sign in. Please try again.",
     "Don't have an account?": "Don't have an account?",
     "Sign up": "Sign up"
   },
@@ -45,9 +45,9 @@
     "Enter your email below and we will send you a reset link": "Enter your email below and we will send you a reset link",
     "Email": "Email",
     "emailPlaceholder": "name@example.com",
-    "Please enter your email.": "Please enter your email.",
+    "emailRequired": "Please enter your email.",
     "Password reset link sent to your email!": "Password reset link sent to your email!",
-    "Failed to send reset link.": "Failed to send reset link.",
+    "sendResetLinkFailed": "Failed to send reset link.",
     "Send Reset Link": "Send Reset Link",
     "Sending": "Sending",
     "Remembered your password?": "Remembered your password?",
@@ -59,11 +59,11 @@
     "Enter your new password to reset": "Enter your new password to reset",
     "New Password": "New Password",
     "Enter new password": "Enter new password",
-    "Please enter a new password.": "Please enter a new password.",
-    "Password must be at least 6 characters long.": "Password must be at least 6 characters long.",
-    "Invalid or missing token.": "Invalid or missing token.",
+    "newPasswordRequired": "Please enter a new password.",
+    "passwordMinLength": "Password must be at least 6 characters long.",
+    "tokenInvalid": "Invalid or missing token.",
     "Password reset successfully!": "Password reset successfully!",
-    "Failed to reset password.": "Failed to reset password.",
+    "resetPasswordFailed": "Failed to reset password.",
     "Reset Password Button": "Reset Password",
     "Resetting": "Resetting"
   },
