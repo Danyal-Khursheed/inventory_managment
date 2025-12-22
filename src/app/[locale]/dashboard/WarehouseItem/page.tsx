@@ -1,31 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WarehouseItemTable from './components/WarehouseItemTable';
-import { WarehouseItem } from '@/services/warehouseItem';
 import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
 import UpdateWarehouseItemModal from './components/UpdateWarehouseItemModal';
 import DeleteWarehouseItemModal from './components/DeleteWarehouseItemModal';
 import HeaderHero from '../Warehouse/components/HeaderHero';
+import { useGetAllWarehouseItems } from './hooks/useGetAllWarehouseItems';
+import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
+import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 
 export default function Page() {
-  const [warehouseItems, setWarehouseItems] = useState<WarehouseItem[]>([
-    { warehouseId: '1', name: 'Item 1', price: 100, quantity: 10, weight: 2 },
-    { warehouseId: '2', name: 'Item 2', price: 200, quantity: 5, weight: 3 },
-    { warehouseId: '3', name: 'Item 3', price: 150, quantity: 8, weight: 1.5 },
-    { warehouseId: '4', name: 'Item 1', price: 100, quantity: 10, weight: 2 },
-    { warehouseId: '5', name: 'Item 2', price: 200, quantity: 5, weight: 3 },
-    { warehouseId: '6', name: 'Item 3', price: 150, quantity: 8, weight: 1.5 },
-    { warehouseId: '7', name: 'Item 3', price: 150, quantity: 8, weight: 1.5 }
-  ]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 5;
-
+  const [warehouseItems, setWarehouseItems] = useState<WarehouseItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<WarehouseItem | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 20;
+
+  const { data, isLoading, error } = useGetAllWarehouseItems({
+    pageNumber: currentPage,
+    pageSize
+  });
+
+  useEffect(() => {
+    if (data) {
+      setWarehouseItems(data.data);
+    }
+  }, [data]);
 
   const handleUpdate = (item: WarehouseItem) => {
     setSelectedItem(item);
@@ -46,25 +49,30 @@ export default function Page() {
         buttonName='Create Warehouse Item'
         handleButton={setCreateOpen}
       />
-      <WarehouseItemTable
-        warehouseItems={warehouseItems}
-        totalItems={warehouseItems.length}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onUpdate={handleUpdate}
-        onDelete={handleDelete}
-      />
-
+      {isLoading ? (
+        <SkeletonTable />
+      ) : (
+        <WarehouseItemTable
+          warehouseItems={warehouseItems}
+          totalItems={warehouseItems.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
+      )}
       <CreateWarehouseItemModal
         open={createOpen}
         onOpenChange={setCreateOpen}
       />
+
       <UpdateWarehouseItemModal
         open={updateOpen}
         onOpenChange={setUpdateOpen}
         warehouseItem={selectedItem}
       />
+
       <DeleteWarehouseItemModal
         open={deleteOpen}
         onOpenChange={setDeleteOpen}

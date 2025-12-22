@@ -1,44 +1,73 @@
-// src/services/warehouseItem.ts
+import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
 import api from '@/lib/api';
 
-export interface WarehouseItem {
-  id?: string;
-  name: string;
-  price: number;
-  quantity: number;
-  weight: number;
-  warehouseId: string;
+export interface Warehouse {
+  name?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  [key: string]: any;
 }
 
-export interface WarehouseItemResponse {
+export interface WarehousesResponse {
+  data: Warehouse[];
+  totalCount: number;
+}
+
+export interface WarehouseItemsResponse {
   data: WarehouseItem[];
-  total: number;
-  page: number;
-  pageSize: number;
+  totalCount: number;
 }
 
 export const warehouseService = {
-  getAll: async (page = 1, pageSize = 10): Promise<WarehouseItemResponse> => {
-    const { data } = await api.get('/warehouse-items', {
-      params: { page, pageSize }
-    });
+  getAllWarehouses: async (
+    pageNumber = 1,
+    pageSize = 10
+  ): Promise<WarehousesResponse> => {
+    const { data } = await api.get<WarehousesResponse>(
+      '/warehouses/get-all-warehouses',
+      {
+        params: { pageNumber, pageSize }
+      }
+    );
     return data;
   },
 
-  create: async (payload: WarehouseItem): Promise<WarehouseItem> => {
-    const { data } = await api.post('/warehouse-items', payload);
+  getAllWarehouseItems: async (
+    pageNumber = 1,
+    pageSize = 10
+  ): Promise<WarehouseItemsResponse> => {
+    const { data } = await api.get<WarehouseItemsResponse>(
+      '/warehouse-items/get-all-warehouse-items',
+      {
+        params: { pageNumber, pageSize }
+      }
+    );
     return data;
   },
 
+  createWarehouseItem: async (
+    payload: WarehouseItem
+  ): Promise<WarehouseItem> => {
+    const { data } = await api.post(
+      '/warehouse-items/create-warehouse-item',
+      payload
+    );
+    return data;
+  }
+};
+
+export const warehouseItemService = {
   update: async (
     id: string,
     payload: Partial<WarehouseItem>
   ): Promise<WarehouseItem> => {
     const { data } = await api.patch(`/warehouse-items/${id}`, payload);
     return data;
-  },
-
-  delete: async (id: string): Promise<void> => {
-    await api.delete(`/warehouse-items/${id}`);
   }
 };
+
+//   delete: async (id: string): Promise<void> => {
+//     await api.delete(`/warehouse-items/${id}`);
+//   }
+// };

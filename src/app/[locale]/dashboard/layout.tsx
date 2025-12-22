@@ -27,7 +27,11 @@ export default async function DashboardLayout({
       <SidebarInset>
         <Header />
         {/* page main content */}
-        <div className='mx-auto w-full max-w-[1400px] px-4'>{children}</div>
+        <div className='h-screen bg-gray-100'>
+          <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] overflow-y-auto px-4 py-10'>
+            {children}
+          </div>
+        </div>
         {/* page main content ends */}
       </SidebarInset>
     </SidebarProvider>

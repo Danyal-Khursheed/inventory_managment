@@ -1,3 +1,4 @@
+// components/CreateWarehouseItemModal.tsx
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -11,8 +12,18 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectContent
+} from '@/components/ui/select';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useGetAllWarehouses } from '../hooks';
+import { useCreateWarehouseItem } from '../hooks/useCreateWarehouseItem';
+import { WarehouseItem } from '../types/types';
 
 interface Props {
   open: boolean;
@@ -32,7 +43,8 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue
   } = useForm<FormValues>({
     defaultValues: {
       name: '',
@@ -43,8 +55,41 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
     }
   });
 
+  const {
+    data: warehouses,
+    isLoading,
+    error
+  } = useGetAllWarehouses({
+    pageNumber: 1,
+    pageSize: 10
+  });
+
+  const { mutate: createWarehouseItem } = useCreateWarehouseItem();
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('Create Warehouse Item:', data);
+    const payload: WarehouseItem = {
+      name: data.name,
+      warehouseId: data.warehouseId,
+      price: data.price ?? 0,
+      quantity: data.quantity ?? 0,
+      weight: data.weight ?? 0
+    };
+
+    createWarehouseItem(payload, {
+      onSuccess: () => {
+        reset({
+          name: '',
+          warehouseId: '',
+          price: undefined,
+          quantity: undefined,
+          weight: undefined
+        });
+        onOpenChange(false);
+      }
+    });
+  };
+
+  const handleCancel = () => {
     reset({
       name: '',
       warehouseId: '',
@@ -65,7 +110,6 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
             </DialogTitle>
           </DialogHeader>
 
-          {/* Grid wrapper for spacing between fields */}
           <div className='mt-4 grid gap-4'>
             <div className='flex flex-col gap-2'>
               <Label>Name</Label>
@@ -79,13 +123,36 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>Warehouse ID</Label>
-              <Input
-                placeholder='Warehouse ID'
-                {...register('warehouseId', {
-                  required: 'Warehouse ID is required'
-                })}
-              />
+              <Label>Warehouse</Label>
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : error ? (
+                <p className='text-sm text-red-500'>
+                  Error fetching warehouses.
+                </p>
+              ) : (
+                <Select
+                  {...register('warehouseId', {
+                    required: 'Warehouse ID is required'
+                  })}
+                  onValueChange={(value) => setValue('warehouseId', value)}
+                >
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder='Select Warehouse' />
+                  </SelectTrigger>
+                  <SelectContent
+                    position='popper'
+                    sideOffset={4}
+                    className='max-h-52 overflow-y-auto'
+                  >
+                    {warehouses?.data?.map((warehouse) => (
+                      <SelectItem key={warehouse.id} value={warehouse.id}>
+                        {warehouse.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
               {errors.warehouseId && (
                 <p className='text-sm text-red-500'>
                   {errors.warehouseId.message}
@@ -143,7 +210,9 @@ const CreateWarehouseItemModal = ({ open, onOpenChange }: Props) => {
 
           <DialogFooter className='mt-4 flex justify-end gap-2'>
             <DialogClose asChild>
-              <Button variant='outline'>Cancel</Button>
+              <Button variant='outline' onClick={handleCancel}>
+                Cancel
+              </Button>
             </DialogClose>
             <Button type='submit'>Create</Button>
           </DialogFooter>

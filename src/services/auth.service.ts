@@ -30,7 +30,7 @@ export const authService = {
   },
 
   getCurrentUser: async (): Promise<User> => {
-    const { data } = await api.get<User>('/api/users/me');
+    const { data } = await api.get<User>('/users/me');
     return data;
   },
 

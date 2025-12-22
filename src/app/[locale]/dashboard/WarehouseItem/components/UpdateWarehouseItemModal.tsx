@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { WarehouseItem } from '@/services/warehouseItem';
+import { WarehouseItem } from '../types/types';
 
 interface Props {
   open: boolean;
@@ -49,7 +49,6 @@ const UpdateWarehouseItemModal = ({
     }
   });
 
-  // Fill form when warehouseItem changes
   useEffect(() => {
     if (warehouseItem) {
       reset({
