@@ -104,6 +104,7 @@ const CreateWarehouseItemModal = ({
       quantity: data.quantity ?? 0,
       weight: data.weight ?? 0
     };
+    console.log(payload);
 
     createWarehouseItem(payload, {
       onSuccess: () => {

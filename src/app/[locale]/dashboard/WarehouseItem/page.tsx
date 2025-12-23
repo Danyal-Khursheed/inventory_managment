@@ -8,6 +8,7 @@ import HeaderHero from '../Warehouse/components/HeaderHero';
 import { useGetAllWarehouseItems } from './hooks/useGetAllWarehouseItems';
 import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { log } from 'console';
 
 export default function Page() {
   const [selectedItem, setSelectedItem] = useState<WarehouseItem | null>(null);
@@ -23,6 +24,7 @@ export default function Page() {
 
   const handleUpdate = (item: WarehouseItem) => {
     setSelectedItem(item);
+    console.log(item);
     setModalOpen(true);
   };
 

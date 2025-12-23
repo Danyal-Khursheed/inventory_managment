@@ -1,3 +1,4 @@
+// components/DeleteWarehouseItemModal.tsx
 'use client';
 
 import {
@@ -9,7 +10,8 @@ import {
   DialogClose
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { WarehouseItem } from '@/services/warehouseItem';
+import { WarehouseItem } from '../types/types';
+import { useDeleteWarehouseItem } from '../hooks';
 
 interface Props {
   open: boolean;
@@ -22,19 +24,28 @@ const DeleteWarehouseItemModal = ({
   onOpenChange,
   warehouseItem
 }: Props) => {
+  const { mutate: deleteItem, isPending } = useDeleteWarehouseItem();
+
   const handleDelete = () => {
-    console.log('Deleted:', warehouseItem);
-    onOpenChange(false);
+    if (!warehouseItem?.id) return; // Ensure we have the ID
+    console.log('Deleting item with ID:', warehouseItem.id); // Optional debug log
+
+    deleteItem(warehouseItem.id, {
+      onSuccess: () => {
+        console.log('Deleted item with ID:', warehouseItem.id); // Debug log for successful deletion
+        onOpenChange(false); // Close the modal on success
+      }
+    });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='mx-auto w-full sm:max-w-md md:max-w-md lg:max-w-md xl:max-w-2xl'>
+      <DialogContent className='mx-auto w-full sm:max-w-md xl:max-w-2xl'>
         <DialogHeader>
           <DialogTitle>Delete Warehouse Item</DialogTitle>
         </DialogHeader>
 
-        <div className='mt-4 flex flex-col gap-4'>
+        <div className='mt-4'>
           <p>
             Are you sure you want to delete{' '}
             <strong>{warehouseItem?.name}</strong>?
@@ -43,11 +54,17 @@ const DeleteWarehouseItemModal = ({
 
         <DialogFooter className='mt-4 flex justify-end gap-2'>
           <DialogClose asChild>
-            <Button variant='outline'>Cancel</Button>
+            <Button variant='outline' disabled={isPending}>
+              Cancel
+            </Button>
           </DialogClose>
 
-          <Button variant='destructive' onClick={handleDelete}>
-            Delete
+          <Button
+            variant='destructive'
+            onClick={handleDelete}
+            disabled={isPending}
+          >
+            {isPending ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogFooter>
       </DialogContent>

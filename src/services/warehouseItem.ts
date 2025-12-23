@@ -1,5 +1,6 @@
 import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
 import api from '@/lib/api';
+import { Warehouse } from 'lucide-react';
 
 export interface Warehouse {
   name?: string;
@@ -76,7 +77,10 @@ export const warehouseItemService = {
   }
 };
 
-//   delete: async (id: string): Promise<void> => {
-//     await api.delete(`/warehouse-items/${id}`);
-//   }
-// };
+export const warehouseDeleteItemService = {
+  delete: async (id: string): Promise<void> => {
+    await api.delete('/warehouse-items/delete-warehouse-item', {
+      params: { id }
+    });
+  }
+};
