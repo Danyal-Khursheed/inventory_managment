@@ -35,12 +35,12 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  let { locale } = await params;
+  const { locale } = await params;
 
   let messages;
   try {
     messages = (await import(`../../locales/${locale}.json`)).default;
-  } catch (error) {
+  } catch {
     notFound();
   }
 
@@ -59,23 +59,34 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.querySelector('meta[name="theme-color"]').setAttribute('content', '${META_THEME_COLORS.dark}')
+                if (
+                  localStorage.theme === 'dark' ||
+                  (
+                    !('theme' in localStorage) &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches
+                  )
+                ) {
+                  document
+                    .querySelector('meta[name="theme-color"]')
+                    ?.setAttribute('content', '${META_THEME_COLORS.dark}')
                 }
               } catch (_) {}
             `
           }}
         />
       </head>
+
       <body
         className={cn(
-          'bg-background overflow-hidden overscroll-none font-sans antialiased',
+          'bg-background selection:bg-primary/20 selection:text-primary overflow-hidden overscroll-none antialiased',
+          locale === 'ar' ? 'font-arabic' : 'font-sans',
           activeThemeValue ? `theme-${activeThemeValue}` : '',
           isScaled ? 'theme-scaled' : '',
           fontVariables
         )}
       >
         <NextTopLoader color='var(--primary)' showSpinner={false} />
+
         <NuqsAdapter>
           <ThemeProvider
             attribute='class'

@@ -1,17 +1,22 @@
-export function formatDate(
-  date: Date | string | number | undefined,
-  opts: Intl.DateTimeFormatOptions = {}
-) {
-  if (!date) return '';
+import localFont from 'next/font/local';
 
-  try {
-    return new Intl.DateTimeFormat('en-US', {
-      month: opts.month ?? 'long',
-      day: opts.day ?? 'numeric',
-      year: opts.year ?? 'numeric',
-      ...opts
-    }).format(new Date(date));
-  } catch (_err) {
-    return '';
-  }
-}
+export const brandoArabic = localFont({
+  src: [
+    {
+      path: '../public/fonts/BrandoArabic-Regular.ttf',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/BrandoArabic-Bold.ttf',
+      weight: '700',
+      style: 'normal'
+    }
+  ],
+  variable: '--font-brando-arabic',
+  display: 'swap'
+});
+
+export const fontVariables = `
+  ${brandoArabic.variable}
+`;

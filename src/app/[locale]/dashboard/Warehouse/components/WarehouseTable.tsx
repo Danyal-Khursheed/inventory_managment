@@ -36,11 +36,11 @@ const WarehouseTable = ({
 
   return (
     <div
-      className='overflow-x-auto rounded-md border shadow-sm'
       dir={isRTL ? 'rtl' : 'ltr'}
+      className='overflow-x-auto rounded-md border shadow-sm'
     >
-      <div>
-        <div className='sticky top-0 z-10 flex bg-gray-100 font-semibold'>
+      <div className='h-full min-w-[700px] overflow-x-auto'>
+        <div className='flex bg-gray-100 font-semibold'>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('sNo')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('name')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
