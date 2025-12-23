@@ -39,8 +39,8 @@ const WarehouseTable = ({
       className='overflow-x-auto rounded-md border shadow-sm'
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      <div className='max-h-[700px] min-w-[700px]'>
-        <div className='bg-background sticky top-0 z-10 flex font-semibold'>
+      <div>
+        <div className='sticky top-0 z-10 flex bg-gray-100 font-semibold'>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('sNo')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('name')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
@@ -50,9 +50,7 @@ const WarehouseTable = ({
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
             {t('country')}
           </div>
-          <div className='flex-1 px-4 py-2 text-right text-xs sm:text-sm'>
-            {t('actions')}
-          </div>
+          <div className='flex-1 px-4 py-2 text-end'>{t('actions')}</div>
         </div>
 
         {warehouses.map((w, idx) => (
@@ -99,7 +97,7 @@ const WarehouseTable = ({
           </div>
         ))}
 
-        <div className='mt-4'>
+        <div className='mx-4 mt-4'>
           <TablePagination
             totalItems={totalItems}
             pageSize={pageSize}

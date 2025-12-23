@@ -113,8 +113,10 @@
     "deleteWarehouse": "حذف المستودع"
   },
   "headerHero": {
-    "componentName": "لوحة التحكم",
-    "buttonName": "إنشاء جديد"
+    "warehouseTitle": "المستودعات",
+    "createWarehouse": "إنشاء مستودع",
+    "warehouseItemTitle": "عناصر المستودع",
+    "createWarehouseItem": "إنشاء عنصر مستودع"
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",
@@ -144,5 +146,56 @@
     "updateError": "فشل في تحديث المستودع",
     "deleteSuccess": "تم حذف المستودع بنجاح",
     "deleteError": "فشل في حذف المستودع"
+  },
+  "WarehouseItemModal": {
+    "createTitle": "إنشاء عنصر مستودع",
+    "updateTitle": "تحديث عنصر المستودع",
+
+    "name": "الاسم",
+    "namePlaceholder": "اسم العنصر",
+    "nameRequired": "الاسم مطلوب",
+
+    "warehouse": "المستودع",
+    "selectWarehouse": "اختر المستودع",
+    "warehouseRequired": "المستودع مطلوب",
+    "loadingWarehouses": "جاري التحميل...",
+    "fetchWarehouseError": "حدث خطأ أثناء جلب المستودعات",
+
+    "price": "السعر",
+    "priceRequired": "السعر مطلوب",
+    "priceMin": "يجب أن يكون السعر أكبر من 0",
+
+    "quantity": "الكمية",
+    "quantityRequired": "الكمية مطلوبة",
+    "quantityMin": "يجب أن تكون الكمية أكبر من 0",
+
+    "weight": "الوزن",
+    "weightRequired": "الوزن مطلوب",
+    "weightMin": "يجب أن يكون الوزن أكبر من 0",
+
+    "cancel": "إلغاء",
+    "create": "إنشاء",
+    "creating": "جاري الإنشاء...",
+    "update": "تحديث",
+    "updating": "جاري التحديث..."
+  },
+    "DeleteWarehouseItemModal": {
+    "title": "حذف عنصر المستودع",
+    "confirmation": "هل أنت متأكد أنك تريد حذف",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "deleting": "جاري الحذف..."
+  },
+    "WarehouseItemTable": {
+    "sNo": "رقم",
+    "name": "الاسم",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "weight": "الوزن",
+    "warehouseName": "اسم المستودع",
+    "actions": "الإجراءات",
+    "updateItem": "تحديث العنصر",
+    "deleteItem": "حذف العنصر"
   }
 }
+

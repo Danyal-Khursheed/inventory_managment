@@ -1,6 +1,8 @@
 // components/DeleteWarehouseItemModal.tsx
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
+
 import {
   Dialog,
   DialogContent,
@@ -10,6 +12,7 @@ import {
   DialogClose
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+
 import { WarehouseItem } from '../types/types';
 import { useDeleteWarehouseItem } from '../hooks';
 
@@ -24,38 +27,48 @@ const DeleteWarehouseItemModal = ({
   onOpenChange,
   warehouseItem
 }: Props) => {
+  const t = useTranslations('DeleteWarehouseItemModal');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
+
   const { mutate: deleteItem, isPending } = useDeleteWarehouseItem();
 
   const handleDelete = () => {
-    if (!warehouseItem?.id) return; // Ensure we have the ID
-    console.log('Deleting item with ID:', warehouseItem.id); // Optional debug log
+    if (!warehouseItem?.id) return;
 
     deleteItem(warehouseItem.id, {
       onSuccess: () => {
-        console.log('Deleted item with ID:', warehouseItem.id); // Debug log for successful deletion
-        onOpenChange(false); // Close the modal on success
+        onOpenChange(false);
       }
     });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='mx-auto w-full sm:max-w-md xl:max-w-2xl'>
+      <DialogContent
+        dir={isRTL ? 'rtl' : 'ltr'}
+        className={`mx-auto w-full sm:max-w-md ${
+          isRTL ? 'text-right' : 'text-left'
+        }`}
+      >
         <DialogHeader>
-          <DialogTitle>Delete Warehouse Item</DialogTitle>
+          <DialogTitle className='text-xl'>{t('title')}</DialogTitle>
         </DialogHeader>
 
         <div className='mt-4'>
-          <p>
-            Are you sure you want to delete{' '}
-            <strong>{warehouseItem?.name}</strong>?
+          <p className='text-start'>
+            {t('confirmation')} <strong>{warehouseItem?.name}</strong>?
           </p>
         </div>
 
-        <DialogFooter className='mt-4 flex justify-end gap-2'>
+        <DialogFooter
+          className={`mt-4 flex gap-2 ${
+            isRTL ? 'flex-row-reverse justify-start' : 'justify-end'
+          }`}
+        >
           <DialogClose asChild>
             <Button variant='outline' disabled={isPending}>
-              Cancel
+              {t('cancel')}
             </Button>
           </DialogClose>
 
@@ -64,7 +77,7 @@ const DeleteWarehouseItemModal = ({
             onClick={handleDelete}
             disabled={isPending}
           >
-            {isPending ? 'Deleting...' : 'Delete'}
+            {isPending ? t('deleting') : t('delete')}
           </Button>
         </DialogFooter>
       </DialogContent>

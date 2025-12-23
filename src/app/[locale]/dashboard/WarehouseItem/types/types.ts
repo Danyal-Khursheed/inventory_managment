@@ -22,3 +22,9 @@ export interface FormValues {
   quantity: number;
   weight: number;
 }
+
+export interface HeroHeaderProps {
+  componentName: string;
+  buttonName: string;
+  handleButton: (state: boolean) => void;
+}

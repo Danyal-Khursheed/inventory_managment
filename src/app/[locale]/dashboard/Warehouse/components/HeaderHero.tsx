@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 import { HeroHeaderProps } from '../types/types';
@@ -15,14 +16,20 @@ const HeaderHero: FC<HeroHeaderProps> = ({
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className='flex flex-row items-center justify-between gap-4 py-5 sm:flex-row'>
-        <h1 className='text-center text-xl font-bold sm:text-left sm:text-2xl md:text-3xl'>
-          {t('componentName')}
+      <div
+        className={`flex items-center justify-between gap-4 p-4 ${
+          isRTL ? 'flex-row' : 'flex-row'
+        }`}
+      >
+        <h1
+          className={`text-xl font-bold sm:text-2xl md:text-3xl ${
+            isRTL ? 'text-right' : 'text-left'
+          }`}
+        >
+          {t(componentName)}
         </h1>
 
-        <Button onClick={() => handleButton(true)} className='mt-4 sm:mt-0'>
-          {t('buttonName')}
-        </Button>
+        <Button onClick={() => handleButton(true)}>{t(buttonName)}</Button>
       </div>
     </div>
   );

@@ -50,10 +50,11 @@ export default function Page() {
   return (
     <div className='px-2'>
       <HeaderHero
-        componentName='Warehouse Items'
-        buttonName='Create Warehouse Item'
+        componentName='warehouseItemTitle'
+        buttonName='createWarehouseItem'
         handleButton={handleCreate}
       />
+
       {isLoading ? (
         <SkeletonTable />
       ) : (

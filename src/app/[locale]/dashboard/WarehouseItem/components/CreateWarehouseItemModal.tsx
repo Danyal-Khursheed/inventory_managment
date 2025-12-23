@@ -1,6 +1,10 @@
 // components/CreateWarehouseItemModal.tsx
 'use client';
 
+import { useEffect } from 'react';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useLocale, useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,8 +24,6 @@ import {
   SelectContent
 } from '@/components/ui/select';
 
-import { useEffect } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useGetAllWarehouses } from '../hooks';
 import { useCreateWarehouseItem } from '../hooks/useCreateWarehouseItem';
 import { WarehouseItem } from '../types/types';
@@ -45,21 +47,24 @@ const CreateWarehouseItemModal = ({
   onOpenChange,
   warehouseItem
 }: Props) => {
+  const t = useTranslations('WarehouseItemModal');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
   const isEditMode = !!warehouseItem;
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
     reset,
-    control
+    control,
+    formState: { errors }
   } = useForm<FormValues>({
     defaultValues: {
-      name: warehouseItem?.name || '',
-      warehouseId: warehouseItem?.warehouseId || '',
-      price: warehouseItem?.price || undefined,
-      quantity: warehouseItem?.quantity || undefined,
-      weight: warehouseItem?.weight || undefined
+      name: '',
+      warehouseId: '',
+      price: undefined,
+      quantity: undefined,
+      weight: undefined
     }
   });
 
@@ -67,22 +72,18 @@ const CreateWarehouseItemModal = ({
     data: warehouses,
     isLoading,
     error
-  } = useGetAllWarehouses({
-    pageNumber: 1,
-    pageSize: 10
-  });
+  } = useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
 
   const { mutate: createWarehouseItem, isPending } = useCreateWarehouseItem();
 
-  // Update form when warehouseItem changes (switching between create/edit modes)
   useEffect(() => {
     if (warehouseItem) {
       reset({
-        name: warehouseItem.name || '',
-        warehouseId: warehouseItem.warehouseId || '',
-        price: warehouseItem.price || undefined,
-        quantity: warehouseItem.quantity || undefined,
-        weight: warehouseItem.weight || undefined
+        name: warehouseItem.name,
+        warehouseId: warehouseItem.warehouseId,
+        price: warehouseItem.price,
+        quantity: warehouseItem.quantity,
+        weight: warehouseItem.weight
       });
     } else {
       reset({
@@ -97,56 +98,51 @@ const CreateWarehouseItemModal = ({
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const payload: WarehouseItem = {
-      ...(isEditMode && { id: warehouseItem.id }),
+      ...(isEditMode && { id: warehouseItem!.id }),
       name: data.name,
       warehouseId: data.warehouseId,
       price: data.price ?? 0,
       quantity: data.quantity ?? 0,
       weight: data.weight ?? 0
     };
-    console.log(payload);
 
     createWarehouseItem(payload, {
       onSuccess: () => {
-        reset({
-          name: '',
-          warehouseId: '',
-          price: undefined,
-          quantity: undefined,
-          weight: undefined
-        });
+        reset();
         onOpenChange(false);
       }
     });
   };
 
   const handleCancel = () => {
-    reset({
-      name: '',
-      warehouseId: '',
-      price: undefined,
-      quantity: undefined,
-      weight: undefined
-    });
+    reset();
     onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='mx-auto w-full sm:max-w-md md:max-w-md lg:max-w-md xl:max-w-md'>
+      <DialogContent
+        dir={isRTL ? 'rtl' : 'ltr'}
+        className={`mx-auto w-full sm:max-w-md ${
+          isRTL ? 'text-right' : 'text-left'
+        }`}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className='items-center'>
             <DialogTitle className='text-2xl'>
-              {isEditMode ? 'Update Warehouse Item' : 'Create Warehouse Item'}
+              {isEditMode ? t('updateTitle') : t('createTitle')}
             </DialogTitle>
           </DialogHeader>
 
           <div className='mt-4 grid gap-4'>
             <div className='flex flex-col gap-2'>
-              <Label>Name</Label>
+              <Label className='text-start'>{t('name')}</Label>
               <Input
-                placeholder='Item name'
-                {...register('name', { required: 'Name is required' })}
+                className='text-start'
+                placeholder={t('namePlaceholder')}
+                {...register('name', {
+                  required: t('nameRequired')
+                })}
               />
               {errors.name && (
                 <p className='text-sm text-red-500'>{errors.name.message}</p>
@@ -154,28 +150,25 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>Warehouse</Label>
+              <Label className='text-start'>{t('warehouse')}</Label>
+
               {isLoading ? (
-                <p>Loading...</p>
+                <p className='text-sm'>{t('loadingWarehouses')}</p>
               ) : error ? (
                 <p className='text-sm text-red-500'>
-                  Error fetching warehouses.
+                  {t('fetchWarehouseError')}
                 </p>
               ) : (
                 <Controller
                   name='warehouseId'
                   control={control}
-                  rules={{ required: 'Warehouse is required' }}
+                  rules={{ required: t('warehouseRequired') }}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='Select Warehouse' />
+                      <SelectTrigger className='w-full text-start'>
+                        <SelectValue placeholder={t('selectWarehouse')} />
                       </SelectTrigger>
-                      <SelectContent
-                        position='popper'
-                        sideOffset={4}
-                        className='max-h-52 overflow-y-auto'
-                      >
+                      <SelectContent className='max-h-52 overflow-y-auto text-start'>
                         {warehouses?.data?.map((warehouse) => (
                           <SelectItem key={warehouse.id} value={warehouse.id}>
                             {warehouse.name}
@@ -186,6 +179,7 @@ const CreateWarehouseItemModal = ({
                   )}
                 />
               )}
+
               {errors.warehouseId && (
                 <p className='text-sm text-red-500'>
                   {errors.warehouseId.message}
@@ -194,13 +188,14 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>Price</Label>
+              <Label className='text-start'>{t('price')}</Label>
               <Input
                 type='number'
+                className='text-start'
                 {...register('price', {
-                  required: 'Price is required',
+                  required: t('priceRequired'),
                   valueAsNumber: true,
-                  min: { value: 1, message: 'Price must be greater than 0' }
+                  min: { value: 1, message: t('priceMin') }
                 })}
               />
               {errors.price && (
@@ -209,13 +204,14 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>Quantity</Label>
+              <Label className='text-start'>{t('quantity')}</Label>
               <Input
                 type='number'
+                className='text-start'
                 {...register('quantity', {
-                  required: 'Quantity is required',
+                  required: t('quantityRequired'),
                   valueAsNumber: true,
-                  min: { value: 1, message: 'Quantity must be greater than 0' }
+                  min: { value: 1, message: t('quantityMin') }
                 })}
               />
               {errors.quantity && (
@@ -226,13 +222,14 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>Weight</Label>
+              <Label className='text-start'>{t('weight')}</Label>
               <Input
                 type='number'
+                className='text-start'
                 {...register('weight', {
-                  required: 'Weight is required',
+                  required: t('weightRequired'),
                   valueAsNumber: true,
-                  min: { value: 0.1, message: 'Weight must be greater than 0' }
+                  min: { value: 0.1, message: t('weightMin') }
                 })}
               />
               {errors.weight && (
@@ -241,24 +238,30 @@ const CreateWarehouseItemModal = ({
             </div>
           </div>
 
-          <DialogFooter className='mt-4 flex justify-end gap-2'>
+          <DialogFooter
+            className={`mt-4 flex gap-2 ${
+              isRTL ? 'flex-row-reverse justify-start' : 'justify-end'
+            }`}
+          >
             <DialogClose asChild>
               <Button
+                type='button'
                 variant='outline'
                 onClick={handleCancel}
                 disabled={isPending}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </DialogClose>
+
             <Button type='submit' disabled={isPending}>
               {isPending
                 ? isEditMode
-                  ? 'Updating...'
-                  : 'Creating...'
+                  ? t('updating')
+                  : t('creating')
                 : isEditMode
-                  ? 'Update'
-                  : 'Create'}
+                  ? t('update')
+                  : t('create')}
             </Button>
           </DialogFooter>
         </form>

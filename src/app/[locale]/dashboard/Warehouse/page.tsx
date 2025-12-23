@@ -23,15 +23,15 @@ export default function WarehousePage() {
   );
 
   const [pageNumber, setPageNumber] = useState(1);
-  const pageSize = 5;
+  const pageSize = 10;
   const { data, isLoading } = useGetAllWarehouses({ pageNumber, pageSize });
 
   return (
     <>
       <div className='px-2'>
         <HeaderHero
-          componentName={t('Warehouse')}
-          buttonName={t('Create Warehouse')}
+          componentName='warehouseTitle'
+          buttonName='createWarehouse'
           handleButton={setCreateOpen}
         />
         {isLoading ? (

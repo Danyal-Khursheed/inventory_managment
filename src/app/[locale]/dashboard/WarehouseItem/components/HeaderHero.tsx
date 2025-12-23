@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { HeroHeaderProps } from '../types/types';
+import { HeroHeaderProps } from '../../Warehouse/types/types';
 
 const HeaderHero: FC<HeroHeaderProps> = ({
   handleButton,

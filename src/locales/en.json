@@ -110,8 +110,10 @@
     "cancel": "Cancel"
   },
   "headerHero": {
-    "componentName": "Warehouse",
-    "buttonName": "Create New"
+    "warehouseTitle": "Warehouse",
+    "createWarehouse": "Create Warehouse",
+    "warehouseItemTitle": "Warehouse Items",
+    "createWarehouseItem": "Create Warehouse Item"
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",
@@ -141,6 +143,56 @@
     "updateError": "Failed to update warehouse",
     "deleteSuccess": "Warehouse deleted successfully",
     "deleteError": "Failed to delete warehouse"
+  },
+  "WarehouseItemModal": {
+    "createTitle": "Create Warehouse Item",
+    "updateTitle": "Update Warehouse Item",
+
+    "name": "Name",
+    "namePlaceholder": "Item name",
+    "nameRequired": "Name is required",
+
+    "warehouse": "Warehouse",
+    "selectWarehouse": "Select Warehouse",
+    "warehouseRequired": "Warehouse is required",
+    "loadingWarehouses": "Loading...",
+    "fetchWarehouseError": "Error fetching warehouses.",
+
+    "price": "Price",
+    "priceRequired": "Price is required",
+    "priceMin": "Price must be greater than 0",
+
+    "quantity": "Quantity",
+    "quantityRequired": "Quantity is required",
+    "quantityMin": "Quantity must be greater than 0",
+
+    "weight": "Weight",
+    "weightRequired": "Weight is required",
+    "weightMin": "Weight must be greater than 0",
+
+    "cancel": "Cancel",
+    "create": "Create",
+    "creating": "Creating...",
+    "update": "Update",
+    "updating": "Updating..."
+  },
+    "DeleteWarehouseItemModal": {
+    "title": "Delete Warehouse Item",
+    "confirmation": "Are you sure you want to delete",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+    "WarehouseItemTable": {
+    "sNo": "S No",
+    "name": "Name",
+    "price": "Price",
+    "quantity": "Quantity",
+    "weight": "Weight",
+    "warehouseName": "Warehouse Name",
+    "actions": "Actions",
+    "updateItem": "Update Item",
+    "deleteItem": "Delete Item"
   }
 }
 
