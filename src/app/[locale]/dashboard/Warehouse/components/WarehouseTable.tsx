@@ -72,10 +72,11 @@ const WarehouseTable = ({
                 <TooltipTrigger asChild>
                   <Button
                     size='sm'
-                    variant='outline'
+                    variant='ghost'
+                    className='cursor-pointer'
                     onClick={() => onUpdate(w)}
                   >
-                    <Edit size={16} />
+                    <Edit color='blue' size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{t('updateWarehouse')}</TooltipContent>
@@ -85,10 +86,11 @@ const WarehouseTable = ({
                 <TooltipTrigger asChild>
                   <Button
                     size='sm'
-                    variant='destructive'
+                    variant='ghost'
+                    className='cursor-pointer'
                     onClick={() => onDelete(w)}
                   >
-                    <Trash2 size={16} />
+                    <Trash2 color='darkred' size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
