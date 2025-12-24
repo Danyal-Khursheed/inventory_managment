@@ -87,7 +87,7 @@ const CreateNewWarehousePopUp = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         dir={isRTL ? 'rtl' : 'ltr'}
-        className='mx-auto max-h-[90vh] w-md max-w-md overflow-y-auto'
+        className='max-h-[90vh] w-[95%] max-w-md overflow-y-auto sm:mx-auto sm:w-[90%] sm:max-w-md md:w-md lg:w-lg'
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className='items-center'>
@@ -95,8 +95,8 @@ const CreateNewWarehousePopUp = ({
             <DialogDescription>{t('createDescription')}</DialogDescription>
           </DialogHeader>
 
-          <div className='mt-4 grid gap-4'>
-            <div className='flex flex-col gap-2'>
+          <div className='mt-4 grid gap-4 sm:grid-cols-2'>
+            <div className='flex w-full flex-col gap-2'>
               <Label>{t('name')}</Label>
               <Input
                 placeholder={t('namePlaceholder')}
@@ -109,7 +109,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex flex-col gap-2'>
+            <div className='flex w-full flex-col gap-2'>
               <Label>{t('country')}</Label>
               <Controller
                 name='country'
@@ -127,32 +127,30 @@ const CreateNewWarehousePopUp = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
-                    <div className='relative'>
-                      <SelectContent className='max-h-60 overflow-y-auto'>
-                        <div className='sticky top-0 z-10 bg-white p-2'>
-                          <Input
-                            placeholder={t('searchCountry')}
-                            value={countrySearch}
-                            onChange={(e) => setCountrySearch(e.target.value)}
-                            className='w-full'
-                          />
+                    <SelectContent className='max-h-60 overflow-y-auto'>
+                      <div className='sticky top-0 z-10 bg-white p-2'>
+                        <Input
+                          placeholder={t('searchCountry')}
+                          value={countrySearch}
+                          onChange={(e) => setCountrySearch(e.target.value)}
+                          className='w-full'
+                        />
+                      </div>
+                      {filteredCountries.length > 0 ? (
+                        filteredCountries.map((country) => (
+                          <SelectItem
+                            key={country.isoCode}
+                            value={country.isoCode}
+                          >
+                            {country.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className='p-2 text-gray-500'>
+                          {t('noCountriesFound')}
                         </div>
-                        {filteredCountries.length > 0 ? (
-                          filteredCountries.map((country) => (
-                            <SelectItem
-                              key={country.isoCode}
-                              value={country.isoCode}
-                            >
-                              {country.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <div className='p-2 text-gray-500'>
-                            {t('noCountriesFound')}
-                          </div>
-                        )}
-                      </SelectContent>
-                    </div>
+                      )}
+                    </SelectContent>
                   </Select>
                 )}
               />
@@ -161,7 +159,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex flex-col gap-2'>
+            <div className='flex w-full flex-col gap-2'>
               <Label>{t('city')}</Label>
               <Controller
                 name='city'
@@ -176,30 +174,28 @@ const CreateNewWarehousePopUp = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCity')} />
                     </SelectTrigger>
-                    <div className='relative'>
-                      <SelectContent className='max-h-60 overflow-y-auto'>
-                        <div className='sticky top-0 z-10 bg-white p-2'>
-                          <Input
-                            placeholder={t('searchCity')}
-                            value={citySearch}
-                            onChange={(e) => setCitySearch(e.target.value)}
-                            className='w-full'
-                            disabled={!selectedCountry}
-                          />
+                    <SelectContent className='max-h-60 overflow-y-auto'>
+                      <div className='sticky top-0 z-10 bg-white p-2'>
+                        <Input
+                          placeholder={t('searchCity')}
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          className='w-full'
+                          disabled={!selectedCountry}
+                        />
+                      </div>
+                      {filteredCities.length > 0 ? (
+                        filteredCities.map((city) => (
+                          <SelectItem key={city.name} value={city.name}>
+                            {city.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className='p-2 text-gray-500'>
+                          {t('noCitiesFound')}
                         </div>
-                        {filteredCities.length > 0 ? (
-                          filteredCities.map((city) => (
-                            <SelectItem key={city.name} value={city.name}>
-                              {city.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <div className='p-2 text-gray-500'>
-                            {t('noCitiesFound')}
-                          </div>
-                        )}
-                      </SelectContent>
-                    </div>
+                      )}
+                    </SelectContent>
                   </Select>
                 )}
               />
@@ -208,7 +204,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex flex-col gap-2'>
+            <div className='flex w-full flex-col gap-2 sm:col-span-2'>
               <Label>{t('address')}</Label>
               <Input
                 placeholder={t('addressPlaceholder')}
@@ -222,11 +218,20 @@ const CreateNewWarehousePopUp = ({
             </div>
           </div>
 
-          <DialogFooter className='mt-4 flex justify-end gap-2'>
+          <DialogFooter className='mt-4 flex flex-col justify-end gap-2 sm:flex-row'>
             <DialogClose asChild>
-              <Button variant='outline'>{t('cancel')}</Button>
+              <Button
+                variant='outline'
+                className='w-full cursor-pointer sm:w-auto'
+              >
+                {t('cancel')}
+              </Button>
             </DialogClose>
-            <Button type='submit' disabled={isPending}>
+            <Button
+              type='submit'
+              disabled={isPending}
+              className='w-full cursor-pointer sm:w-auto'
+            >
               {isPending ? t('creating') : t('create')}
             </Button>
           </DialogFooter>

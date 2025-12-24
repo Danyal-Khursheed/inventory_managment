@@ -109,7 +109,7 @@ export const UpdateWarehouseModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         dir={isRTL ? 'rtl' : 'ltr'}
-        className='mx-auto max-h-[90vh] w-md max-w-md overflow-y-auto'
+        className='max-h-[90vh] w-[95%] max-w-md overflow-y-auto sm:w-[95%] sm:max-w-md md:w-md lg:w-lg'
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
@@ -118,7 +118,6 @@ export const UpdateWarehouseModal = ({
           </DialogHeader>
 
           <div className='mt-4 grid gap-4'>
-            {/* NAME */}
             <div className='flex flex-col gap-2'>
               <Label>{t('name')}</Label>
               <Input
@@ -130,7 +129,6 @@ export const UpdateWarehouseModal = ({
               )}
             </div>
 
-            {/* COUNTRY */}
             <div className='flex flex-col gap-2'>
               <Label>{t('country')}</Label>
               <Controller
@@ -183,7 +181,6 @@ export const UpdateWarehouseModal = ({
               )}
             </div>
 
-            {/* CITY */}
             <div className='flex flex-col gap-2'>
               <Label>{t('city')}</Label>
               <Controller
@@ -231,7 +228,6 @@ export const UpdateWarehouseModal = ({
               )}
             </div>
 
-            {/* ADDRESS */}
             <div className='flex flex-col gap-2'>
               <Label>{t('address')}</Label>
               <Input

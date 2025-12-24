@@ -46,3 +46,10 @@ export interface WarehousesResponse {
   data: Warehouse[];
   totalCount: number;
 }
+
+export interface HeroHeaderProps {
+  handleButton: (open: boolean) => void;
+  componentName: string;
+  buttonName: string;
+  onCSVSuccess?: () => void; // ✅ added optional CSV callback
+}

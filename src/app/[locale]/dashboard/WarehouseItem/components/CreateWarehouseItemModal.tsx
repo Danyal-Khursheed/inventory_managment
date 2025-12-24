@@ -247,6 +247,7 @@ const CreateWarehouseItemModal = ({
               <Button
                 type='button'
                 variant='outline'
+                className='cursor-pointer'
                 onClick={handleCancel}
                 disabled={isPending}
               >
@@ -254,7 +255,11 @@ const CreateWarehouseItemModal = ({
               </Button>
             </DialogClose>
 
-            <Button type='submit' disabled={isPending}>
+            <Button
+              type='submit'
+              className='cursor-pointer'
+              disabled={isPending}
+            >
               {isPending
                 ? isEditMode
                   ? t('updating')
