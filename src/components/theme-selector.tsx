@@ -11,9 +11,9 @@ import { IconPalette } from '@tabler/icons-react';
 import * as React from 'react';
 
 const THEMES = [
-  { label: 'Default', value: 'default' },
+  { label: 'Default', value: 'green' },
   { label: 'Blue', value: 'blue' },
-  { label: 'Green', value: 'green' },
+  { label: 'Gray', value: 'gray' },
   { label: 'Amber', value: 'amber' },
   { label: 'Default Scaled', value: 'default-scaled' },
   { label: 'Blue Scaled', value: 'blue-scaled' },

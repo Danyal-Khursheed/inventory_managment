@@ -40,7 +40,7 @@ const WarehouseTable = ({
       className='overflow-x-auto rounded-md border shadow-sm'
     >
       <div className='h-full min-w-[700px] overflow-x-auto'>
-        <div className='flex bg-gray-100 font-semibold'>
+        <div className='flex font-semibold'>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('sNo')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('name')}</div>
           <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
@@ -56,7 +56,7 @@ const WarehouseTable = ({
         {warehouses.map((w, idx) => (
           <div
             key={w.id}
-            className={`flex ${idx % 2 === 0 ? 'bg-white dark:bg-black' : 'bg-gray-50 dark:bg-black/10'} hover:bg-gray-100`}
+            className={`flex ${idx % 2 !== 0 ? 'bg-white dark:bg-black' : 'bg-gray-50 dark:bg-gray-800'} hover:bg-gray-100`}
           >
             <div className='flex-1 px-4 py-2'>
               {pageSize * (currentPage - 1) + (idx + 1)}

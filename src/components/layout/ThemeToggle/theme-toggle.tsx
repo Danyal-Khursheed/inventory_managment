@@ -52,16 +52,16 @@ export function ModeToggle() {
     <div className='flex items-center gap-3'>
       <Button
         onClick={handleLanguageSwitch}
-        variant='secondary'
+        variant='ghost'
         size='icon'
-        className='hover:bg-accent-light dark:hover:bg-accent-dark hover:text-accent-foreground flex transform items-center justify-center rounded-lg bg-red-500 p-3 transition-colors duration-200 ease-in-out'
+        className='bg-primary/80 hover:bg-primary w-16 font-semibold text-white transition-colors duration-200 ease-in-out hover:text-white'
         disabled={loading}
       >
         {loading ? (
           <Spinner className='h-4 w-4' />
         ) : (
           <span className='text-md'>
-            {currentLocale === 'en' ? 'Ar' : 'En'}
+            {currentLocale === 'en' ? 'العربية' : 'Eng'}
           </span>
         )}
       </Button>

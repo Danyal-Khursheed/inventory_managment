@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash, Trash2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
@@ -44,9 +44,7 @@ const WarehouseItemTable = ({
     >
       <div className='h-full min-w-[700px]'>
         <div
-          className={`flex bg-gray-100 font-semibold ${
-            isRTL ? 'text-right' : 'text-left'
-          }`}
+          className={`flex font-semibold ${isRTL ? 'text-right' : 'text-left'} `}
         >
           <div className='flex-1 px-4 py-2'>{t('sNo')}</div>
           <div className='flex-1 px-4 py-2'>{t('name')}</div>
@@ -60,9 +58,7 @@ const WarehouseItemTable = ({
         {warehouseItems.map((item, idx) => (
           <div
             key={`${item.warehouseId}-${idx}`}
-            className={`flex ${
-              idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-            } hover:bg-gray-100`}
+            className={`flex ${idx % 2 !== 0 ? 'bg-white dark:bg-black' : 'bg-gray-50 dark:bg-gray-800'} hover:bg-gray-100`}
           >
             <div className='flex-1 px-4 py-2'>
               {pageSize * (currentPage - 1) + (idx + 1)}
@@ -82,10 +78,11 @@ const WarehouseItemTable = ({
                 <TooltipTrigger asChild>
                   <Button
                     size='sm'
-                    variant='outline'
+                    variant='ghost'
+                    className='cursor-pointer'
                     onClick={() => onUpdate(item)}
                   >
-                    <Edit size={16} />
+                    <Edit color='blue' size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{t('updateItem')}</TooltipContent>
@@ -95,10 +92,11 @@ const WarehouseItemTable = ({
                 <TooltipTrigger asChild>
                   <Button
                     size='sm'
-                    variant='destructive'
+                    variant='ghost'
                     onClick={() => onDelete(item)}
+                    className='cursor-pointer'
                   >
-                    <Trash2 size={16} />
+                    <Trash2 color='darkred' size={16} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>{t('deleteItem')}</TooltipContent>

@@ -60,16 +60,19 @@ export default function AppSidebar() {
 
   return (
     <Sidebar side={locale === 'ar' ? 'right' : 'left'}>
-      <SidebarHeader>
+      <SidebarHeader className='bg-primary/5'>
         <OrgSwitcher defaultTenant={activeTenant} />
       </SidebarHeader>
 
-      <SidebarContent className='overflow-x-hidden'>
+      <SidebarContent className='bg-primary/5 overflow-x-hidden'>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarMenu>
+          <SidebarMenu className=''>
             {navItems.map((item) => {
               const Icon = item.icon ? Icons[item.icon] : Icons.logo;
+              const trimmedPathname = pathname.slice(3);
+              const isActive = trimmedPathname === item.url;
+
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible
                   key={item.title}
@@ -111,11 +114,12 @@ export default function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
+                    className={`${isActive ? 'bg-primary/80 text-white' : 'bg-transparent'} hover:bg-primary/80 hover:text-white`}
                     isActive={pathname === item.url}
                   >
                     <Link href={item.url}>
-                      <Icon />
-                      <span>{item.title}</span>
+                      <Icon size={20} />
+                      <span className='text-[16px]'>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -125,7 +129,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter className='bg-primary/5'>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
