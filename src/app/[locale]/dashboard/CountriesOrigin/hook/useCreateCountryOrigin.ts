@@ -10,15 +10,15 @@ export const useCreateCountryOrigin = () => {
 
   return useMutation({
     mutationFn: (payload: Partial<CountryOrigin>) =>
-      countryOriginService.create(payload), // Call the API service to create the country
+      countryOriginService.create(payload),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['country-origin'] }); // Invalidate queries on success
-      toast.success(t('createSuccess')); // Display success toast message
+      queryClient.invalidateQueries({ queryKey: ['country-origin'] });
+      toast.success(t('createSuccess'));
     },
 
     onError: (error: any) => {
-      toast.error(error?.message || t('createError')); // Display error toast message
+      toast.error(error?.message || t('createError'));
     }
   });
 };

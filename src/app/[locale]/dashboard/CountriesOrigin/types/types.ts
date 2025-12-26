@@ -19,3 +19,17 @@ export interface CountryOrigin {
   phoneCode: string;
   mobileNo: string;
 }
+
+export interface FormValues {
+  companyName: string;
+  addressNick: string;
+  addressLine1: string;
+  cityName: string;
+  countryName: string;
+  countryCode: string;
+  zipCode: string;
+  latitude: string;
+  longitude: string;
+  phoneCode: string;
+  mobileNo: string;
+}

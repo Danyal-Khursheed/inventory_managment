@@ -13,26 +13,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLocale, useTranslations } from 'next-intl';
+import { FormValues } from '../types/types';
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: FormValues) => void;
   loading?: boolean;
-}
-
-export interface FormValues {
-  companyName: string;
-  addressNick: string;
-  addressLine1: string;
-  cityName: string;
-  countryName: string;
-  countryCode: string;
-  zipCode: string;
-  latitude: string;
-  longitude: string;
-  phoneCode: string;
-  mobileNo: string;
 }
 
 const CreateCountryRegionModal = ({
