@@ -8,6 +8,14 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table';
 import TablePagination from '@/components/pagination/TablePagination';
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -40,64 +48,74 @@ const WarehouseTable = ({
       className='overflow-x-auto rounded-md border shadow-sm'
     >
       <div className='h-full min-w-[700px] overflow-x-auto'>
-        <div className='flex font-semibold'>
-          <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('sNo')}</div>
-          <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('name')}</div>
-          <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
-            {t('address')}
-          </div>
-          <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>{t('city')}</div>
-          <div className='flex-1 px-4 py-2 text-xs sm:text-sm'>
-            {t('country')}
-          </div>
-          <div className='flex-1 px-4 py-2 text-end'>{t('actions')}</div>
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow className='font-semibold'>
+              <TableHead className='text-xs sm:text-sm'>{t('sNo')}</TableHead>
+              <TableHead className='text-xs sm:text-sm'>{t('name')}</TableHead>
+              <TableHead className='text-xs sm:text-sm'>
+                {t('address')}
+              </TableHead>
+              <TableHead className='text-xs sm:text-sm'>{t('city')}</TableHead>
+              <TableHead className='text-xs sm:text-sm'>
+                {t('country')}
+              </TableHead>
+              <TableHead className='text-end text-xs sm:text-sm'>
+                {t('actions')}
+              </TableHead>
+            </TableRow>
+          </TableHeader>
 
-        {warehouses.map((w, idx) => (
-          <div
-            key={w.id}
-            className={`flex ${idx % 2 !== 0 ? 'bg-white dark:bg-black' : 'bg-gray-50 dark:bg-gray-800'} hover:bg-gray-100`}
-          >
-            <div className='flex-1 px-4 py-2'>
-              {pageSize * (currentPage - 1) + (idx + 1)}
-            </div>
-            <div className='flex-1 truncate px-4 py-2 font-medium'>
-              {w.name}
-            </div>
-            <div className='flex-1 truncate px-4 py-2'>{w.address}</div>
-            <div className='flex-1 px-4 py-2'>{w.city}</div>
-            <div className='flex-1 px-4 py-2'>{w.country}</div>
-            <div className='flex flex-1 justify-end gap-2 px-4 py-2'>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size='sm'
-                    variant='ghost'
-                    className='cursor-pointer'
-                    onClick={() => onUpdate(w)}
-                  >
-                    <Edit color='blue' size={16} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{t('updateWarehouse')}</TooltipContent>
-              </Tooltip>
+          <TableBody>
+            {warehouses.map((w, idx) => (
+              <TableRow
+                key={w.id}
+                className={`${
+                  idx % 2 !== 0
+                    ? 'bg-white dark:bg-black'
+                    : 'bg-gray-50 dark:bg-gray-800'
+                } hover:bg-gray-100`}
+              >
+                <TableCell>
+                  {pageSize * (currentPage - 1) + (idx + 1)}
+                </TableCell>
+                <TableCell className='font-medium'>{w.name}</TableCell>
+                <TableCell>{w.address}</TableCell>
+                <TableCell>{w.city}</TableCell>
+                <TableCell>{w.country}</TableCell>
+                <TableCell className='text-end'>
+                  <div className='flex justify-end gap-2'>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size='sm'
+                          variant='ghost'
+                          onClick={() => onUpdate(w)}
+                        >
+                          <Edit color='blue' size={16} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>{t('updateWarehouse')}</TooltipContent>
+                    </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size='sm'
-                    variant='ghost'
-                    className='cursor-pointer'
-                    onClick={() => onDelete(w)}
-                  >
-                    <Trash2 color='darkred' size={16} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
-              </Tooltip>
-            </div>
-          </div>
-        ))}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size='sm'
+                          variant='ghost'
+                          onClick={() => onDelete(w)}
+                        >
+                          <Trash2 color='darkred' size={16} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
+                    </Tooltip>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
 
         <div className='mx-4 mt-4'>
           <TablePagination

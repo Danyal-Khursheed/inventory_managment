@@ -113,7 +113,9 @@
     "warehouseTitle": "Warehouse",
     "createWarehouse": "Create Warehouse",
     "warehouseItemTitle": "Warehouse Items",
-    "createWarehouseItem": "Create Warehouse Item"
+    "createWarehouseItem": "Create Warehouse Item",
+    "CountryTitle": "Countries Origin",
+    "CountryNewCountry": "Create Country Origin"
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",
@@ -193,8 +195,55 @@
     "actions": "Actions",
     "updateItem": "Update Item",
     "deleteItem": "Delete Item"
+  },
+  "CountryRegionForm": {
+    "title": "Create Country Region",
+    "companyName": "Company Name",
+    "addressNick": "Address Nickname",
+    "addressLine1": "Address Line 1",
+    "cityName": "City Name",
+    "countryName": "Country Name",
+    "countryCode": "Country Code",
+    "zipCode": "Zip Code",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "phoneCode": "Phone Code",
+    "mobileNo": "Mobile Number",
+    "errors": {
+      "required": "{field} is required",
+      "min": "{field} must be at least {count} characters long",
+      "max": "{field} cannot exceed {count} characters",
+      "invalidZip": "Please enter a valid zip code",
+      "lat": "Latitude must be between -90 and 90",
+      "lng": "Longitude must be between -180 and 180",
+      "invalidPhoneCode": "Please enter a valid phone code",
+      "invalidMobile": "Please enter a valid mobile number",
+      "latMin": "Latitude must be between -90 and 90.",
+    "latMax": "Latitude must be between -90 and 90.",
+    "invalidLatitude": "Invalid latitude format.",
+    "lngMin": "Longitude must be between -180 and 180.",
+    "lngMax": "Longitude must be between -180 and 180.",
+    "invalidLongitude": "Invalid longitude format."
+    },
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "loading": "Loading..."
+  },
+   "CountryRegionTable": {
+    "sNo": "S.No",
+    "companyName": "Company Name",
+    "addressNick": "Address Nick",
+    "addressLine1": "Address Line 1",
+    "cityName": "City",
+    "countryName": "Country",
+    "countryCode": "Country Code",
+    "zipCode": "Zip Code",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "phoneCode": "Phone Code",
+    "mobileNo": "Mobile No"
   }
-}
+  }
 
 
 

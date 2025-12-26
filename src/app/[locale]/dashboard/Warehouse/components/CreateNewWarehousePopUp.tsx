@@ -95,7 +95,7 @@ const CreateNewWarehousePopUp = ({
             <DialogDescription>{t('createDescription')}</DialogDescription>
           </DialogHeader>
 
-          <div className='mt-4 grid gap-4 sm:grid-cols-2'>
+          <div className='mt-4'>
             <div className='flex w-full flex-col gap-2'>
               <Label>{t('name')}</Label>
               <Input
@@ -109,7 +109,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex w-full flex-col gap-2'>
+            <div className='mt-4 flex w-full flex-col gap-2'>
               <Label>{t('country')}</Label>
               <Controller
                 name='country'
@@ -159,7 +159,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex w-full flex-col gap-2'>
+            <div className='mt-4 flex w-full flex-col gap-2'>
               <Label>{t('city')}</Label>
               <Controller
                 name='city'
@@ -204,7 +204,7 @@ const CreateNewWarehousePopUp = ({
               )}
             </div>
 
-            <div className='flex w-full flex-col gap-2 sm:col-span-2'>
+            <div className='mt-4 flex w-full flex-col gap-2'>
               <Label>{t('address')}</Label>
               <Input
                 placeholder={t('addressPlaceholder')}
