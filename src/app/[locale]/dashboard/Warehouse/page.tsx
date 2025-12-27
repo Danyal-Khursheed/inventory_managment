@@ -32,7 +32,6 @@ export default function WarehousePage() {
         componentName='warehouseTitle'
         buttonName='createWarehouse'
         handleButton={setCreateOpen}
-        onCSVSuccess={refetch}
       />
       {isLoading ? (
         <SkeletonTable />

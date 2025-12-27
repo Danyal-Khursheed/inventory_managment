@@ -4,13 +4,11 @@ import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 import { HeroHeaderProps } from '../types/types';
 import { useLocale, useTranslations } from 'next-intl';
-import ImportWarehouseCSV from './ImportWarehouseCSV';
 
 const HeaderHero: FC<HeroHeaderProps> = ({
   handleButton,
   componentName,
-  buttonName,
-  onCSVSuccess
+  buttonName
 }) => {
   const locale = useLocale();
   const isRTL = locale === 'ar';
@@ -28,7 +26,6 @@ const HeaderHero: FC<HeroHeaderProps> = ({
         </h1>
 
         <div className='flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center'>
-          {onCSVSuccess && <ImportWarehouseCSV onSuccess={onCSVSuccess} />}
           <Button
             className='w-full cursor-pointer sm:w-auto'
             onClick={() => handleButton(true)}

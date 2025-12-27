@@ -4,11 +4,10 @@ import { useState } from 'react';
 import WarehouseItemTable from './components/WarehouseItemTable';
 import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
 import DeleteWarehouseItemModal from './components/DeleteWarehouseItemModal';
-import HeaderHero from '../Warehouse/components/HeaderHero';
+import HeaderHero from '../WarehouseItem/components/HeaderHero';
 import { useGetAllWarehouseItems } from './hooks/useGetAllWarehouseItems';
 import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
-import { log } from 'console';
 
 export default function Page() {
   const [selectedItem, setSelectedItem] = useState<WarehouseItem | null>(null);
@@ -17,7 +16,7 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  const { data, isLoading, error } = useGetAllWarehouseItems({
+  const { data, isLoading, error, refetch } = useGetAllWarehouseItems({
     pageNumber: currentPage,
     pageSize
   });
@@ -53,6 +52,7 @@ export default function Page() {
         componentName='warehouseItemTitle'
         buttonName='createWarehouseItem'
         handleButton={handleCreate}
+        onCSVSuccess={refetch}
       />
 
       {isLoading ? (
