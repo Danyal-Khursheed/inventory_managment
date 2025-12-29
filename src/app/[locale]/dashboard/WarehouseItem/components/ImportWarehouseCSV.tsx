@@ -178,7 +178,7 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
         }}
       />
       <Button
-        variant='outline'
+        className='bg-primary w-full'
         disabled={loading}
         onClick={() => document.getElementById('warehouse-csv')?.click()}
       >

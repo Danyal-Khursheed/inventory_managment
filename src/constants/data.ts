@@ -25,5 +25,21 @@ export const navItems: NavItem[] = [
     isActive: false,
     shortcut: ['e', 'e'],
     items: []
+  },
+  {
+    title: 'PickupAddress',
+    url: '/dashboard/PickupAddress',
+    icon: 'IconMapPin',
+    isActive: false,
+    shortcut: ['e', 'e'],
+    items: []
+  },
+  {
+    title: 'ShippingCompany',
+    url: '/dashboard/ShippingCompany',
+    icon: 'IconTruck',
+    isActive: false,
+    shortcut: ['e', 'e'],
+    items: []
   }
 ];

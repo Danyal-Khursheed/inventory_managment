@@ -1,0 +1,38 @@
+import api from '@/lib/api';
+
+export interface ShippingCompany {
+  id?: string;
+  serviceName: string;
+  serviceType: string;
+  [key: string]: any;
+}
+
+export interface ShippingCompaniesResponse {
+  data: ShippingCompany[];
+  totalCount: number;
+}
+
+export const shippingCompanyService = {
+  getAll: async (
+    pageNumber = 1,
+    pageSize = 10
+  ): Promise<ShippingCompaniesResponse> => {
+    const { data } = await api.get<ShippingCompaniesResponse>(
+      '/shipping-companies/get-all-shipping-companies?pageNumber=1&pageSize=10',
+      {
+        params: { pageNumber, pageSize }
+      }
+    );
+    return data;
+  },
+
+  create: async (
+    companyData: Partial<ShippingCompany>
+  ): Promise<ShippingCompany> => {
+    const { data } = await api.post<ShippingCompany>(
+      'shipping-companies/create-shipping-company',
+      companyData
+    );
+    return data;
+  }
+};

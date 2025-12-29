@@ -118,7 +118,11 @@
     "warehouseItemTitle": "عناصر المستودع",
     "createWarehouseItem": "إنشاء عنصر مستودع",
     "CountryTitle": "بلدان المنشأ",
-    "CountryNewCountry": "إنشاء أصل البلد"
+    "CountryNewCountry": "إنشاء أصل البلد",
+    "PickupAddress":"عنوان الالتقاط",
+    "Create PickUp":"إنشاء بيك اب",
+    "ShippingCompany":"شركة ملاحة",
+    "NewShippingCompany":"شركة شحن جديدة"
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",
@@ -244,7 +248,94 @@
     "latitude": "خط العرض",
     "longitude": "خط الطول",
     "phoneCode": "رمز الهاتف",
-    "mobileNo": "رقم الهاتف المحمول"
+    "mobileNo": "رقم الهاتف المحمول",
+    "address": "العنوان"
+  },
+  "PickupForm": {
+    "title": "إنشاء عنوان الاستلام",
+
+    "address_nick": "اسم العنوان",
+    "zip_code": "الرمز البريدي",
+    "phone_code": "مفتاح الدولة",
+    "mobile_no": "رقم الجوال",
+    "latitude": "خط العرض",
+    "longitude": "خط الطول",
+    "city_name": "المدينة",
+    "country_name": "الدولة",
+    "country_code": "رمز الدولة",
+    "address": "عنوان",
+
+    "submit": "إنشاء عنوان الاستلام",
+    "cancel": "إلغاء",
+    "loading": "جارٍ الحفظ...",
+
+    "errors": {
+      "address_nick_required": "اسم العنوان مطلوب",
+
+      "city_required": "اسم المدينة مطلوب",
+      "country_required": "اسم الدولة مطلوب",
+
+      "required": "مطلوب",
+
+      "zip_required": "الرمز البريدي مطلوب",
+      "zip_invalid": "يجب أن يكون الرمز البريدي من 3 إلى 10 أرقام",
+
+      "phone_code_required": "مفتاح الدولة مطلوب",
+      "phone_code_invalid": "صيغة مفتاح الدولة غير صحيحة",
+
+      "mobile_required": "رقم الجوال مطلوب",
+      "mobile_invalid": "يجب أن يتكون رقم الجوال من 7 إلى 15 رقمًا",
+
+      "latitude_required": "خط العرض مطلوب",
+      "latitude_invalid": "قيمة خط العرض غير صحيحة",
+
+      "longitude_required": "خط الطول مطلوب",
+      "longitude_invalid": "قيمة خط الطول غير صحيحة",
+
+      "address_required": "العنوان مطلوب"
+    }
+  },
+"PickupTable": {
+  "sNo": "م",
+  "address_nick": "اسم العنوان",
+  "address_line1": "العنوان 1",
+  "address_line2": "العنوان 2",
+  "zip_code": "الرمز البريدي",
+  "phone_code": "رمز الهاتف",
+  "mobile_no": "رقم الجوال",
+  "is_default": "افتراضي",
+  "latitude": "خط العرض",
+  "longitude": "خط الطول",
+  "pickup_data": "بيانات الاستلام",
+  "hash": "هاش",
+  "city_name": "المدينة",
+  "country_name": "الدولة",
+  "country_code": "رمز الدولة",
+  "actions": "الإجراءات",
+  "update": "تحديث",
+  "delete": "حذف"
+},
+   "createService": {
+    "createServiceTitle": "إنشاء خدمة جديدة",
+    "createServiceDescription": "املأ التفاصيل لإنشاء خدمة جديدة.",
+    "serviceName": "اسم الخدمة",
+    "serviceNamePlaceholder": "أدخل اسم الخدمة",
+    "serviceNameRequired": "اسم الخدمة مطلوب",
+    "serviceType": "نوع الخدمة",
+    "selectServiceType": "اختر نوع الخدمة",
+    "serviceTypeRequired": "نوع الخدمة مطلوب",
+    "type1": "النوع 1",
+    "type2": "النوع 2",
+    "type3": "النوع 3",
+    "cancel": "إلغاء",
+    "create": "إنشاء",
+    "newShippingCompany": "شركة شحن جديدة"
+  },
+    "ShippingCompanyTable": {
+    "sNo": "م",
+    "serviceName": "اسم الخدمة",
+    "serviceType": "نوع الخدمة"
   }
+
 }
 
