@@ -116,10 +116,11 @@
     "createWarehouseItem": "Create Warehouse Item",
     "CountryTitle": "Countries Origin",
     "CountryNewCountry": "Create Country Origin",
-    "PickupAddress":"PickupAddress",
+    "Pickup Address":"Pickup Address",
     "Create PickUp":"Create PickUp",
-    "ShippingCompany":"ShippingCompany",
-    "NewShippingCompany":"NewShippingCompany"
+    "Shipping Company":"Shipping Company",
+    "New Shipping Company":"New Shipping Company",
+    "Create Order": "Create Order"
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",

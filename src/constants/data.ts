@@ -11,7 +11,7 @@ export const navItems: NavItem[] = [
     items: []
   },
   {
-    title: 'WarehouseItem',
+    title: 'Warehouse Item',
     url: '/dashboard/WarehouseItem',
     icon: 'warehouse',
     isActive: false,
@@ -19,7 +19,7 @@ export const navItems: NavItem[] = [
     items: []
   },
   {
-    title: 'CountriesOrigin',
+    title: 'Countries Origin',
     url: '/dashboard/CountriesOrigin',
     icon: 'IconWorld',
     isActive: false,
@@ -27,7 +27,7 @@ export const navItems: NavItem[] = [
     items: []
   },
   {
-    title: 'PickupAddress',
+    title: 'Pickup Address',
     url: '/dashboard/PickupAddress',
     icon: 'IconMapPin',
     isActive: false,
@@ -35,9 +35,17 @@ export const navItems: NavItem[] = [
     items: []
   },
   {
-    title: 'ShippingCompany',
+    title: 'Shipping Company',
     url: '/dashboard/ShippingCompany',
     icon: 'IconTruck',
+    isActive: false,
+    shortcut: ['e', 'e'],
+    items: []
+  },
+  {
+    title: 'Order',
+    url: '/dashboard/Order',
+    icon: 'IconShoppingCart',
     isActive: false,
     shortcut: ['e', 'e'],
     items: []

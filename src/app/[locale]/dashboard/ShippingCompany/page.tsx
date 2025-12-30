@@ -24,8 +24,8 @@ const Page = () => {
   return (
     <div className='px-2'>
       <HeaderHero
-        componentName='ShippingCompany'
-        buttonName='NewShippingCompany'
+        componentName='Shipping Company'
+        buttonName='New Shipping Company'
         handleButton={() => setCreateOpen(true)}
       />
 

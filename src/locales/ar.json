@@ -119,10 +119,11 @@
     "createWarehouseItem": "إنشاء عنصر مستودع",
     "CountryTitle": "بلدان المنشأ",
     "CountryNewCountry": "إنشاء أصل البلد",
-    "PickupAddress":"عنوان الالتقاط",
+    "Pickup Address":"عنوان  الالتقاط",
     "Create PickUp":"إنشاء بيك اب",
-    "ShippingCompany":"شركة ملاحة",
-    "NewShippingCompany":"شركة شحن جديدة"
+    "Shipping Company":"شركة  ملاحة",
+    "New Shipping Company":"شركة شحن جديدة",
+    "Create Order": "إنشاء طلب"
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",

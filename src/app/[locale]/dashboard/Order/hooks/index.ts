@@ -1,0 +1,1 @@
+export { useCountryOrigin } from './useGetAllOrigin';

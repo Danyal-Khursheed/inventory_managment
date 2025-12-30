@@ -24,7 +24,7 @@ const Page = () => {
   return (
     <div className='px-2'>
       <HeaderHero
-        componentName='PickupAddress'
+        componentName='Pickup Address'
         buttonName='Create PickUp'
         handleButton={setCreateOpen}
       />
