@@ -13,35 +13,31 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-export interface OriginType {
+export interface PickupType {
   id: string;
-  companyName?: string;
   addressNick?: string;
-  addressLine1?: string;
+  address?: string;
   cityName?: string;
   countryName?: string;
   countryCode?: string;
-  zipCode?: string;
   latitude?: number | string;
   longitude?: number | string;
-  phoneCode?: string;
-  mobileNo?: string;
 }
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  defaultValues: OriginType | null;
-  onSubmit: (data: OriginType) => void;
+  defaultValues: PickupType | null;
+  onSubmit: (data: PickupType) => void;
 }
 
-const EditOriginModal = ({
+const EditPickupModal = ({
   open,
   onOpenChange,
   defaultValues,
   onSubmit
 }: Props) => {
-  const { register, handleSubmit, reset } = useForm<OriginType>();
+  const { register, handleSubmit, reset } = useForm<PickupType>();
 
   useEffect(() => {
     if (open && defaultValues) {
@@ -49,29 +45,25 @@ const EditOriginModal = ({
     }
   }, [open, defaultValues, reset]);
 
-  const onFormSubmit: SubmitHandler<OriginType> = (data) => {
+  const onFormSubmit: SubmitHandler<PickupType> = (data) => {
     onSubmit(data);
   };
 
-  const fields: (keyof OriginType)[] = [
-    'companyName',
+  const fields: (keyof PickupType)[] = [
     'addressNick',
-    'addressLine1',
+    'address',
     'cityName',
     'countryName',
     'countryCode',
-    'zipCode',
     'latitude',
-    'longitude',
-    'phoneCode',
-    'mobileNo'
+    'longitude'
   ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-h-[90vh] w-[95vw] max-w-2xl overflow-y-auto rounded-xl px-4 sm:px-6'>
         <DialogHeader>
-          <DialogTitle className='text-lg sm:text-xl'>Edit Origin</DialogTitle>
+          <DialogTitle className='text-lg sm:text-xl'>Edit Pickup</DialogTitle>
         </DialogHeader>
 
         <form
@@ -105,4 +97,4 @@ const EditOriginModal = ({
   );
 };
 
-export default EditOriginModal;
+export default EditPickupModal;

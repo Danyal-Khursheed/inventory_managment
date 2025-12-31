@@ -41,7 +41,7 @@ const OriginCard: React.FC = () => {
     <>
       <Card>
         <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle>Origin</CardTitle>
+          <CardTitle className='text-xl'>Origin</CardTitle>
           <Edit
             size={20}
             className='cursor-pointer'
@@ -53,9 +53,9 @@ const OriginCard: React.FC = () => {
           {originName && <p className='font-medium'>{originName}</p>}
 
           {isLoading ? (
-            <p>
+            <div>
               <Spinner />
-            </p>
+            </div>
           ) : (
             <Select
               onValueChange={(id: string) => {
