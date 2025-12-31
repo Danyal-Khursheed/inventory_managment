@@ -52,7 +52,6 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
           onSubmit={handleSubmit(onFormSubmit)}
           className='grid grid-cols-1 gap-4 sm:grid-cols-2'
         >
-          {/* Name */}
           <div className='flex flex-col gap-2'>
             <Label>Name</Label>
             <Input {...register('name', { required: 'Name is required' })} />
@@ -61,7 +60,6 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
             )}
           </div>
 
-          {/* Company Name */}
           <div className='flex flex-col gap-2'>
             <Label>Company Name</Label>
             <Input
@@ -76,7 +74,6 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
             )}
           </div>
 
-          {/* Email */}
           <div className='flex flex-col gap-2 sm:col-span-2'>
             <Label>Email</Label>
             <Input
@@ -89,7 +86,6 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
             )}
           </div>
 
-          {/* Mobile No */}
           <div className='flex flex-col gap-2 sm:col-span-2'>
             <Label>Mobile No</Label>
             <Input
@@ -102,7 +98,6 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
             )}
           </div>
 
-          {/* Footer */}
           <DialogFooter className='flex flex-col-reverse gap-2 pt-2 sm:col-span-2 sm:flex-row sm:justify-end'>
             <Button
               type='button'
