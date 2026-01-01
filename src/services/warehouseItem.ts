@@ -53,10 +53,10 @@ export const warehouseService = {
     if (payload.id) {
       const updatePayload = {
         name: payload.name,
-        price: payload.price,
+        pricePerItem: payload.pricePerItem,
         quantity: payload.quantity,
         warehouseId: payload.warehouseId,
-        weight: payload.weight
+        weightPerItem: payload.weightPerItem
       };
       const { data } = await api.patch(
         `/warehouse-items/update-warehouse-item?id=${payload.id}`,

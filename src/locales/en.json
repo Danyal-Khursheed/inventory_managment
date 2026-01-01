@@ -177,6 +177,9 @@
     "weightRequired": "Weight is required",
     "weightMin": "Weight must be greater than 0",
 
+    "pricePerItem":"pricePerItem",
+    "weightPerItem":"weightPerItem",
+
     "cancel": "Cancel",
     "create": "Create",
     "creating": "Creating...",

@@ -180,6 +180,9 @@
     "weightRequired": "الوزن مطلوب",
     "weightMin": "يجب أن يكون الوزن أكبر من 0",
 
+    "pricePerItem":"سعر الوحدة",
+    "weightPerItem":"الوزن لكل عنصر",
+
     "cancel": "إلغاء",
     "create": "إنشاء",
     "creating": "جاري الإنشاء...",

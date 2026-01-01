@@ -57,6 +57,10 @@ export default function Page() {
 
       {isLoading ? (
         <SkeletonTable />
+      ) : error ? (
+        <div className='flex h-64 items-center justify-center'>
+          <p className='text-lg text-gray-500'>No Data Found in the Table</p>
+        </div>
       ) : (
         <WarehouseItemTable
           warehouseItems={data?.data || []}
@@ -68,6 +72,7 @@ export default function Page() {
           onDelete={handleDelete}
         />
       )}
+
       <CreateWarehouseItemModal
         open={modalOpen}
         onOpenChange={handleModalClose}

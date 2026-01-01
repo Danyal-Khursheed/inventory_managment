@@ -46,31 +46,55 @@ const WarehouseItemTable = ({
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
-      className='overflow-x-auto rounded-md border shadow-sm'
+      className={`overflow-x-auto rounded-md border shadow-sm ${
+        isRTL ? 'text-right' : 'text-left'
+      }`}
     >
       <div className='h-full min-w-[700px]'>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('sNo')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('name')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('price')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('quantity')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('weight')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('warehouseName')}
               </TableHead>
-              <TableHead className='px-4 py-2 text-end text-xs sm:text-sm'>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${
+                  isRTL ? 'text-left' : 'text-right'
+                }`}
+              >
                 {t('actions')}
               </TableHead>
             </TableRow>
@@ -81,28 +105,55 @@ const WarehouseItemTable = ({
               <TableRow
                 key={`${item.warehouseId}-${idx}`}
                 className={`${
-                  idx % 2 !== 0
-                    ? 'bg-white dark:bg-black'
-                    : 'bg-gray-50 dark:bg-gray-800'
+                  idx % 2 === 0
+                    ? 'bg-gray-50 dark:bg-gray-800'
+                    : 'bg-white dark:bg-black'
                 } hover:bg-gray-100`}
               >
-                <TableCell className='px-4 py-2'>
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                >
                   {pageSize * (currentPage - 1) + (idx + 1)}
-                </TableCell>
-                <TableCell className='truncate px-4 py-2'>
-                  {item.name}
-                </TableCell>
-                <TableCell className='px-4 py-2'>{item.price}</TableCell>
-                <TableCell className='px-4 py-2'>{item.quantity}</TableCell>
-                <TableCell className='px-4 py-2'>{item.weight}</TableCell>
-                <TableCell className='px-4 py-2'>
-                  {item.warehouse?.name}
                 </TableCell>
 
                 <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-end' : 'text-end'}`}
+                  className={`truncate px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                 >
-                  <div className='flex justify-end gap-2'>
+                  {item.name}
+                </TableCell>
+
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                >
+                  {item.pricePerItem}
+                </TableCell>
+
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                >
+                  {item.quantity}
+                </TableCell>
+
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                >
+                  {item.weightPerItem}
+                </TableCell>
+
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                >
+                  {item.name}
+                </TableCell>
+
+                <TableCell
+                  className={`px-4 py-2 ${isRTL ? 'text-left' : 'text-right'}`}
+                >
+                  <div
+                    className={`flex gap-2 ${
+                      isRTL ? 'justify-start' : 'justify-end'
+                    }`}
+                  >
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
@@ -110,7 +161,7 @@ const WarehouseItemTable = ({
                           variant='ghost'
                           onClick={() => onUpdate(item)}
                         >
-                          <Edit color='blue' size={16} />
+                          <Edit size={16} className='text-blue-600' />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>{t('updateItem')}</TooltipContent>
@@ -123,7 +174,7 @@ const WarehouseItemTable = ({
                           variant='ghost'
                           onClick={() => onDelete(item)}
                         >
-                          <Trash2 color='darkred' size={16} />
+                          <Trash2 size={16} className='text-red-600' />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>{t('deleteItem')}</TooltipContent>

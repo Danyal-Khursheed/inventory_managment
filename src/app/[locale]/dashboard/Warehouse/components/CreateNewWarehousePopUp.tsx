@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -26,10 +26,19 @@ import { useCreateWarehouse } from '../hook';
 import { Country, City } from 'country-state-city';
 import { useTranslations, useLocale } from 'next-intl';
 
+interface ApiWarehouse {
+  name: string;
+  address: string;
+  city: string;
+  countryName: string;
+  countryCode: string;
+}
+
 const CreateNewWarehousePopUp = ({
   open,
-  onOpenChange
-}: CreateNewWarehousePopupProps) => {
+  onOpenChange,
+  initialData
+}: CreateNewWarehousePopupProps & { initialData?: ApiWarehouse }) => {
   const t = useTranslations('Warehouse');
   const locale = useLocale();
   const isRTL = locale === 'ar';
@@ -43,13 +52,28 @@ const CreateNewWarehousePopUp = ({
     reset,
     setValue
   } = useForm<FormValues>({
-    defaultValues: { name: '', country: '', city: '', address: '' }
+    defaultValues: {
+      name: '',
+      country: '',
+      city: '',
+      address: ''
+    }
   });
 
   const [countrySearch, setCountrySearch] = useState('');
   const [citySearch, setCitySearch] = useState('');
 
   const selectedCountry = watch('country');
+
+  useEffect(() => {
+    if (initialData) {
+      setValue('name', initialData.name);
+      setValue('address', initialData.address);
+      setValue('country', initialData.countryCode);
+      setValue('city', initialData.city);
+    }
+  }, [initialData, setValue]);
+
   const allCountries = Country.getAllCountries();
   const filteredCountries = useMemo(
     () =>
@@ -73,7 +97,16 @@ const CreateNewWarehousePopUp = ({
   const { mutate, isPending } = useCreateWarehouse();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    mutate(data, {
+    const payload = {
+      name: data.name,
+      address: data.address,
+      city: data.city,
+      countryName:
+        allCountries.find((c) => c.isoCode === data.country)?.name || '',
+      countryCode: data.country
+    };
+
+    mutate(payload, {
       onSuccess: () => {
         reset();
         setCountrySearch('');
@@ -100,9 +133,7 @@ const CreateNewWarehousePopUp = ({
               <Label>{t('name')}</Label>
               <Input
                 placeholder={t('namePlaceholder')}
-                {...register('name', {
-                  required: t('nameRequired')
-                })}
+                {...register('name', { required: t('nameRequired') })}
               />
               {errors.name && (
                 <p className='text-red-500'>{errors.name.message}</p>
@@ -208,9 +239,7 @@ const CreateNewWarehousePopUp = ({
               <Label>{t('address')}</Label>
               <Input
                 placeholder={t('addressPlaceholder')}
-                {...register('address', {
-                  required: t('addressRequired')
-                })}
+                {...register('address', { required: t('addressRequired') })}
               />
               {errors.address && (
                 <p className='text-red-500'>{errors.address.message}</p>

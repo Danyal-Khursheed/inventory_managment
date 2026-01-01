@@ -21,7 +21,6 @@ import {
   SelectItem
 } from '@/components/ui/select';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Warehouse } from '@/services/warehouse.service';
 import { useUpdateWarehouse } from '../hook';
 import { Country, City } from 'country-state-city';
 import { useTranslations, useLocale } from 'next-intl';
@@ -79,13 +78,13 @@ export const UpdateWarehouseModal = ({
 
   const { mutate, isPending } = useUpdateWarehouse();
 
-  // Pre-fill form when warehouse changes
   useEffect(() => {
     if (!warehouse) return;
+
     reset({
       name: warehouse.name ?? '',
       address: warehouse.address ?? '',
-      country: warehouse.country ?? '',
+      country: warehouse.countryCode ?? '',
       city: warehouse.city ?? ''
     });
     setCountrySearch('');
@@ -94,8 +93,18 @@ export const UpdateWarehouseModal = ({
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     if (!warehouse?.id) return;
+
+    const payload = {
+      name: data.name,
+      address: data.address,
+      city: data.city,
+      countryCode: data.country,
+      countryName:
+        allCountries.find((c) => c.isoCode === data.country)?.name || ''
+    };
+
     mutate(
-      { warehouseId: warehouse.id, warehouseData: data },
+      { warehouseId: warehouse.id, warehouseData: payload },
       {
         onSuccess: () => {
           reset();
@@ -147,32 +156,30 @@ export const UpdateWarehouseModal = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
-                    <div className='relative'>
-                      <SelectContent className='max-h-60 overflow-y-auto'>
-                        <div className='sticky top-0 z-10 bg-white p-2'>
-                          <Input
-                            placeholder={t('searchCountry')}
-                            value={countrySearch}
-                            onChange={(e) => setCountrySearch(e.target.value)}
-                            className='w-full'
-                          />
+                    <SelectContent className='max-h-60 overflow-y-auto'>
+                      <div className='sticky top-0 z-10 bg-white p-2'>
+                        <Input
+                          placeholder={t('searchCountry')}
+                          value={countrySearch}
+                          onChange={(e) => setCountrySearch(e.target.value)}
+                          className='w-full'
+                        />
+                      </div>
+                      {filteredCountries.length > 0 ? (
+                        filteredCountries.map((country) => (
+                          <SelectItem
+                            key={country.isoCode}
+                            value={country.isoCode}
+                          >
+                            {country.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className='p-2 text-gray-500'>
+                          {t('noCountriesFound')}
                         </div>
-                        {filteredCountries.length > 0 ? (
-                          filteredCountries.map((country) => (
-                            <SelectItem
-                              key={country.isoCode}
-                              value={country.isoCode}
-                            >
-                              {country.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <div className='p-2 text-gray-500'>
-                            {t('noCountriesFound')}
-                          </div>
-                        )}
-                      </SelectContent>
-                    </div>
+                      )}
+                    </SelectContent>
                   </Select>
                 )}
               />
@@ -196,30 +203,28 @@ export const UpdateWarehouseModal = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCity')} />
                     </SelectTrigger>
-                    <div className='relative'>
-                      <SelectContent className='max-h-60 overflow-y-auto'>
-                        <div className='sticky top-0 z-10 bg-white p-2'>
-                          <Input
-                            placeholder={t('searchCity')}
-                            value={citySearch}
-                            onChange={(e) => setCitySearch(e.target.value)}
-                            className='w-full'
-                            disabled={!selectedCountry}
-                          />
+                    <SelectContent className='max-h-60 overflow-y-auto'>
+                      <div className='sticky top-0 z-10 bg-white p-2'>
+                        <Input
+                          placeholder={t('searchCity')}
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          className='w-full'
+                          disabled={!selectedCountry}
+                        />
+                      </div>
+                      {filteredCities.length > 0 ? (
+                        filteredCities.map((city) => (
+                          <SelectItem key={city.name} value={city.name}>
+                            {city.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className='p-2 text-gray-500'>
+                          {t('noCitiesFound')}
                         </div>
-                        {filteredCities.length > 0 ? (
-                          filteredCities.map((city) => (
-                            <SelectItem key={city.name} value={city.name}>
-                              {city.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <div className='p-2 text-gray-500'>
-                            {t('noCitiesFound')}
-                          </div>
-                        )}
-                      </SelectContent>
-                    </div>
+                      )}
+                    </SelectContent>
                   </Select>
                 )}
               />

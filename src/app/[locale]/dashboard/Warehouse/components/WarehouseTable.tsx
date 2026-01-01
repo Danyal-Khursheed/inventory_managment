@@ -82,7 +82,7 @@ const WarehouseTable = ({
                 <TableCell className='font-medium'>{w.name}</TableCell>
                 <TableCell>{w.address}</TableCell>
                 <TableCell>{w.city}</TableCell>
-                <TableCell>{w.country}</TableCell>
+                <TableCell>{w.countryName}</TableCell>
                 <TableCell className='text-end'>
                   <div className='flex justify-end gap-2'>
                     <Tooltip>

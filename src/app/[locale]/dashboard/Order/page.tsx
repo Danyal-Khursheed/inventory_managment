@@ -10,23 +10,26 @@ import ReceiverCard from './components/ReceiverCard';
 
 const Page: React.FC = () => {
   return (
-    <div className='min-h-screen'>
-      {/* <h1 className="mb-2 text-2xl font-semibold text-bg-primary">
-        CREATE ORDER
-      </h1> */}
+    <div className='mx-auto min-h-screen max-w-4xl px-4 py-2'>
+      {/* Header Section */}
       <HeaderHero
         componentName='Create Order'
         // buttonName='Create PickUp'
         // handleButton={setCreateOpen}
       />
-      <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
+
+      {/* Form Section */}
+      <div className='grid grid-cols-1 gap-6 lg:grid-cols-1'>
         <OriginCard />
         <ReceiverCard />
         <PickupCard />
         <AdditionalInfoCard />
       </div>
 
+      {/* Package Section */}
       <PackageSection />
+
+      {/* Footer Section */}
       {/* <OrderFooter /> */}
     </div>
   );

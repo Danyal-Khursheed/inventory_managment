@@ -1,5 +1,3 @@
-// types/warehouseItem.ts
-
 import { WarehouseItemsResponse } from '@/services/warehouseItem';
 import { QueryObserverResult } from '@tanstack/react-query';
 
@@ -12,10 +10,9 @@ export interface WarehouseItem {
   id?: string;
   name: string;
   warehouseId: string;
-  price: number;
+  pricePerItem: number;
   quantity: number;
-  weight: number;
-  warehouse?: Warehouse;
+  weightPerItem: number;
 }
 
 export interface FormValues {
