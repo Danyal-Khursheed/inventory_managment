@@ -77,7 +77,6 @@ const CountryRegionTable = () => {
           </TableBody>
         </Table>
 
-        {/* Pagination */}
         <div className='mx-4 mt-4'>
           <TablePagination
             totalItems={data?.totalCount || 0}

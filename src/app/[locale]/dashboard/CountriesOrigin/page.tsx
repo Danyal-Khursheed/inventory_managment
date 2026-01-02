@@ -10,19 +10,22 @@ import { toast } from 'sonner';
 
 export default function Page() {
   const [createModal, setCreateModal] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const t = useTranslations('headerHero');
 
   const createCountryOriginMutation = useCreateCountryOrigin();
 
-  const handleCreate = (data: any) => {
-    createCountryOriginMutation
-      .mutateAsync(data)
-      .then((response) => {
-        setCreateModal(false);
-      })
-      .catch((error) => {
-        toast.error('An error occurred while creating the country region');
-      });
+  const handleCreate = async (data: any) => {
+    try {
+      setIsCreating(true);
+      await createCountryOriginMutation.mutateAsync(data);
+      setCreateModal(false);
+      toast.success('Country region created successfully');
+    } catch (error) {
+      toast.error('An error occurred while creating the country region');
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -37,6 +40,7 @@ export default function Page() {
         open={createModal}
         onOpenChange={setCreateModal}
         onSubmit={handleCreate}
+        loading={isCreating}
       />
 
       <CountryRegionTable />
