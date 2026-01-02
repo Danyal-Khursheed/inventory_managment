@@ -7,13 +7,19 @@ export interface HeroHeaderProps {
 export interface PickupFormValues {
   address_nick: string;
   address: string;
-  zip_code: string;
+
+  country_name: string;
+  country_iso_code: string;
+  city_name: string;
+
+  phone_code: string;
   mobile_no: string;
+
+  zip_code: string;
   latitude: string;
   longitude: string;
-  city_name: string;
-  country_name: string;
-  country_code: string;
+
+  warehouseId: string;
 }
 
 export interface PickupAddress {

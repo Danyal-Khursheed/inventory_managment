@@ -143,6 +143,11 @@
     "updateWarehouse": "Update Warehouse",
     "deleteWarehouse": "Delete Warehouse"
   },
+
+  "PickupToast": {
+    "createSuccess": "Pickup created successfully",
+    "createError": "Failed to create Pickup"
+  },
   "WarehouseToast": {
     "createSuccess": "Warehouse created successfully",
     "createError": "Failed to create warehouse",
@@ -283,7 +288,7 @@
   },
   "PickupForm": {
     "title": "Create Pickup Address",
-
+"warehouse": "Warehouse",
     "address_nick": "Address Nickname",
     "zip_code": "Zip Code",
     "phone_code": "Phone Code",
@@ -293,36 +298,30 @@
     "city_name": "City",
     "country_name": "Country",
     "country_code": "Country Code",
-
+"selectWarehouse":"Select Warehouse",
     "submit": "Create Pickup",
     "cancel": "Cancel",
     "loading": "Saving...",
     "address": "Address",
+    "selectCity":"Select City",
+    "selectCountry":"Select Country",
 
     "errors": {
       "address_nick_required": "Address nickname is required",
-
-      "city_required": "City name is required",
-      "country_required": "Country name is required",
-
-      "required": "required",
-
-      "zip_required": "Zip code is required",
-      "zip_invalid": "Zip code must be 3–10 digits",
-
-      "phone_code_required": "Phone code is required",
-      "phone_code_invalid": "Invalid phone code format",
-
+      "address_required": "Address is required",
+      "country_required": "Country is required",
+      "city_required": "City is required",
       "mobile_required": "Mobile number is required",
-      "mobile_invalid": "Mobile number must be 7–15 digits",
-
+      "mobile_invalid": "Enter a valid mobile number",
+      "zip_required": "Zip code is required",
+      "zip_invalid": "Zip code must be between 3 and 10 digits",
       "latitude_required": "Latitude is required",
-      "latitude_invalid": "Invalid latitude value",
-
+      "latitude_invalid": "Enter a valid latitude",
       "longitude_required": "Longitude is required",
-      "longitude_invalid": "Invalid longitude value",
-
-       "address_required": "Address is required"
+      "longitude_invalid": "Enter a valid longitude",
+      "warehouse_required": "Warehouse is required",
+      "min": "Must be at least {count} characters",
+      "max": "Must be at most {count} characters"
     }
   },
   "PickupTable": {

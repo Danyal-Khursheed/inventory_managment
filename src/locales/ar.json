@@ -146,6 +146,10 @@
     "updateWarehouse": "تحديث المستودع",
     "deleteWarehouse": "حذف المستودع"
   },
+  "PickupToast": {
+  "createSuccess": "تم إنشاء الالتقاط بنجاح",
+  "createError": "فشل إنشاء نقطة الاستلام"
+  },
   "WarehouseToast": {
     "createSuccess": "تم إنشاء المستودع بنجاح",
     "createError": "فشل في إنشاء المستودع",
@@ -254,7 +258,7 @@
   },
   "PickupForm": {
     "title": "إنشاء عنوان الاستلام",
-
+ "warehouse": "المستودع",
     "address_nick": "اسم العنوان",
     "zip_code": "الرمز البريدي",
     "phone_code": "مفتاح الدولة",
@@ -265,35 +269,29 @@
     "country_name": "الدولة",
     "country_code": "رمز الدولة",
     "address": "عنوان",
-
+"selectWarehouse":"اختر المستودع",
     "submit": "إنشاء عنوان الاستلام",
     "cancel": "إلغاء",
     "loading": "جارٍ الحفظ...",
+  "selectCity":"اختر المدينة",
+  "searchCountry":"ابحث عن الدولة...",
 
-    "errors": {
+      "errors": {
       "address_nick_required": "اسم العنوان مطلوب",
-
-      "city_required": "اسم المدينة مطلوب",
-      "country_required": "اسم الدولة مطلوب",
-
-      "required": "مطلوب",
-
-      "zip_required": "الرمز البريدي مطلوب",
-      "zip_invalid": "يجب أن يكون الرمز البريدي من 3 إلى 10 أرقام",
-
-      "phone_code_required": "مفتاح الدولة مطلوب",
-      "phone_code_invalid": "صيغة مفتاح الدولة غير صحيحة",
-
+      "address_required": "العنوان مطلوب",
+      "country_required": "الدولة مطلوبة",
+      "city_required": "المدينة مطلوبة",
       "mobile_required": "رقم الجوال مطلوب",
-      "mobile_invalid": "يجب أن يتكون رقم الجوال من 7 إلى 15 رقمًا",
-
+      "mobile_invalid": "أدخل رقم جوال صحيح",
+      "zip_required": "الرمز البريدي مطلوب",
+      "zip_invalid": "يجب أن يكون الرمز البريدي بين 3 و 10 أرقام",
       "latitude_required": "خط العرض مطلوب",
-      "latitude_invalid": "قيمة خط العرض غير صحيحة",
-
+      "latitude_invalid": "أدخل خط عرض صحيح",
       "longitude_required": "خط الطول مطلوب",
-      "longitude_invalid": "قيمة خط الطول غير صحيحة",
-
-      "address_required": "العنوان مطلوب"
+      "longitude_invalid": "أدخل خط طول صحيح",
+      "warehouse_required": "المستودع مطلوب",
+      "min": "يجب ألا يقل عن {count} أحرف",
+      "max": "يجب ألا يزيد عن {count} أحرف"
     }
   },
 "PickupTable": {
