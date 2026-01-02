@@ -220,6 +220,8 @@
     "longitude": "خط الطول",
     "phoneCode": "رمز الهاتف",
     "mobileNo": "رقم الهاتف المحمول",
+    "warehouse": "المستودع",
+    "selectWarehouse": "اختر المستودع",
     "errors": {
       "required": "الحقل {field} مطلوب",
       "min": "يجب أن يتكون {field} من {count} أحرف على الأقل",

@@ -217,6 +217,8 @@
     "longitude": "Longitude",
     "phoneCode": "Phone Code",
     "mobileNo": "Mobile Number",
+    "warehouse": "Warehouse",
+    "selectWarehouse": "Select warehouse",
     "errors": {
       "required": "{field} is required",
       "min": "{field} must be at least {count} characters long",

@@ -32,4 +32,9 @@ export interface FormValues {
   longitude: string;
   phoneCode: string;
   mobileNo: string;
+  warehouseId: string;
+  name: string;
+  country: string;
+  city: string;
+  address: string;
 }

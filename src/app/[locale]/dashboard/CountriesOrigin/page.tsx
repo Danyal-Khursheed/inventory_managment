@@ -15,8 +15,6 @@ export default function Page() {
   const createCountryOriginMutation = useCreateCountryOrigin();
 
   const handleCreate = (data: any) => {
-    console.log('FORM DATA:', data);
-
     createCountryOriginMutation
       .mutateAsync(data)
       .then((response) => {
