@@ -345,27 +345,29 @@
     "delete": "Delete"
   },
   "createService": {
-    "createServiceTitle": "Create New Service",
-    "createServiceDescription": "Fill in the details to create a new service.",
+    "createServiceTitle": "Create Service",
+    "createServiceDescription": "Fill in the details to create a new service",
     "serviceName": "Service Name",
     "serviceNamePlaceholder": "Enter service name",
     "serviceNameRequired": "Service name is required",
     "serviceType": "Service Type",
-    "selectServiceType": "Select service type",
+    "serviceTypePlaceholder": "Enter service type",
     "serviceTypeRequired": "Service type is required",
-    "type1": "Type 1",
-    "type2": "Type 2",
-    "type3": "Type 3",
+    "warehouse": "Warehouse",
+    "warehouseRequired": "Please select a warehouse",
+    "selectWarehouse": "Select a warehouse",
     "cancel": "Cancel",
     "create": "Create",
-    "newShippingCompany": "New Shipping Company"
+    "creating": "Creating..."
   },
-    "ShippingCompanyTable": {
+  "ShippingCompanyTable": {
     "sNo": "S.No",
     "serviceName": "Service Name",
-    "serviceType": "Service Type"
+    "serviceType": "Service Type",
+    "Warehouse": "Warehouse"
   }
 }
+
 
 
 

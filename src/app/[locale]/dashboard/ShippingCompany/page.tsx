@@ -19,7 +19,6 @@ const Page = () => {
   });
 
   const shippingCompanies = data?.data ?? [];
-  console.log(shippingCompanies, '@@@@@@');
 
   return (
     <div className='px-2'>

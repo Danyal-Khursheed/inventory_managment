@@ -1,5 +1,8 @@
 'use client';
 
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useTranslations, useLocale } from 'next-intl';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,13 +15,21 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useTranslations, useLocale } from 'next-intl';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectContent
+} from '@/components/ui/select';
+
 import { useCreateShippingCompany } from '../hooks/useCreateShippingCompany';
+import { useGetAllWarehouses } from '../../Warehouse/hook';
 
 interface FormValues {
   serviceName: string;
   serviceType: string;
+  warehouseId: string;
 }
 
 interface CreateServicePopupProps {
@@ -39,20 +50,28 @@ const CreateServicePopUp = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset
   } = useForm<FormValues>({
     defaultValues: {
       serviceName: '',
-      serviceType: ''
+      serviceType: '',
+      warehouseId: ''
     }
+  });
+
+  const { data: warehouses } = useGetAllWarehouses({
+    pageNumber: 1,
+    pageSize: 10
   });
 
   const handleFormSubmit: SubmitHandler<FormValues> = (data) => {
     mutate(
       {
         serviceName: data.serviceName,
-        serviceType: data.serviceType
+        serviceType: data.serviceType,
+        warehouseId: data.warehouseId
       },
       {
         onSuccess: () => {
@@ -65,11 +84,8 @@ const CreateServicePopUp = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        dir={isRTL ? 'rtl' : 'ltr'}
-        className='w-full max-w-sm sm:w-[90%]'
-      >
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <DialogContent dir={isRTL ? 'rtl' : 'ltr'} className='w-full max-w-md'>
+        <form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-5'>
           <DialogHeader className='text-center'>
             <DialogTitle className='text-lg font-semibold'>
               {t('createServiceTitle')}
@@ -79,44 +95,52 @@ const CreateServicePopUp = ({
             </DialogDescription>
           </DialogHeader>
 
-          <div className='mt-4 flex flex-col gap-4'>
-            <div className='flex flex-col gap-2'>
-              <Label>{t('serviceName')}</Label>
-              <Input
-                placeholder={t('serviceNamePlaceholder')}
-                {...register('serviceName', {
-                  required: t('serviceNameRequired')
-                })}
-              />
-              {errors.serviceName && (
-                <p className='text-sm text-red-500'>
-                  {errors.serviceName.message}
-                </p>
-              )}
-            </div>
+          <Field label={t('serviceName')} error={errors.serviceName?.message}>
+            <Input
+              placeholder={t('serviceNamePlaceholder')}
+              {...register('serviceName', {
+                required: t('serviceNameRequired')
+              })}
+            />
+          </Field>
 
-            <div className='flex flex-col gap-2'>
-              <Label>{t('serviceType')}</Label>
-              <Input
-                placeholder={t('serviceTypePlaceholder')}
-                {...register('serviceType', {
-                  required: t('serviceTypeRequired')
-                })}
-              />
-              {errors.serviceType && (
-                <p className='text-sm text-red-500'>
-                  {errors.serviceType.message}
-                </p>
-              )}
-            </div>
-          </div>
+          <Field label={t('serviceType')} error={errors.serviceType?.message}>
+            <Input
+              placeholder={t('serviceTypePlaceholder')}
+              {...register('serviceType', {
+                required: t('serviceTypeRequired')
+              })}
+            />
+          </Field>
 
-          <DialogFooter className='mt-4 flex justify-end gap-2'>
+          <Field label={t('warehouse')} error={errors.warehouseId?.message}>
+            <Controller
+              name='warehouseId'
+              control={control}
+              rules={{ required: t('warehouseRequired') }}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder={t('selectWarehouse')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {warehouses?.data?.map((w) => (
+                      <SelectItem key={w.id} value={w.id}>
+                        {w.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </Field>
+
+          <DialogFooter className='gap-2'>
             <DialogClose asChild>
               <Button
                 variant='outline'
-                className='w-full sm:w-auto'
                 disabled={isPending}
+                className='w-full sm:w-auto'
               >
                 {t('cancel')}
               </Button>
@@ -124,8 +148,8 @@ const CreateServicePopUp = ({
 
             <Button
               type='submit'
-              className='w-full sm:w-auto'
               disabled={isPending}
+              className='w-full sm:w-auto'
             >
               {isPending ? t('creating') : t('create')}
             </Button>
@@ -137,3 +161,19 @@ const CreateServicePopUp = ({
 };
 
 export default CreateServicePopUp;
+
+const Field = ({
+  label,
+  error,
+  children
+}: {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}) => (
+  <div className='flex flex-col gap-2'>
+    <Label>{label}</Label>
+    {children}
+    {error && <p className='text-destructive text-sm'>{error}</p>}
+  </div>
+);

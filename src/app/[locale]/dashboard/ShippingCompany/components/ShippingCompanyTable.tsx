@@ -46,6 +46,7 @@ const ShippingCompanyTable = ({
               <TableHead>{t('sNo')}</TableHead>
               <TableHead>{t('serviceName')}</TableHead>
               <TableHead>{t('serviceType')}</TableHead>
+              {/* <TableHead>{t('Warehouse')}</TableHead> */}
             </TableRow>
           </TableHeader>
 
@@ -62,6 +63,7 @@ const ShippingCompanyTable = ({
                 <TableCell>{pageSize * (currentPage - 1) + (id + 1)}</TableCell>
                 <TableCell>{company.serviceName}</TableCell>
                 <TableCell>{company.serviceType}</TableCell>
+                {/* <TableCell>{company.warehouseId}</TableCell> */}
               </TableRow>
             ))}
           </TableBody>

@@ -314,27 +314,27 @@
   "update": "تحديث",
   "delete": "حذف"
 },
-   "createService": {
-    "createServiceTitle": "إنشاء خدمة جديدة",
-    "createServiceDescription": "املأ التفاصيل لإنشاء خدمة جديدة.",
+  "createService": {
+    "createServiceTitle": "إنشاء خدمة",
+    "createServiceDescription": "املأ التفاصيل لإنشاء خدمة جديدة",
     "serviceName": "اسم الخدمة",
     "serviceNamePlaceholder": "أدخل اسم الخدمة",
     "serviceNameRequired": "اسم الخدمة مطلوب",
     "serviceType": "نوع الخدمة",
-    "selectServiceType": "اختر نوع الخدمة",
+    "serviceTypePlaceholder": "أدخل نوع الخدمة",
     "serviceTypeRequired": "نوع الخدمة مطلوب",
-    "type1": "النوع 1",
-    "type2": "النوع 2",
-    "type3": "النوع 3",
+    "warehouse": "المستودع",
+    "warehouseRequired": "يرجى اختيار المستودع",
+    "selectWarehouse": "اختر مستودعًا",
     "cancel": "إلغاء",
     "create": "إنشاء",
-    "newShippingCompany": "شركة شحن جديدة"
+    "creating": "جارٍ الإنشاء..."
   },
-    "ShippingCompanyTable": {
+  "ShippingCompanyTable": {
     "sNo": "م",
     "serviceName": "اسم الخدمة",
-    "serviceType": "نوع الخدمة"
+    "serviceType": "نوع الخدمة",
+    "Warehouse": "المستودع"
   }
-
 }
 
