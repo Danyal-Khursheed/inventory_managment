@@ -50,7 +50,7 @@ export const warehouseService = {
   },
 
   deleteWarehouse: async (warehouseId: string): Promise<void> => {
-    await api.delete('warehouses/delete-warehouse', {
+    await api.delete('/warehouses/delete-warehouse', {
       params: { id: warehouseId }
     });
   }

@@ -25,6 +25,7 @@
 
    "SignIn": {
     "Sign In": "Sign In",
+    "Signing in":"Signing in",
     "Access your dashboard by entering your credentials": "Access your dashboard by entering your credentials",
     "Email": "Email",
     "Password": "Password",
@@ -124,9 +125,17 @@
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",
-    "buttonName": "Create Warehouse Item",
-     "updateSuccess": "Warehouse item updated successfully.",
-    "updateError": "Failed to update the warehouse item. Please try again."
+    "buttonName": "Create Warehouse Item"
+  },
+  "WarehouseItemToast": {
+    "createSuccess": "Warehouse item created successfully.",
+    "createError": "Failed to create the warehouse item. Please try again.",
+
+    "updateSuccess": "Warehouse item updated successfully.",
+    "updateError": "Failed to update the warehouse item. Please try again.",
+
+    "deleteSuccess": "Warehouse item deleted successfully.",
+    "deleteError": "Failed to delete the warehouse item. Please try again."
   },
   "DeleteWarehouseModal": {
     "Delete Warehouse": "Delete Warehouse",

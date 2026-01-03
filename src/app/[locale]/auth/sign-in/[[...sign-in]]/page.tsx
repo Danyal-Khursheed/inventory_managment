@@ -175,7 +175,7 @@ export default function Page() {
                 {isLoading ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    {t('Signing in...')}
+                    {t('Signing in')}
                   </>
                 ) : (
                   <>

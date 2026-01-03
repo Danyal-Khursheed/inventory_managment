@@ -88,9 +88,9 @@ export default function SignUpViewPage() {
   };
 
   return (
-    <div className='relative flex min-h-screen items-center justify-center overflow-hidden sm:overflow-y-auto'>
+    <div className='relative flex min-h-screen items-center justify-center'>
       <div className='relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-xl'>
-        <Card className='mx-2 border-2 backdrop-blur-sm md:shadow-2xl dark:bg-slate-900/80'>
+        <Card className='mx-2 h-[90vh] overflow-y-auto border-2 backdrop-blur-sm md:shadow-2xl dark:bg-slate-900/80'>
           <CardHeader className='space-y-3 text-center'>
             <div className='bg-muted-foreground mx-auto flex h-12 w-12 items-center justify-center rounded-lg from-purple-500 to-pink-600 shadow-lg'>
               <UserPlus className='h-8 w-8 text-white' />

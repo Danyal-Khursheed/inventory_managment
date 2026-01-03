@@ -1,4 +1,3 @@
-// hooks/useUpdateWarehouseItem.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { WarehouseItem } from '../types/types';
 import { toast } from 'sonner';
@@ -7,7 +6,7 @@ import { warehouseItemService } from '@/services/warehouseItem';
 
 export const useUpdateWarehouseItem = () => {
   const queryClient = useQueryClient();
-  const t = useTranslations('WarehouseItem');
+  const t = useTranslations('WarehouseItemToast');
 
   return useMutation({
     mutationFn: ({
@@ -24,7 +23,7 @@ export const useUpdateWarehouseItem = () => {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message || t('updateError'));
+      toast.error(t('updateError'));
     }
   });
 };

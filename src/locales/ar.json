@@ -25,6 +25,7 @@
 
     "SignIn": {
     "Sign In": "تسجيل الدخول",
+    "Signing in":"تسجيل الدخول",
     "Access your dashboard by entering your credentials": "قم بالدخول إلى لوحة التحكم بإدخال بياناتك",
     "Email": "البريد الإلكتروني",
     "Password": "كلمة المرور",
@@ -127,10 +128,18 @@
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",
-    "buttonName": "إنشاء عنصر مستودع",
-    "updateSuccess": "تم تحديث عنصر المستودع بنجاح.",
-    "updateError": "فشل تحديث عنصر المستودع. يرجى المحاولة مرة أخرى."
+    "buttonName": "إنشاء عنصر مستودع"
   },
+  "WarehouseItemToast": {
+  "createSuccess": "تم إنشاء عنصر المستودع بنجاح.",
+  "createError": "فشل في إنشاء عنصر المستودع. يرجى المحاولة مرة أخرى.",
+
+  "updateSuccess": "تم تحديث عنصر المستودع بنجاح.",
+   "updateError": "فشل في تحديث عنصر المستودع. يرجى المحاولة مرة أخرى.",
+
+  "deleteSuccess": "تم حذف عنصر المستودع بنجاح.",
+  "deleteError": "فشل في حذف عنصر المستودع. يرجى المحاولة مرة أخرى."
+},
   "DeleteWarehouseModal": {
     "Delete Warehouse": "حذف المستودع",
     "Are you sure you want to delete This action cannot be undone": "هل أنت متأكد أنك تريد حذف ؟ هذا الإجراء لا يمكن التراجع عنه",
