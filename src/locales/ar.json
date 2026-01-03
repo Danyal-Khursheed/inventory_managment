@@ -127,7 +127,9 @@
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",
-    "buttonName": "إنشاء عنصر مستودع"
+    "buttonName": "إنشاء عنصر مستودع",
+    "updateSuccess": "تم تحديث عنصر المستودع بنجاح.",
+    "updateError": "فشل تحديث عنصر المستودع. يرجى المحاولة مرة أخرى."
   },
   "DeleteWarehouseModal": {
     "Delete Warehouse": "حذف المستودع",
@@ -210,6 +212,27 @@
     "actions": "الإجراءات",
     "updateItem": "تحديث العنصر",
     "deleteItem": "حذف العنصر"
+  },
+
+  "WarehouseImportToast": {
+    "noFile": "يرجى اختيار ملف للاستيراد.",
+    "invalidExtension": "يُسمح فقط بملفات CSV أو XLSX.",
+    "invalidFormat": "صيغة الملف غير صحيحة.",
+    "emptyCSV": "ملف CSV فارغ.",
+    "emptyXLSX": "ملف Excel فارغ.",
+    "csvSuccess": "تم استيراد ملف CSV بنجاح.",
+    "xlsxSuccess": "تم استيراد ملف Excel بنجاح.",
+    "importing": "جارٍ استيراد الملف…",
+    "importButton": "استيراد CSV / XLSX",
+
+    "rowError": {
+      "missingColumn": "الصف {row}: عمود مطلوب مفقود.",
+      "invalidName": "الصف {row}: الاسم غير صالح.",
+      "invalidPrice": "الصف {row}: السعر غير صالح.",
+      "invalidQuantity": "الصف {row}: الكمية غير صالحة.",
+      "invalidWeight": "الصف {row}: الوزن غير صالح.",
+      "invalidWarehouseId": "الصف {row}: معرّف المستودع غير صالح."
+    }
   },
   "CountryRegionForm": {
     "errors": {

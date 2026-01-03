@@ -4,22 +4,19 @@ import { useState } from 'react';
 import HeaderHero from '../CountriesOrigin/components/HeaderHero';
 import CreatePickupModal from './components/CreatePickupModal';
 import PickupTable, { PickupAddress } from './components/PickupTable';
-import { PickupFormValues } from './types/types';
 import { useGetAllPickups } from './hooks';
 import { log } from 'console';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 
 const Page = () => {
   const [createOpen, setCreateOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 10;
 
   const { data, isLoading } = useGetAllPickups({
-    pageNumber: currentPage,
+    pageNumber,
     pageSize
   });
-
-  const handlePageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className='px-2'>
@@ -34,8 +31,8 @@ const Page = () => {
         <PickupTable
           pageSize={pageSize}
           data={data?.data}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
+          currentPage={pageNumber}
+          onPageChange={(page) => setPageNumber(page)}
           totalItems={data?.totalCount ?? 0}
         />
       )}

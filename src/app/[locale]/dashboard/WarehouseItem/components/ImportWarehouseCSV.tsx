@@ -4,13 +4,14 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
+import { useTranslations } from 'next-intl';
 import { useImportWarehouseCSV } from '../hooks/useImportWarehouseCSV';
 
 export type WarehouseCSV = {
   name: string;
-  price: number;
+  pricePerItem: number;
+  weightPerItem: number;
   quantity: number;
-  weight: number;
   warehouseId: string;
 };
 
@@ -18,88 +19,100 @@ interface Props {
   onSuccess?: () => void;
 }
 
-/* =========================
-   VALIDATION HELPERS
-========================= */
-
-const REQUIRED_KEYS = ['name', 'price', 'quantity', 'weight', 'warehouseid'];
+const REQUIRED_KEYS = [
+  'name',
+  'pricePerItem',
+  'quantity',
+  'weightPerItem',
+  'warehouseId'
+];
 
 const isValidUUID = (value: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 
-const validateRow = (row: any, index: number): string | null => {
+type ValidationErrorKey =
+  | 'missingColumn'
+  | 'invalidName'
+  | 'invalidPrice'
+  | 'invalidQuantity'
+  | 'invalidWeight'
+  | 'invalidWarehouseId';
+
+const validateRow = (
+  row: any,
+  rowIndex: number
+): { key: ValidationErrorKey; row: number } | null => {
   for (const key of REQUIRED_KEYS) {
     if (!(key in row)) {
-      return `Row ${index + 1}: Missing column "${key}"`;
+      return { key: 'missingColumn', row: rowIndex + 1 };
     }
   }
 
   if (!row.name || typeof row.name !== 'string') {
-    return `Row ${index + 1}: Invalid name`;
+    return { key: 'invalidName', row: rowIndex + 1 };
   }
 
-  if (isNaN(Number(row.price))) {
-    return `Row ${index + 1}: Invalid price`;
+  if (isNaN(Number(row.pricePerItem))) {
+    return { key: 'invalidPrice', row: rowIndex + 1 };
   }
 
   if (isNaN(Number(row.quantity))) {
-    return `Row ${index + 1}: Invalid quantity`;
+    return { key: 'invalidQuantity', row: rowIndex + 1 };
   }
 
-  if (isNaN(Number(row.weight))) {
-    return `Row ${index + 1}: Invalid weight`;
+  if (isNaN(Number(row.weightPerItem))) {
+    return { key: 'invalidWeight', row: rowIndex + 1 };
   }
 
-  if (!isValidUUID(row.warehouseid)) {
-    return `Row ${index + 1}: Invalid warehouseId (UUID required)`;
+  if (!isValidUUID(row.warehouseId)) {
+    return { key: 'invalidWarehouseId', row: rowIndex + 1 };
   }
 
   return null;
 };
 
 export default function ImportWarehouseCSV({ onSuccess }: Props) {
+  const t = useTranslations('WarehouseImportToast');
   const { importCSV, loading } = useImportWarehouseCSV(onSuccess);
 
-  /* =========================
-     CSV HANDLER
-  ========================= */
+  const showRowError = (errorKey: ValidationErrorKey, row: number) => {
+    toast.error(t(`rowError.${errorKey}`, { row }));
+  };
 
   const handleCSV = (file: File) => {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
-      transformHeader: (h) => h.trim().toLowerCase(),
+      transformHeader: (h) => h.trim(),
       complete: (result) => {
         if (result.errors.length) {
-          return toast.error(result.errors[0].message);
+          return toast.error(t('invalidFormat'));
         }
 
         if (!result.data.length) {
-          return toast.error('CSV file is empty');
+          return toast.error(t('emptyCSV'));
         }
 
         for (let i = 0; i < result.data.length; i++) {
           const error = validateRow(result.data[i], i);
-          if (error) return toast.error(error);
+          if (error) {
+            return showRowError(error.key, error.row);
+          }
         }
 
         const mappedData: WarehouseCSV[] = result.data.map((row: any) => ({
           name: row.name.trim(),
-          price: Number(row.price),
+          pricePerItem: Number(row.pricePerItem),
           quantity: Number(row.quantity),
-          weight: Number(row.weight),
-          warehouseId: row.warehouseid
+          weightPerItem: Number(row.weightPerItem),
+          warehouseId: row.warehouseId
         }));
 
         importCSV(mappedData);
-        toast.success('CSV imported successfully');
+        toast.success(t('csvSuccess'));
       }
     });
   };
-
-  /* =========================
-     XLSX HANDLER
-  ========================= */
 
   const handleXLSX = (file: File) => {
     const reader = new FileReader();
@@ -107,13 +120,14 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
     reader.onload = (e) => {
       const buffer = new Uint8Array(e.target?.result as ArrayBuffer);
       const workbook = XLSX.read(buffer, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      const rawData = XLSX.utils.sheet_to_json<any>(worksheet, { defval: '' });
+      const rawData = XLSX.utils.sheet_to_json<any>(worksheet, {
+        defval: ''
+      });
 
       if (!rawData.length) {
-        return toast.error('XLSX file is empty');
+        return toast.error(t('emptyXLSX'));
       }
 
       const data: WarehouseCSV[] = [];
@@ -121,46 +135,47 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
       for (let i = 0; i < rawData.length; i++) {
         const row = {
           name: rawData[i].name ?? rawData[i].Name,
-          price: rawData[i].price ?? rawData[i].Price,
+          pricePerItem: rawData[i].pricePerItem ?? rawData[i].PricePerItem,
           quantity: rawData[i].quantity ?? rawData[i].Quantity,
-          weight: rawData[i].weight ?? rawData[i].Weight,
-          warehouseid:
+          weightPerItem: rawData[i].weightPerItem ?? rawData[i].WeightPerItem,
+          warehouseId:
             rawData[i].warehouseId ??
             rawData[i].WarehouseId ??
             rawData[i].warehouseid
         };
 
         const error = validateRow(row, i);
-        if (error) return toast.error(error);
+        if (error) {
+          return showRowError(error.key, error.row);
+        }
 
         data.push({
-          name: row.name,
-          price: Number(row.price),
+          name: row.name.trim(),
+          pricePerItem: Number(row.pricePerItem),
           quantity: Number(row.quantity),
-          weight: Number(row.weight),
-          warehouseId: row.warehouseid
+          weightPerItem: Number(row.weightPerItem),
+          warehouseId: row.warehouseId
         });
       }
 
       importCSV(data);
-      toast.success('XLSX imported successfully');
+      toast.success(t('xlsxSuccess'));
     };
 
     reader.readAsArrayBuffer(file);
   };
 
-  /* =========================
-     FILE VALIDATION
-  ========================= */
-
-  const handleFileChange = (file: File) => {
-    if (!file) return toast.error('No file selected');
-
-    if (!file.name.match(/\.(csv|xlsx)$/i)) {
-      return toast.error('Only CSV or XLSX files are allowed');
+  const handleFileChange = (file?: File) => {
+    if (!file) {
+      return toast.error(t('noFile'));
     }
 
-    file.name.endsWith('.csv') ? handleCSV(file) : handleXLSX(file);
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (!extension || !['csv', 'xlsx'].includes(extension)) {
+      return toast.error(t('invalidExtension'));
+    }
+
+    extension === 'csv' ? handleCSV(file) : handleXLSX(file);
   };
 
   return (
@@ -177,12 +192,13 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
           }
         }}
       />
+
       <Button
         className='bg-primary w-full'
         disabled={loading}
         onClick={() => document.getElementById('warehouse-csv')?.click()}
       >
-        {loading ? 'Importing...' : 'Import CSV / XLSX'}
+        {loading ? t('importing') : t('importButton')}
       </Button>
     </div>
   );

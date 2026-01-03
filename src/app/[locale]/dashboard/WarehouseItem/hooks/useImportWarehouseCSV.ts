@@ -10,9 +10,9 @@ export function useImportWarehouseCSV(onSuccess?: () => void) {
 
   const mutation = useMutation({
     mutationFn: async (data: WarehouseCSV[]) => {
-      console.log(' Sending data to API:', data);
-
-      const payload = { items: data };
+      const payload = {
+        items: data
+      };
 
       const res = await fetch(
         'https://kingshipbackend-production.up.railway.app/api/warehouse-items/create-warehouse-items-bulk',
@@ -32,19 +32,16 @@ export function useImportWarehouseCSV(onSuccess?: () => void) {
       }
 
       const json = await res.json();
-      console.log('📥 API response:', json);
       return json;
     },
 
     onSuccess: (response) => {
       toast.success('Warehouses imported successfully');
-      console.log(' onSuccess API response:', response);
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
       onSuccess?.();
     },
 
     onError: (error: any) => {
-      console.error(' API error:', error);
       toast.error(error.message || 'CSV/XLSX import failed');
     }
   });

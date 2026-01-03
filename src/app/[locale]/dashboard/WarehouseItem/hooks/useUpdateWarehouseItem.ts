@@ -7,7 +7,7 @@ import { warehouseItemService } from '@/services/warehouseItem';
 
 export const useUpdateWarehouseItem = () => {
   const queryClient = useQueryClient();
-  const t = useTranslations('WarehouseItemToast');
+  const t = useTranslations('WarehouseItem');
 
   return useMutation({
     mutationFn: ({

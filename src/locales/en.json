@@ -124,7 +124,9 @@
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",
-    "buttonName": "Create Warehouse Item"
+    "buttonName": "Create Warehouse Item",
+     "updateSuccess": "Warehouse item updated successfully.",
+    "updateError": "Failed to update the warehouse item. Please try again."
   },
   "DeleteWarehouseModal": {
     "Delete Warehouse": "Delete Warehouse",
@@ -208,6 +210,27 @@
     "actions": "Actions",
     "updateItem": "Update Item",
     "deleteItem": "Delete Item"
+  },
+  
+  "WarehouseImportToast": {
+    "noFile": "Please select a file to import.",
+    "invalidExtension": "Only CSV or XLSX files are supported.",
+    "invalidFormat": "The file format is invalid.",
+    "emptyCSV": "The CSV file is empty.",
+    "emptyXLSX": "The Excel file is empty.",
+    "csvSuccess": "CSV file imported successfully.",
+    "xlsxSuccess": "Excel file imported successfully.",
+    "importing": "Importing file…",
+    "importButton": "Import CSV / XLSX",
+
+    "rowError": {
+      "missingColumn": "Row {row}: Missing required column.",
+      "invalidName": "Row {row}: Invalid name.",
+      "invalidPrice": "Row {row}: Invalid price per item.",
+      "invalidQuantity": "Row {row}: Invalid quantity.",
+      "invalidWeight": "Row {row}: Invalid weight per item.",
+      "invalidWarehouseId": "Row {row}: Invalid warehouse ID."
+    }
   },
   "CountryRegionForm": {
     "errors": {
