@@ -13,6 +13,7 @@ export interface PickupType {
   countryCode?: string;
   latitude?: number | string;
   longitude?: number | string;
+  mobileNo?: number | string;
 }
 
 export interface ReceiverType {

@@ -19,9 +19,8 @@ const OriginCard: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrigin, setSelectedOrigin] = useState<OriginType | null>(null);
 
-  const { data, isLoading } = useCountryOrigin(1, 50); // fetch more if needed
+  const { data, isLoading } = useCountryOrigin(1, 50);
 
-  // Map API data to OriginType
   const origins: OriginType[] = (data?.data ?? []).map((item: any) => ({
     id: item.id ?? `unknown-${Math.random().toString(36).substr(2, 9)}`,
     companyName: item.companyName ?? '',
@@ -49,36 +48,97 @@ const OriginCard: React.FC = () => {
           />
         </CardHeader>
 
-        <CardContent className='space-y-3'>
-          {originName && <p className='font-medium'>{originName}</p>}
+        <CardContent className='space-y-4'>
+          {selectedOrigin && (
+            <div className='bg-muted/30 grid grid-cols-1 gap-4 rounded-lg border p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+              <div className='group transition'>
+                <div className='flex items-center justify-between border-b pb-2'>
+                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                    Nickname
+                  </p>
+                </div>
+                <p className='mt-2 text-sm text-gray-800'>
+                  {selectedOrigin.addressNick ?? (
+                    <span className='text-muted-foreground'>—</span>
+                  )}
+                </p>
+              </div>
 
-          {isLoading ? (
-            <div>
-              <Spinner />
+              <div className='group transition'>
+                <div className='flex items-center justify-between border-b pb-2'>
+                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                    Company
+                  </p>
+                </div>
+                <p className='mt-2 text-sm text-gray-800'>
+                  {selectedOrigin.companyName ?? (
+                    <span className='text-muted-foreground'>—</span>
+                  )}
+                </p>
+              </div>
+
+              <div className='group transition'>
+                <div className='flex items-center justify-between border-b pb-2'>
+                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                    Country
+                  </p>
+                </div>
+                <p className='mt-2 text-sm text-gray-800'>
+                  {selectedOrigin.countryName ?? (
+                    <span className='text-muted-foreground'>—</span>
+                  )}
+                </p>
+              </div>
+
+              <div className='group transition'>
+                <div className='flex items-center justify-between border-b pb-2'>
+                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                    Mobile No
+                  </p>
+                </div>
+                <p className='mt-2 text-sm text-gray-800'>
+                  {selectedOrigin?.phoneCode && selectedOrigin?.mobileNo ? (
+                    `${selectedOrigin.phoneCode} ${selectedOrigin.mobileNo}`
+                  ) : (
+                    <span className='text-muted-foreground'>—</span>
+                  )}
+                </p>
+              </div>
             </div>
-          ) : (
-            <Select
-              onValueChange={(id: string) => {
-                const found = origins.find((o) => o.id === id);
-                if (found) {
-                  setSelectedOrigin(found);
-                  setOriginName(found.companyName ?? '');
-                }
-              }}
-            >
-              <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Select Origin' />
-              </SelectTrigger>
+          )}
 
-              <SelectContent className='max-h-[calc(8*2.5rem)] overflow-y-auto'>
-                {origins.map((item) => (
+          <Select
+            disabled={isLoading}
+            onValueChange={(id: string) => {
+              const found = origins.find((o) => o.id === id);
+              if (found) {
+                setSelectedOrigin(found);
+                setOriginName(found.companyName ?? '');
+              }
+            }}
+          >
+            <SelectTrigger className='w-full'>
+              <SelectValue placeholder='Select Origin' />
+            </SelectTrigger>
+
+            <SelectContent className='max-h-[calc(8*2.5rem)] overflow-y-auto'>
+              {isLoading ? (
+                <div className='flex items-center justify-center py-4'>
+                  <Spinner />
+                </div>
+              ) : origins.length > 0 ? (
+                origins.map((item) => (
                   <SelectItem key={item.id} value={item.id}>
                     {item.companyName}
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
+                ))
+              ) : (
+                <div className='text-muted-foreground px-3 py-2 text-sm'>
+                  No origins found
+                </div>
+              )}
+            </SelectContent>
+          </Select>
         </CardContent>
       </Card>
 
@@ -87,7 +147,6 @@ const OriginCard: React.FC = () => {
         onOpenChange={setOpenModal}
         defaultValues={selectedOrigin}
         onSubmit={(data) => {
-          console.log('Updated Origin data @@@:', data);
           setSelectedOrigin(data);
           setOriginName(data.companyName ?? '');
           setOpenModal(false);

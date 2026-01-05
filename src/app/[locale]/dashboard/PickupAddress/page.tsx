@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import HeaderHero from '../CountriesOrigin/components/HeaderHero';
 import CreatePickupModal from './components/CreatePickupModal';
-import PickupTable, { PickupAddress } from './components/PickupTable';
 import { useGetAllPickups } from './hooks';
-import { log } from 'console';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import PickupTable from './components/PickupTable';
 
 const Page = () => {
   const [createOpen, setCreateOpen] = useState(false);

@@ -1,3 +1,5 @@
+import { X } from 'lucide-react';
+
 export interface HeroHeaderProps {
   handleButton: (open: boolean) => void;
   componentName: string;
@@ -24,18 +26,25 @@ export interface PickupFormValues {
 
 export interface PickupAddress {
   id: string;
+  address: string;
   addressNick: string;
-  address_line1: string;
-  address_line2?: string;
-  zip_code: string;
-  phone_code: string;
-  mobile_no: string;
-  is_default: number;
+  zipCode: string;
+  mobileNo: string;
   latitude: string;
   longitude: string;
-  pickup_data?: Record<string, any>;
-  hash?: string;
-  city_name: string;
+  cityName: string;
   countryName: string;
+  countryCode: string;
+}
+
+export interface PickupApi {
+  id: string;
+  address_nick: string;
+  zip_code: string;
+  mobile_no: string;
+  latitude: string;
+  longitude: string;
+  city_name: string;
+  country_name: string;
   country_code: string;
 }

@@ -19,7 +19,6 @@ const Page = () => {
   });
 
   const shippingCompanies = data?.data ?? [];
-
   return (
     <div className='px-2'>
       <HeaderHero

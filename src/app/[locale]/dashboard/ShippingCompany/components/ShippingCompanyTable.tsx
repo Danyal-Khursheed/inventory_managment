@@ -33,7 +33,6 @@ const ShippingCompanyTable = ({
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
-  console.log(shippingCompanies, 'o khairr');
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
@@ -51,16 +50,16 @@ const ShippingCompanyTable = ({
           </TableHeader>
 
           <TableBody>
-            {shippingCompanies.map((company, id) => (
+            {shippingCompanies.map((company, idx) => (
               <TableRow
                 key={company.id}
                 className={`${
-                  id % 2 !== 0
+                  idx % 2 !== 0
                     ? 'bg-white dark:bg-black'
                     : 'bg-gray-50 dark:bg-gray-800'
                 } hover:bg-gray-100`}
               >
-                <TableCell>{pageSize * (currentPage - 1) + (id + 1)}</TableCell>
+                <TableCell> {(currentPage - 1) * pageSize + idx + 1}</TableCell>
                 <TableCell>{company.serviceName}</TableCell>
                 <TableCell>{company.serviceType}</TableCell>
                 {/* <TableCell>{company.warehouseId}</TableCell> */}

@@ -39,6 +39,11 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
     onOpenChange(false);
   };
 
+  const handleClose = () => {
+    reset(); // Reset the form fields when the modal is closed
+    onOpenChange(false); // Close the modal
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='w-[95vw] max-w-lg rounded-xl px-4 sm:px-6'>
@@ -50,19 +55,23 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
 
         <form
           onSubmit={handleSubmit(onFormSubmit)}
-          className='grid grid-cols-1 gap-4 sm:grid-cols-2'
+          className='flex flex-col gap-4'
         >
           <div className='flex flex-col gap-2'>
-            <Label>Name</Label>
-            <Input {...register('name', { required: 'Name is required' })} />
+            <Label htmlFor='name'>Name</Label>
+            <Input
+              id='name'
+              {...register('name', { required: 'Name is required' })}
+            />
             {errors.name && (
               <p className='text-sm text-red-500'>{errors.name.message}</p>
             )}
           </div>
 
           <div className='flex flex-col gap-2'>
-            <Label>Company Name</Label>
+            <Label htmlFor='companyName'>Company Name</Label>
             <Input
+              id='companyName'
               {...register('companyName', {
                 required: 'Company name is required'
               })}
@@ -75,10 +84,16 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
           </div>
 
           <div className='flex flex-col gap-2 sm:col-span-2'>
-            <Label>Email</Label>
+            <Label htmlFor='email'>Email</Label>
             <Input
+              id='email'
+              type='email'
               {...register('email', {
-                required: 'Email is required'
+                required: 'Email is required',
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Enter a valid email address'
+                }
               })}
             />
             {errors.email && (
@@ -87,10 +102,15 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
           </div>
 
           <div className='flex flex-col gap-2 sm:col-span-2'>
-            <Label>Mobile No</Label>
+            <Label htmlFor='mobileNo'>Mobile No</Label>
             <Input
+              id='mobileNo'
               {...register('mobileNo', {
-                required: 'Mobile number is required'
+                required: 'Mobile number is required',
+                pattern: {
+                  value: /^[0-9]{7,15}$/,
+                  message: 'Enter a valid mobile number'
+                }
               })}
             />
             {errors.mobileNo && (
@@ -103,7 +123,7 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
               type='button'
               variant='outline'
               className='w-full sm:w-auto'
-              onClick={() => onOpenChange(false)}
+              onClick={handleClose}
             >
               Cancel
             </Button>

@@ -9,19 +9,7 @@ import {
 } from '@/components/ui/table';
 import TablePagination from '@/components/pagination/TablePagination';
 import { useTranslations, useLocale } from 'next-intl';
-
-export interface PickupAddress {
-  id: string;
-  address: string;
-  addressNick: string;
-  zipCode: string;
-  mobileNo: string;
-  latitude: string;
-  longitude: string;
-  cityName: string;
-  countryName: string;
-  countryCode: string;
-}
+import { PickupAddress } from '../types/types';
 
 interface Props {
   totalItems: number;

@@ -15,17 +15,69 @@ const ReceiverCard: React.FC = () => {
         <CardHeader className='flex flex-row items-center justify-between'>
           <CardTitle className='text-xl'>Receiver</CardTitle>
 
-          <Button size='sm' onClick={() => setOpenModal(true)}>
+          <Button size='lg' onClick={() => setOpenModal(true)}>
             Create new
           </Button>
         </CardHeader>
 
-        <CardContent>
-          <div className='text-muted-foreground flex items-center gap-6 text-sm'>
-            <span>{receiver?.name ?? 'Name'}</span>
-            <span className='text-gray-400'>|</span>
-            <span>{receiver?.companyName ?? 'Address'}</span>
-          </div>
+        <CardContent className='space-y-4'>
+          {receiver && (
+            <div className='bg-muted/30 rounded-lg border p-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                <div className='group transition'>
+                  <div className='border-b pb-2'>
+                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                      Name
+                    </p>
+                  </div>
+                  <p className='mt-2 text-sm text-gray-800'>
+                    {receiver.name ?? (
+                      <span className='text-muted-foreground'>—</span>
+                    )}
+                  </p>
+                </div>
+
+                <div className='group transition'>
+                  <div className='border-b pb-2'>
+                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                      Company
+                    </p>
+                  </div>
+                  <p className='mt-2 text-sm text-gray-800'>
+                    {receiver.companyName ?? (
+                      <span className='text-muted-foreground'>—</span>
+                    )}
+                  </p>
+                </div>
+
+                <div className='group transition'>
+                  <div className='border-b pb-2'>
+                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                      Email
+                    </p>
+                  </div>
+                  <p className='mt-2 text-sm break-all text-gray-800'>
+                    {receiver.email ?? (
+                      <span className='text-muted-foreground'>—</span>
+                    )}
+                  </p>
+                </div>
+
+                <div className='group transition'>
+                  <div className='border-b pb-2'>
+                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
+                      Mobile No
+                    </p>
+                  </div>
+                  <p className='mt-2 text-sm text-gray-800'>
+                    {receiver.mobileNo ?? (
+                      <span className='text-muted-foreground'>—</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -33,7 +85,6 @@ const ReceiverCard: React.FC = () => {
         open={openModal}
         onOpenChange={setOpenModal}
         onSubmit={(data) => {
-          console.log(data);
           setReceiver(data);
         }}
       />
