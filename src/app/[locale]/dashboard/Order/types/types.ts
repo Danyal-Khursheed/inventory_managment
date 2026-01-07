@@ -22,3 +22,38 @@ export interface ReceiverType {
   email: string;
   mobileNo: string;
 }
+
+export interface WarehouseItem {
+  id?: string;
+  name: string;
+  warehouseId: string;
+  pricePerItem: number;
+  quantity: number;
+  weightPerItem: number;
+}
+
+export interface PackageWarehouseItem {
+  rowId: number;
+  itemId: string;
+  name: string;
+  qty: number;
+  weight: number;
+  price: number;
+  originalQty: number;
+  originalWeight: number;
+  originalPrice: number;
+}
+
+export interface BoxDimensions {
+  length: number;
+  width: number;
+  height: number;
+  volumetricWeight: number;
+}
+
+export interface SelectedWarehouse {
+  id: string;
+  name: string;
+  box: BoxDimensions;
+  warehouseItems: PackageWarehouseItem[];
+}

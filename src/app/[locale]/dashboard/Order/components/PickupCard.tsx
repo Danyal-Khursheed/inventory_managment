@@ -18,6 +18,7 @@ import EditPickupModal from './EditPickupModal';
 const PickupCard: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedPickup, setSelectedPickup] = useState<PickupType | null>(null);
+  console.log(selectedPickup, 'selectedPickup');
 
   const { data, isLoading } = useGetAllPickups({
     pageNumber: 1,
