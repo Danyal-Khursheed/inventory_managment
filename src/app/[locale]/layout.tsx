@@ -13,6 +13,7 @@ import { AuthProvider } from '@/auth/context/AuthProvider';
 import { QueryProvider } from '../providers/query-provider';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { ReduxProvider } from '../providers/redux-provider';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -99,9 +100,11 @@ export default async function RootLayout({
               <QueryProvider>
                 <Toaster />
                 <AuthProvider>
-                  <NextIntlClientProvider locale={locale} messages={messages}>
-                    {children}
-                  </NextIntlClientProvider>
+                  <ReduxProvider>
+                    <NextIntlClientProvider locale={locale} messages={messages}>
+                      {children}
+                    </NextIntlClientProvider>
+                  </ReduxProvider>
                 </AuthProvider>
               </QueryProvider>
             </Providers>

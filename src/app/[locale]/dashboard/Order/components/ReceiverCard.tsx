@@ -5,9 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import CreateReceiverModal, { ReceiverType } from './CreateReceiverModal';
 
-const ReceiverCard: React.FC = () => {
+interface ReceiverCardProps {
+  receiver: ReceiverType | null;
+  setReceiver: React.Dispatch<React.SetStateAction<ReceiverType | null>>;
+}
+
+const ReceiverCard: React.FC<ReceiverCardProps> = ({
+  receiver,
+  setReceiver
+}) => {
   const [openModal, setOpenModal] = useState(false);
-  const [receiver, setReceiver] = useState<ReceiverType | null>(null);
 
   return (
     <>
@@ -24,57 +31,10 @@ const ReceiverCard: React.FC = () => {
           {receiver && (
             <div className='bg-muted/30 rounded-lg border p-4'>
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                <div className='group transition'>
-                  <div className='border-b pb-2'>
-                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                      Name
-                    </p>
-                  </div>
-                  <p className='mt-2 text-sm text-gray-800'>
-                    {receiver.name ?? (
-                      <span className='text-muted-foreground'>—</span>
-                    )}
-                  </p>
-                </div>
-
-                <div className='group transition'>
-                  <div className='border-b pb-2'>
-                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                      Company
-                    </p>
-                  </div>
-                  <p className='mt-2 text-sm text-gray-800'>
-                    {receiver.companyName ?? (
-                      <span className='text-muted-foreground'>—</span>
-                    )}
-                  </p>
-                </div>
-
-                <div className='group transition'>
-                  <div className='border-b pb-2'>
-                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                      Email
-                    </p>
-                  </div>
-                  <p className='mt-2 text-sm break-all text-gray-800'>
-                    {receiver.email ?? (
-                      <span className='text-muted-foreground'>—</span>
-                    )}
-                  </p>
-                </div>
-
-                <div className='group transition'>
-                  <div className='border-b pb-2'>
-                    <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                      Mobile No
-                    </p>
-                  </div>
-                  <p className='mt-2 text-sm text-gray-800'>
-                    {receiver.mobileNo ?? (
-                      <span className='text-muted-foreground'>—</span>
-                    )}
-                  </p>
-                </div>
+                <Info label='Name' value={receiver.name} />
+                <Info label='Company' value={receiver.companyName} />
+                <Info label='Email' value={receiver.email} />
+                <Info label='Mobile No' value={receiver.mobileNo} />
               </div>
             </div>
           )}
@@ -86,6 +46,7 @@ const ReceiverCard: React.FC = () => {
         onOpenChange={setOpenModal}
         onSubmit={(data) => {
           setReceiver(data);
+          setOpenModal(false);
         }}
       />
     </>
@@ -93,3 +54,14 @@ const ReceiverCard: React.FC = () => {
 };
 
 export default ReceiverCard;
+
+const Info = ({ label, value }: { label: string; value?: string | null }) => (
+  <div>
+    <p className='text-muted-foreground border-b pb-2 text-xs font-bold tracking-wider uppercase'>
+      {label}
+    </p>
+    <p className='mt-2 text-sm text-gray-800'>
+      {value ?? <span className='text-muted-foreground'>—</span>}
+    </p>
+  </div>
+);

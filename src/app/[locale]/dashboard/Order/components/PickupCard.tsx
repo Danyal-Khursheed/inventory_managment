@@ -24,8 +24,6 @@ const PickupCard: React.FC = () => {
     pageSize: 10
   });
 
-  console.log('hello', data);
-
   const pickups: PickupType[] = (data?.data ?? []).map((item: any) => ({
     id: item.id,
     addressNick: item.addressNick,

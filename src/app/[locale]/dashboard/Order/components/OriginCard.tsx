@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -13,13 +13,16 @@ import { Edit } from 'lucide-react';
 import { useCountryOrigin } from '../hooks';
 import EditOriginModal, { OriginType } from './EditOriginModal';
 import Spinner from '@/components/spinningLoading/Spinner';
+import { useDispatch } from 'react-redux';
+import { setOrigin } from '@/redux-toolkit/slice';
 
 const OriginCard: React.FC = () => {
+  const dispatch = useDispatch();
   const [originName, setOriginName] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrigin, setSelectedOrigin] = useState<OriginType | null>(null);
 
-  const { data, isLoading } = useCountryOrigin(1, 50);
+  const { data, isLoading } = useCountryOrigin(1, 10);
 
   const origins: OriginType[] = (data?.data ?? []).map((item: any) => ({
     id: item.id ?? `unknown-${Math.random().toString(36).substr(2, 9)}`,
@@ -36,6 +39,12 @@ const OriginCard: React.FC = () => {
     mobileNo: item.mobileNo
   }));
 
+  useEffect(() => {
+    if (selectedOrigin) {
+      dispatch(setOrigin(selectedOrigin));
+    }
+  }, [selectedOrigin, dispatch]);
+
   return (
     <>
       <Card>
@@ -51,57 +60,24 @@ const OriginCard: React.FC = () => {
         <CardContent className='space-y-4'>
           {selectedOrigin && (
             <div className='bg-muted/30 grid grid-cols-1 gap-4 rounded-lg border p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-              <div className='group transition'>
-                <div className='flex items-center justify-between border-b pb-2'>
-                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                    Nickname
-                  </p>
-                </div>
-                <p className='mt-2 text-sm text-gray-800'>
-                  {selectedOrigin.addressNick ?? (
-                    <span className='text-muted-foreground'>—</span>
-                  )}
-                </p>
+              <div>
+                <p className='text-xs font-bold uppercase'>Nickname</p>
+                <p>{selectedOrigin.addressNick || '—'}</p>
               </div>
-
-              <div className='group transition'>
-                <div className='flex items-center justify-between border-b pb-2'>
-                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                    Company
-                  </p>
-                </div>
-                <p className='mt-2 text-sm text-gray-800'>
-                  {selectedOrigin.companyName ?? (
-                    <span className='text-muted-foreground'>—</span>
-                  )}
-                </p>
+              <div>
+                <p className='text-xs font-bold uppercase'>Company</p>
+                <p>{selectedOrigin.companyName || '—'}</p>
               </div>
-
-              <div className='group transition'>
-                <div className='flex items-center justify-between border-b pb-2'>
-                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                    Country
-                  </p>
-                </div>
-                <p className='mt-2 text-sm text-gray-800'>
-                  {selectedOrigin.countryName ?? (
-                    <span className='text-muted-foreground'>—</span>
-                  )}
-                </p>
+              <div>
+                <p className='text-xs font-bold uppercase'>Country</p>
+                <p>{selectedOrigin.countryName || '—'}</p>
               </div>
-
-              <div className='group transition'>
-                <div className='flex items-center justify-between border-b pb-2'>
-                  <p className='text-muted-foreground text-xs font-bold tracking-wider uppercase'>
-                    Mobile No
-                  </p>
-                </div>
-                <p className='mt-2 text-sm text-gray-800'>
-                  {selectedOrigin?.phoneCode && selectedOrigin?.mobileNo ? (
-                    `${selectedOrigin.phoneCode} ${selectedOrigin.mobileNo}`
-                  ) : (
-                    <span className='text-muted-foreground'>—</span>
-                  )}
+              <div>
+                <p className='text-xs font-bold uppercase'>Mobile No</p>
+                <p>
+                  {selectedOrigin.phoneCode && selectedOrigin.mobileNo
+                    ? `${selectedOrigin.phoneCode} ${selectedOrigin.mobileNo}`
+                    : '—'}
                 </p>
               </div>
             </div>

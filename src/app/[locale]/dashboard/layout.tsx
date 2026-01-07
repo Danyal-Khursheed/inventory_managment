@@ -25,18 +25,17 @@ export default function DashboardLayout({
   //     }
   //   }
   // }, [locale, router]);
+
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
       <SidebarInset>
         <Header />
-        {/* page main content */}
         <div className='bg-background h-screen'>
           <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] overflow-y-auto px-4 py-10'>
             {children}
           </div>
         </div>
-        {/* page main content ends */}
       </SidebarInset>
     </SidebarProvider>
   );

@@ -7,7 +7,7 @@ import { useState } from 'react';
 const queryClientConfig = {
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 1 minute
+      staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
       retry: 1
     },
