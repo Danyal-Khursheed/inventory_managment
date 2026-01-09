@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 
 const Page: React.FC = () => {
-  const [receiver, setReceiver] = useState<ReceiverType | null>(null);
   const reciever = useSelector((state: RootState) => state.order);
   console.log(reciever, 'reciver');
   return (
@@ -23,7 +22,7 @@ const Page: React.FC = () => {
       <div className='grid grid-cols-1 gap-6'>
         <OriginCard />
 
-        <ReceiverCard receiver={receiver} setReceiver={setReceiver} />
+        <ReceiverCard />
 
         <PickupCard />
         <AdditionalInfoCard />

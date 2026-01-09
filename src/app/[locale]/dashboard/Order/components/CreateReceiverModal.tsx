@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { useEffect } from 'react';
 
 export interface ReceiverType {
   name: string;
@@ -23,26 +24,48 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: ReceiverType) => void;
+  defaultValues?: ReceiverType | null; // 🔹 add default values prop
 }
 
-const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
+const CreateReceiverModal = ({
+  open,
+  onOpenChange,
+  onSubmit,
+  defaultValues
+}: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<ReceiverType>();
+  } = useForm<ReceiverType>({
+    defaultValues: defaultValues || {
+      name: '',
+      companyName: '',
+      email: '',
+      mobileNo: ''
+    } // 🔹 use defaultValues
+  });
 
   const onFormSubmit: SubmitHandler<ReceiverType> = (data) => {
     onSubmit(data);
-    reset();
+    reset(data); // 🔹 reset with current values
     onOpenChange(false);
   };
 
   const handleClose = () => {
-    reset(); // Reset the form fields when the modal is closed
-    onOpenChange(false); // Close the modal
+    reset(
+      defaultValues || { name: '', companyName: '', email: '', mobileNo: '' }
+    ); // 🔹 reset to last values
+    onOpenChange(false);
   };
+
+  // 🔹 Reset form values whenever defaultValues changes
+  useEffect(() => {
+    reset(
+      defaultValues || { name: '', companyName: '', email: '', mobileNo: '' }
+    );
+  }, [defaultValues, reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -92,7 +115,7 @@ const CreateReceiverModal = ({ open, onOpenChange, onSubmit }: Props) => {
                 required: 'Email is required',
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Enter a valid email address'
+                  message: 'Enter a valid email'
                 }
               })}
             />

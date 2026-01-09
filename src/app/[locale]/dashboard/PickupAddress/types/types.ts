@@ -26,15 +26,15 @@ export interface PickupFormValues {
 
 export interface PickupAddress {
   id: string;
-  address: string;
   addressNick: string;
-  zipCode: string;
-  mobileNo: string;
-  latitude: string;
-  longitude: string;
+  address: string;
   cityName: string;
   countryName: string;
   countryCode: string;
+  zipCode?: string;
+  latitude: string;
+  longitude: string;
+  mobileNo: string;
 }
 
 export interface PickupApi {
@@ -47,4 +47,5 @@ export interface PickupApi {
   city_name: string;
   country_name: string;
   country_code: string;
+  zipCode?: string;
 }

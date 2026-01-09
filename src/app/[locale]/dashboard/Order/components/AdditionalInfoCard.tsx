@@ -1,16 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux-toolkit/store/store';
+import {
+  setCod,
+  setCodAmount,
+  setReferenceId,
+  setInstructions
+} from '@/redux-toolkit/reducers/order';
 
 const AdditionalInfoCard: React.FC = () => {
-  const [cod, setCod] = useState<'yes' | 'no'>('yes');
-  const [codAmount, setCodAmount] = useState('');
-  const [referenceId, setReferenceId] = useState('');
-  const [instructions, setInstructions] = useState('');
+  const dispatch = useDispatch();
+
+  // 🔹 Redux state
+  const codState = useSelector((state: RootState) => state.order.cod);
+  const codAmountState = useSelector(
+    (state: RootState) => state.order.cod_amount
+  );
+  const referenceIdState = useSelector(
+    (state: RootState) => state.order.reference_id
+  );
+  const instructionsState = useSelector(
+    (state: RootState) => state.order.instructions
+  );
+
+  // 🔹 Local state hydrated from Redux
+  const [cod, setCodLocal] = useState<'yes' | 'no'>(codState ? 'yes' : 'no');
+  const [codAmount, setCodAmountLocal] = useState(codAmountState.toString());
+  const [referenceId, setReferenceIdLocal] = useState(referenceIdState);
+  const [instructions, setInstructionsLocal] = useState(instructionsState);
+
+  // 🔹 Sync local state to Redux whenever it changes
+  useEffect(() => {
+    dispatch(setCod(cod === 'yes'));
+    dispatch(setCodAmount(Number(codAmount) || 0));
+    dispatch(setReferenceId(referenceId));
+    dispatch(setInstructions(instructions));
+  }, [cod, codAmount, referenceId, instructions, dispatch]);
 
   return (
     <Card className='rounded-2xl bg-white'>
@@ -22,6 +53,7 @@ const AdditionalInfoCard: React.FC = () => {
 
       <CardContent className='space-y-6'>
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+          {/* 🔹 COD Selection */}
           <div className='space-y-3'>
             <Label className='text-sm font-medium text-gray-700'>
               Cash On Delivery (COD)?
@@ -30,7 +62,7 @@ const AdditionalInfoCard: React.FC = () => {
             <div className='flex items-center gap-8'>
               <button
                 type='button'
-                onClick={() => setCod('yes')}
+                onClick={() => setCodLocal('yes')}
                 className='flex items-center gap-2'
               >
                 <span
@@ -59,7 +91,7 @@ const AdditionalInfoCard: React.FC = () => {
 
               <button
                 type='button'
-                onClick={() => setCod('no')}
+                onClick={() => setCodLocal('no')}
                 className='flex items-center gap-2'
               >
                 <span
@@ -88,6 +120,7 @@ const AdditionalInfoCard: React.FC = () => {
             </div>
           </div>
 
+          {/* 🔹 Reference ID */}
           <div className='space-y-3'>
             <Label className='text-sm font-medium text-gray-700'>
               Reference ID (Optional)
@@ -95,12 +128,13 @@ const AdditionalInfoCard: React.FC = () => {
             <Input
               placeholder='Reference ID'
               value={referenceId}
-              onChange={(e) => setReferenceId(e.target.value)}
+              onChange={(e) => setReferenceIdLocal(e.target.value)}
               className='focus-visible:gray-200 h-11 border-gray-300'
             />
           </div>
         </div>
 
+        {/* 🔹 COD Amount */}
         {cod === 'yes' && (
           <div className='space-y-3'>
             <Label className='text-sm font-medium text-gray-700'>
@@ -109,12 +143,13 @@ const AdditionalInfoCard: React.FC = () => {
             <Input
               placeholder='Enter amount'
               value={codAmount}
-              onChange={(e) => setCodAmount(e.target.value)}
+              onChange={(e) => setCodAmountLocal(e.target.value)}
               className='focus-visible:gray-200 h-11 border-gray-400'
             />
           </div>
         )}
 
+        {/* 🔹 Instructions */}
         <div className='space-y-3'>
           <Label className='text-sm font-medium text-gray-700'>
             Instructions (Optional)
@@ -122,7 +157,7 @@ const AdditionalInfoCard: React.FC = () => {
           <Input
             placeholder='Type any special request here (optional)'
             value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
+            onChange={(e) => setInstructionsLocal(e.target.value)}
             className='h-14 rounded-xl border-gray-300'
           />
         </div>

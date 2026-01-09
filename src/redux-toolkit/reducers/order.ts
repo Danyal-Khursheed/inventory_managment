@@ -19,6 +19,13 @@ interface OrderData {
   reference_id: string;
   cod_amount: number;
   instructions: string;
+
+  warehouseItems: {
+    warehouseItemId: string;
+    quantity: number;
+    totalPrice: number;
+    totalWeight: number;
+  }[];
 }
 
 const initialState: OrderData = {
@@ -29,7 +36,8 @@ const initialState: OrderData = {
   cod: false,
   reference_id: '',
   cod_amount: 0,
-  instructions: ''
+  instructions: '',
+  warehouseItems: []
 };
 
 const orderSlice = createSlice({
@@ -61,6 +69,12 @@ const orderSlice = createSlice({
     setInstructions: (state, action: PayloadAction<string>) => {
       state.instructions = action.payload;
     },
+    setWarehouseItems: (
+      state,
+      action: PayloadAction<OrderData['warehouseItems']>
+    ) => {
+      state.warehouseItems = action.payload;
+    },
     clearOrder: (state) => {
       state.country_origin = null;
       state.pickup_address = null;
@@ -83,7 +97,8 @@ export const {
   setReferenceId,
   setCodAmount,
   setInstructions,
-  clearOrder
+  clearOrder,
+  setWarehouseItems
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

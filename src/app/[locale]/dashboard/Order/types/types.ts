@@ -33,6 +33,7 @@ export interface WarehouseItem {
 }
 
 export interface PackageWarehouseItem {
+  id: string;
   rowId: number;
   itemId: string;
   name: string;
@@ -56,4 +57,37 @@ export interface SelectedWarehouse {
   name: string;
   box: BoxDimensions;
   warehouseItems: PackageWarehouseItem[];
+}
+
+export interface OrderItem {
+  warehouseItemId: string;
+  quantity: number;
+  totalPrice: number;
+  totalWeight: number;
+}
+
+export interface OrderState {
+  warehouseId: string;
+  countryOriginId: string;
+  pickupAddressId: string;
+  items: OrderItem[];
+}
+
+export interface CreateOrderPayload {
+  warehouseId: string;
+  countryOriginId: string;
+  pickupAddressId: string;
+  items: OrderItem[];
+}
+
+interface OrderData {
+  country_origin: string | { id: string };
+  pickup_address: string | { id: string };
+  warehouse: string | { id: string };
+  items?: Array<{
+    warehouse_item_id: string;
+    quantity: number;
+    total_price: number;
+    total_weight: number;
+  }>;
 }

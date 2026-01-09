@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,39 +22,47 @@ import {
   WarehouseItem
 } from '../types/types';
 
-/* ================= COMPONENT ================= */
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux-toolkit/store/store';
+import { setWarehouse } from '@/redux-toolkit/reducers/order';
 
 const PackageSection: React.FC = () => {
+  const dispatch = useDispatch();
+
+  // 🔹 Get persisted warehouse from Redux
+  const savedWarehouse = useSelector(
+    (state: RootState) => state.order.warehouse
+  );
+
+  // 🔹 Local state hydrated from Redux
   const [selectedWarehouse, setSelectedWarehouse] =
-    useState<SelectedWarehouse | null>(null);
+    useState<SelectedWarehouse | null>(savedWarehouse ?? null);
 
-  console.log(selectedWarehouse);
-
+  // 🔹 Fetch warehouses and warehouse items
   const { data: warehousesData, isLoading: warehousesLoading } =
     useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
-
   const { data: warehouseItemsData } = useGetAllWarehouseItems({
     pageNumber: 1,
     pageSize: 10
   });
 
-  /* ================= BOX HANDLER ================= */
-
-  const updateBox = (field: 'length' | 'width' | 'height', value: string) => {
+  // 🔹 Persist local state to Redux
+  useEffect(() => {
     if (!selectedWarehouse) return;
 
+    dispatch(setWarehouse(selectedWarehouse));
+    console.log('✅ Warehouse saved to Redux:', selectedWarehouse);
+  }, [selectedWarehouse, dispatch]);
+
+  /* ================= BOX HANDLER ================= */
+  const updateBox = (field: 'length' | 'width' | 'height', value: string) => {
+    if (!selectedWarehouse) return;
     const numericValue = Number(value);
 
     setSelectedWarehouse((prev) => {
       if (!prev) return prev;
-
-      const updatedBox = {
-        ...prev.box,
-        [field]: numericValue
-      };
-
+      const updatedBox = { ...prev.box, [field]: numericValue };
       const { length, width, height } = updatedBox;
-
       return {
         ...prev,
         box: {
@@ -69,7 +77,6 @@ const PackageSection: React.FC = () => {
   };
 
   /* ================= ITEM HANDLERS ================= */
-
   const addItem = () => {
     if (!selectedWarehouse) return;
 
@@ -131,9 +138,7 @@ const PackageSection: React.FC = () => {
             const whItem = warehouseItemsData?.data?.find(
               (i: WarehouseItem) => String(i.id) === value
             );
-
             if (!whItem) return row;
-
             return {
               ...row,
               itemId: String(whItem.id),
@@ -164,17 +169,13 @@ const PackageSection: React.FC = () => {
             return row;
           }
 
-          return {
-            ...row,
-            [field]: numericValue
-          };
+          return { ...row, [field]: numericValue };
         })
       };
     });
   };
 
   /* ================= RENDER ================= */
-
   return (
     <Card className='mt-6 w-full'>
       <CardHeader>
@@ -195,12 +196,7 @@ const PackageSection: React.FC = () => {
                 warehouse.name ||
                 warehouse.warehouseName ||
                 warehouse.company_name,
-              box: {
-                length: 0,
-                width: 0,
-                height: 0,
-                volumetricWeight: 0
-              },
+              box: { length: 0, width: 0, height: 0, volumetricWeight: 0 },
               warehouseItems: []
             });
           }}
