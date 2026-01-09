@@ -1,4 +1,10 @@
 'use client';
+
+import { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import TablePagination from '@/components/pagination/TablePagination';
+import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { useGetAllPickups } from '../hooks';
 import {
   Table,
   TableBody,
@@ -7,87 +13,64 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import TablePagination from '@/components/pagination/TablePagination';
-import { useTranslations, useLocale } from 'next-intl';
-import { PickupAddress } from '../types/types';
 
-interface Props {
-  totalItems: number;
-  pageSize: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-  data?: PickupAddress[];
-}
+const PickupTable = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
-const PickupTable = ({
-  data,
-  totalItems,
-  pageSize,
-  currentPage,
-  onPageChange
-}: Props) => {
-  const t = useTranslations('PickupTable');
+  const { data, isLoading, isError } = useGetAllPickups({
+    pageNumber: currentPage,
+    pageSize
+  });
+
   const locale = useLocale();
+  const t = useTranslations('PickupTable');
   const isRTL = locale === 'ar';
+
+  if (isLoading) return <SkeletonTable />;
+
+  if (isError)
+    return (
+      <div className='flex h-100 items-center justify-center'>
+        <p className='text-lg text-red-500'>No Data Found in the Table</p>
+      </div>
+    );
 
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
       className='overflow-x-auto rounded-md border shadow-sm'
     >
-      <div className='h-full min-w-[700px] overflow-x-auto'>
+      <div className='min-w-[700px]'>
         <Table>
           <TableHeader>
-            <TableRow className='text-xs font-semibold sm:text-sm'>
-              <TableHead className='whitespace-nowrap'>{t('sNo')}</TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('address_nick')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('zip_code')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('mobile_no')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('latitude')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('longitude')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('city_name')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('country_name')}
-              </TableHead>
-              <TableHead className='whitespace-nowrap'>
-                {t('country_code')}
-              </TableHead>
+            <TableRow>
+              <TableHead>{t('sNo')}</TableHead>
+              <TableHead>{t('address_nick')}</TableHead>
+              <TableHead>{t('zip_code')}</TableHead>
+              <TableHead>{t('mobile_no')}</TableHead>
+              <TableHead>{t('latitude')}</TableHead>
+              <TableHead>{t('longitude')}</TableHead>
+              <TableHead>{t('city_name')}</TableHead>
+              <TableHead>{t('country_name')}</TableHead>
+              <TableHead>{t('country_code')}</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {data?.map((d, idx) => (
-              <TableRow
-                key={d.id}
-                className={`${
-                  idx % 2 !== 0
-                    ? 'bg-white dark:bg-black'
-                    : 'bg-gray-50 dark:bg-gray-800'
-                } hover:bg-gray-100 dark:hover:bg-gray-700`}
-              >
+            {data?.data.map((item, idx) => (
+              <TableRow key={item.id}>
                 <TableCell>
                   {pageSize * (currentPage - 1) + (idx + 1)}
                 </TableCell>
-                <TableCell>{d.addressNick}</TableCell>
-                <TableCell>{d.zipCode}</TableCell>
-                <TableCell>{d.mobileNo}</TableCell>
-                <TableCell>{d.latitude}</TableCell>
-                <TableCell>{d.longitude}</TableCell>
-                <TableCell>{d.cityName}</TableCell>
-                <TableCell>{d.countryName}</TableCell>
-                <TableCell>{d.countryCode}</TableCell>
+                <TableCell>{item.addressNick}</TableCell>
+                <TableCell>{item.zipCode}</TableCell>
+                <TableCell>{item.mobileNo}</TableCell>
+                <TableCell>{item.latitude}</TableCell>
+                <TableCell>{item.longitude}</TableCell>
+                <TableCell>{item.cityName}</TableCell>
+                <TableCell>{item.countryName}</TableCell>
+                <TableCell>{item.countryCode}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -95,10 +78,10 @@ const PickupTable = ({
 
         <div className='mx-4 mt-4'>
           <TablePagination
-            totalItems={totalItems}
+            totalItems={data?.totalCount ?? 0}
             pageSize={pageSize}
             currentPage={currentPage}
-            onPageChange={onPageChange}
+            onPageChange={setCurrentPage}
           />
         </div>
       </div>

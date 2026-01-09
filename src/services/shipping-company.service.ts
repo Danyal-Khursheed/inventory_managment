@@ -10,6 +10,8 @@ export interface ShippingCompany {
 export interface ShippingCompaniesResponse {
   data: ShippingCompany[];
   totalCount: number;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export const shippingCompanyService = {
@@ -18,9 +20,9 @@ export const shippingCompanyService = {
     pageSize = 10
   ): Promise<ShippingCompaniesResponse> => {
     const { data } = await api.get<ShippingCompaniesResponse>(
-      '/shipping-companies/get-all-shipping-companies?pageNumber=1&pageSize=10',
+      '/shipping-companies/get-all-shipping-companies',
       {
-        params: { pageNumber, pageSize }
+        params: { pageNumber, pageSize } // <-- dynamically pass pageNumber and pageSize
       }
     );
     return data;
@@ -30,7 +32,7 @@ export const shippingCompanyService = {
     companyData: Partial<ShippingCompany>
   ): Promise<ShippingCompany> => {
     const { data } = await api.post<ShippingCompany>(
-      'shipping-companies/create-shipping-company',
+      '/shipping-companies/create-shipping-company',
       companyData
     );
     return data;

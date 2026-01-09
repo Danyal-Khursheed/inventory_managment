@@ -21,6 +21,18 @@ export interface Pickup {
   [key: string]: any;
 }
 
+export interface Pickup {
+  id?: string;
+  addressNick: string;
+  zipCode: string;
+  mobileNo: string;
+  latitude: string;
+  longitude: string;
+  cityName: string;
+  countryName: string;
+  countryCode: string;
+}
+
 export interface PickupsResponse {
   data: Pickup[];
   totalCount: number;
@@ -32,30 +44,16 @@ export const pickupService = {
     pageSize = 10
   ): Promise<PickupsResponse> => {
     const { data } = await api.get<PickupsResponse>(
-      'pickup-addresses/get-all-pickup-addresses?pageNumber=1&pageSize=10',
+      'pickup-addresses/get-all-pickup-addresses',
       { params: { pageNumber, pageSize } }
     );
     return data;
   },
-
   createPickup: async (pickupData: Partial<Pickup>): Promise<Pickup> => {
     const { data } = await api.post<Pickup>(
       '/pickup-addresses/create-pickup-address',
       pickupData
     );
     return data;
-  },
-
-  updatePickup: async (
-    pickupId: string,
-    pickupData: Partial<Pickup>
-  ): Promise<Pickup> => {
-    // const { data } = await api.patch<Pickup>(`/pickups/update?id=${pickupId}`, pickupData);
-    // return data;
-    return { id: pickupId, ...pickupData } as Pickup; // dummy
-  },
-
-  deletePickup: async (pickupId: string): Promise<void> => {
-    // await api.delete('/pickups/delete', { params: { id: pickupId } });
   }
 };

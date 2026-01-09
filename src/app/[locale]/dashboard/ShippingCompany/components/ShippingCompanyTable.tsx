@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import { ShippingCompany } from '@/services/shipping-company.service';
-
 import {
   Table,
   TableBody,
@@ -12,26 +12,30 @@ import {
 } from '@/components/ui/table';
 import TablePagination from '@/components/pagination/TablePagination';
 import { useTranslations, useLocale } from 'next-intl';
+import { useShippingCompanies } from '../hooks/useShippingCompanies';
+import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 
-interface Props {
-  shippingCompanies: ShippingCompany[];
+const ShippingCompanyTable = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
-  totalItems: number;
-  pageSize: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
-}
+  const { data, isLoading, isError } = useShippingCompanies({
+    pageNumber: currentPage,
+    pageSize
+  });
 
-const ShippingCompanyTable = ({
-  shippingCompanies,
-  totalItems,
-  pageSize,
-  currentPage,
-  onPageChange
-}: Props) => {
-  const t = useTranslations('ShippingCompanyTable');
   const locale = useLocale();
+  const t = useTranslations('ShippingCompanyTable');
   const isRTL = locale === 'ar';
+
+  if (isLoading) return <SkeletonTable />;
+
+  if (isError)
+    return (
+      <div className='flex h-100 items-center justify-center'>
+        <p className='text-lg text-red-500'>No Data Found in the Table</p>
+      </div>
+    );
 
   return (
     <div
@@ -50,16 +54,18 @@ const ShippingCompanyTable = ({
           </TableHeader>
 
           <TableBody>
-            {shippingCompanies.map((company, idx) => (
+            {data?.data.map((company, idx) => (
               <TableRow
                 key={company.id}
                 className={`${
                   idx % 2 !== 0
                     ? 'bg-white dark:bg-black'
                     : 'bg-gray-50 dark:bg-gray-800'
-                } hover:bg-gray-100`}
+                } hover:bg-gray-100 dark:hover:bg-gray-700`}
               >
-                <TableCell> {(currentPage - 1) * pageSize + idx + 1}</TableCell>
+                <TableCell>
+                  {pageSize * (currentPage - 1) + (idx + 1)}
+                </TableCell>
                 <TableCell>{company.serviceName}</TableCell>
                 <TableCell>{company.serviceType}</TableCell>
                 {/* <TableCell>{company.warehouseId}</TableCell> */}
@@ -70,10 +76,10 @@ const ShippingCompanyTable = ({
 
         <div className='mx-4 mt-4'>
           <TablePagination
-            totalItems={totalItems}
+            totalItems={data?.totalCount ?? 0}
             pageSize={pageSize}
             currentPage={currentPage}
-            onPageChange={onPageChange}
+            onPageChange={setCurrentPage}
           />
         </div>
       </div>

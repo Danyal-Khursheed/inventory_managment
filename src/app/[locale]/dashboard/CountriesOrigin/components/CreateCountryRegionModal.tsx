@@ -30,13 +30,15 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: FormValues) => void;
   loading?: boolean;
+  isError?: boolean;
 }
 
 const CreateCountryRegionModal = ({
   open,
   onOpenChange,
   onSubmit,
-  loading
+  loading,
+  isError
 }: Props) => {
   const t = useTranslations('CountryRegionForm');
   const locale = useLocale();

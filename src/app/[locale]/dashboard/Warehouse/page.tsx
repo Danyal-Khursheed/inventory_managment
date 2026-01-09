@@ -21,7 +21,7 @@ export default function WarehousePage() {
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 10;
 
-  const { data, isLoading, refetch } = useGetAllWarehouses({
+  const { data, isLoading, error, refetch } = useGetAllWarehouses({
     pageNumber,
     pageSize
   });
@@ -35,6 +35,10 @@ export default function WarehousePage() {
       />
       {isLoading ? (
         <SkeletonTable />
+      ) : error ? (
+        <div className='flex h-100 items-center justify-center'>
+          <p className='text-lg text-red-500'>No Data Found in the Table</p>
+        </div>
       ) : (
         <WarehouseTable
           warehouses={data?.data || []}

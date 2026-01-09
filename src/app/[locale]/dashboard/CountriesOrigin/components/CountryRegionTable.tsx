@@ -17,12 +17,20 @@ import {
 const CountryRegionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const { data, isLoading } = useCountryOrigin(currentPage, pageSize);
+
+  const { data, isLoading, isError } = useCountryOrigin(currentPage, pageSize);
   const locale = useLocale();
   const t = useTranslations('CountryRegionTable');
   const isRTL = locale === 'ar';
 
   if (isLoading) return <SkeletonTable />;
+
+  if (isError)
+    return (
+      <div className='flex h-100 items-center justify-center'>
+        <p className='text-lg text-red-500'>No Data Found in the Table</p>
+      </div>
+    );
 
   return (
     <div
