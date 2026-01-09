@@ -3,6 +3,14 @@ import { NavItem } from '@/types';
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
   {
+    title: 'Statistics',
+    url: '/dashboard/Statistics',
+    icon: 'dashboard',
+    isActive: false,
+    shortcut: ['s', 's'],
+    items: []
+  },
+  {
     title: 'Warehouse',
     url: '/dashboard/Warehouse',
     icon: 'warehouse',
