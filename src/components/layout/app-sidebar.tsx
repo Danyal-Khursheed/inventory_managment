@@ -157,7 +157,9 @@ export default function AppSidebar() {
               >
                 <DropdownMenuItem className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 transition-colors duration-150'>
                   <IconLogout className='h-4 w-4' />
-                  <SignOutButton redirectUrl='/auth/sign-in'>
+                  <SignOutButton
+                  // redirectUrl='/auth/sign-in'
+                  >
                     <span>Sign Out</span>
                   </SignOutButton>
                 </DropdownMenuItem>

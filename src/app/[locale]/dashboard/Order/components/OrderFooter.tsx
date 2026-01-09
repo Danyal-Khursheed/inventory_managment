@@ -1,9 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
-import { useSelector } from 'react-redux';
 import { useCreateOrder } from '../hooks/useOrder';
+import { clearCart } from '@/redux-toolkit/reducers/slice';
+import { resetOrder } from '@/redux-toolkit/reducers/order';
 
 type CreateOrderItem = {
   warehouseItemId: string;
@@ -19,28 +21,27 @@ type CreateOrderPayload = {
   items: CreateOrderItem[];
 };
 
-const getId = (value: any): string => {
-  return String(value?.id ?? value ?? '');
-};
+const getId = (value: any): string => String(value?.id ?? value ?? '');
 
 const OrderFooter: React.FC = () => {
+  const dispatch = useDispatch(); // ✅ call at top level
   const order = useSelector((state: RootState) => state.order);
   const createOrderMutation = useCreateOrder();
 
-  const warehouseItems = order.warehouse?.warehouseItems ?? [];
+  console.log('hello order', order);
 
   const handleNext = (): void => {
-    const items: CreateOrderItem[] = warehouseItems.map((item) => ({
-      warehouseItemId: String(item?.id ?? item?.itemId),
-      quantity: Number(item.qty ?? 0),
-      totalPrice: Number(item.price ?? 0),
-      totalWeight: Number(item.weight ?? 0)
-    }));
+    const items: CreateOrderItem[] =
+      order.warehouse?.warehouseItems
+        .filter((i) => i.itemId && i.qty > 0)
+        .map((i) => ({
+          warehouseItemId: String(i.id ?? i.itemId),
+          quantity: Number(i.qty),
+          totalPrice: Number(i.price),
+          totalWeight: Number(i.weight)
+        })) || [];
 
-    console.log('warehouseId:', getId(order.warehouse));
-    console.log('countryOriginId:', getId(order.country_origin));
-    console.log('pickupAddressId:', getId(order.pickup_address));
-    console.log('items:', items);
+    console.log('itemssss', items);
 
     const payload: CreateOrderPayload = {
       warehouseId: getId(order.warehouse),
@@ -49,9 +50,13 @@ const OrderFooter: React.FC = () => {
       items
     };
 
-    console.log('✅ FINAL PAYLOAD SENT TO API:', payload);
+    console.log('Payload for API:', payload);
 
-    createOrderMutation.mutate(payload);
+    createOrderMutation.mutate(payload, {
+      onSuccess: () => {
+        dispatch(resetOrder());
+      }
+    });
   };
 
   return (

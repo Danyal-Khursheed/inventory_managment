@@ -75,6 +75,9 @@ const orderSlice = createSlice({
     ) => {
       state.warehouseItems = action.payload;
     },
+    resetOrder: (state) => {
+      Object.assign(state, initialState);
+    },
     clearOrder: (state) => {
       state.country_origin = null;
       state.pickup_address = null;
@@ -98,7 +101,8 @@ export const {
   setCodAmount,
   setInstructions,
   clearOrder,
-  setWarehouseItems
+  setWarehouseItems,
+  resetOrder
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

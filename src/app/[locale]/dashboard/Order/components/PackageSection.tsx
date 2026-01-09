@@ -29,32 +29,51 @@ import { setWarehouse } from '@/redux-toolkit/reducers/order';
 const PackageSection: React.FC = () => {
   const dispatch = useDispatch();
 
-  // 🔹 Get persisted warehouse from Redux
   const savedWarehouse = useSelector(
     (state: RootState) => state.order.warehouse
   );
 
-  // 🔹 Local state hydrated from Redux
   const [selectedWarehouse, setSelectedWarehouse] =
-    useState<SelectedWarehouse | null>(savedWarehouse ?? null);
+    useState<SelectedWarehouse | null>(
+      savedWarehouse
+        ? {
+            ...savedWarehouse,
+            warehouseItems: savedWarehouse.warehouseItems.map((item) => ({
+              ...item,
+              id: item.id ?? item.itemId ?? `temp-${Date.now()}`
+            }))
+          }
+        : null
+    );
 
-  // 🔹 Fetch warehouses and warehouse items
   const { data: warehousesData, isLoading: warehousesLoading } =
     useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
+
   const { data: warehouseItemsData } = useGetAllWarehouseItems({
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 50
   });
 
-  // 🔹 Persist local state to Redux
+  // Persist local warehouse to Redux
   useEffect(() => {
     if (!selectedWarehouse) return;
 
-    dispatch(setWarehouse(selectedWarehouse));
-    console.log('✅ Warehouse saved to Redux:', selectedWarehouse);
+    const safeWarehouse: SelectedWarehouse = {
+      ...selectedWarehouse,
+      warehouseItems: selectedWarehouse.warehouseItems.map((item) => ({
+        ...item,
+        id: item.id ?? item.itemId ?? `temp-${Date.now()}`
+      }))
+    };
+
+    dispatch(setWarehouse(safeWarehouse));
   }, [selectedWarehouse, dispatch]);
 
-  /* ================= BOX HANDLER ================= */
+  // Filter items by selected warehouse
+  const filteredItems = warehouseItemsData?.data?.filter(
+    (item: WarehouseItem) => String(item.warehouseId) === selectedWarehouse?.id
+  );
+
   const updateBox = (field: 'length' | 'width' | 'height', value: string) => {
     if (!selectedWarehouse) return;
     const numericValue = Number(value);
@@ -76,7 +95,6 @@ const PackageSection: React.FC = () => {
     });
   };
 
-  /* ================= ITEM HANDLERS ================= */
   const addItem = () => {
     if (!selectedWarehouse) return;
 
@@ -87,6 +105,7 @@ const PackageSection: React.FC = () => {
             warehouseItems: [
               ...prev.warehouseItems,
               {
+                id: `temp-${Date.now()}`,
                 rowId: Date.now(),
                 itemId: '',
                 name: '',
@@ -133,15 +152,16 @@ const PackageSection: React.FC = () => {
         warehouseItems: prev.warehouseItems.map((row) => {
           if (row.rowId !== rowId) return row;
 
-          // Item selection
           if (field === 'itemId') {
-            const whItem = warehouseItemsData?.data?.find(
+            const whItem = filteredItems?.find(
               (i: WarehouseItem) => String(i.id) === value
             );
             if (!whItem) return row;
+
             return {
-              ...row,
+              rowId: row.rowId,
               itemId: String(whItem.id),
+              id: String(whItem.id),
               name: whItem.name,
               qty: whItem.quantity,
               weight: whItem.weightPerItem,
@@ -175,7 +195,6 @@ const PackageSection: React.FC = () => {
     });
   };
 
-  /* ================= RENDER ================= */
   return (
     <Card className='mt-6 w-full'>
       <CardHeader>
@@ -225,7 +244,6 @@ const PackageSection: React.FC = () => {
 
       {selectedWarehouse && (
         <CardContent className='space-y-4'>
-          {/* BOX SIZE */}
           <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5'>
             <Input
               type='number'
@@ -259,7 +277,6 @@ const PackageSection: React.FC = () => {
             </Button>
           </div>
 
-          {/* ITEMS TABLE */}
           <div className='overflow-x-auto'>
             <table className='w-full border text-sm'>
               <thead className='bg-primary text-white'>
@@ -287,7 +304,7 @@ const PackageSection: React.FC = () => {
 
                       <td className='p-3'>
                         <Select
-                          value={row.itemId}
+                          value={row.itemId || undefined}
                           onValueChange={(value) =>
                             updateItem(row.rowId, 'itemId', value)
                           }
@@ -296,15 +313,19 @@ const PackageSection: React.FC = () => {
                             <SelectValue placeholder='Select item' />
                           </SelectTrigger>
                           <SelectContent>
-                            {warehouseItemsData?.data?.map(
-                              (item: WarehouseItem) => (
+                            {filteredItems?.length ? (
+                              filteredItems.map((item: WarehouseItem) => (
                                 <SelectItem
                                   key={item.id}
                                   value={String(item.id)}
                                 >
                                   {item.name}
                                 </SelectItem>
-                              )
+                              ))
+                            ) : (
+                              <div className='p-2 text-gray-500'>
+                                No items available
+                              </div>
                             )}
                           </SelectContent>
                         </Select>
