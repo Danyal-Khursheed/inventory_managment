@@ -50,10 +50,18 @@ export const navItems: NavItem[] = [
     shortcut: ['e', 'e'],
     items: []
   },
+  // {
+  //   title: 'Order',
+  //   url: '/dashboard/Order',
+  //   icon: 'IconShoppingCart',
+  //   isActive: false,
+  //   shortcut: ['e', 'e'],
+  //   items: []
+  // },
   {
     title: 'Order',
-    url: '/dashboard/Order',
-    icon: 'IconShoppingCart',
+    url: '/dashboard/OrderData',
+    icon: 'IconClipboardList',
     isActive: false,
     shortcut: ['e', 'e'],
     items: []

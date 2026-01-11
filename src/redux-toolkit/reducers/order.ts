@@ -45,7 +45,7 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     setCountryOrigin: (state, action: PayloadAction<CountryOrigin>) => {
-      console.log(action.payload, 'redux data');
+      // console.log(action.payload, 'redux data');
       state.country_origin = action.payload;
     },
     setPickupAddress: (state, action: PayloadAction<PickupAddress>) => {

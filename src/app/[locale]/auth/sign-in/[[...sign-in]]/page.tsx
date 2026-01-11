@@ -45,7 +45,7 @@ export default function Page() {
     setIsLoading(true);
     try {
       await login(data.email, data.password);
-      router.push(`/${locale}/dashboard/Warehouse`);
+      router.push(`/${locale}/dashboard/Statistics`);
     } catch (err: any) {
       setError(err.response?.data?.message || t('signInFailed'));
     } finally {

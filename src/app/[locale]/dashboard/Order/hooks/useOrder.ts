@@ -12,7 +12,7 @@ export const useCreateOrder = () => {
     mutationFn: (payload: CreateOrderPayload) => orderService.create(payload),
     onSuccess: (data) => {
       toast.success('Order created successfully!');
-      queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || 'Failed to create order');

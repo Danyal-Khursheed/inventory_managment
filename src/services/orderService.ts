@@ -17,7 +17,6 @@ export interface CreateOrderPayload {
 export interface Order extends CreateOrderPayload {
   id: string;
   createdAt: string;
-  // Add other fields your API returns
 }
 
 export interface OrderResponse {
@@ -29,24 +28,31 @@ export const orderService = {
   create: async (payload: CreateOrderPayload): Promise<Order> => {
     const { data } = await api.post<Order>('/orders/create-order', payload);
     return data;
+  },
+
+  getAll: async (pageNumber = 1, pageSize = 10) => {
+    const { data } = await api.get('/orders', {
+      params: { pageNumber, pageSize }
+    });
+    return data;
+  },
+
+  getById: async (id: string) => {
+    const { data } = await api.get(`/orders/${id}`);
+    return data;
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`/orders/${id}`);
   }
-
-  //   getAll: async (): Promise<OrderResponse> => {
-  //     const { data } = await api.get<OrderResponse>('/orders');
-  //     return data;
-  //   },
-
-  //   getById: async (id: string): Promise<Order> => {
-  //     const { data } = await api.get<Order>(`/orders/${id}`);
-  //     return data;
-  //   },
-
-  //   update: async (id: string, payload: Partial<CreateOrderPayload>): Promise<Order> => {
-  //     const { data } = await api.put<Order>(`/orders/${id}`, payload);
-  //     return data;
-  //   },
-
-  //   delete: async (id: string): Promise<void> => {
-  //     await api.delete(`/orders/${id}`);
-  //   },
 };
+
+//   getById: async (id: string): Promise<Order> => {
+//     const { data } = await api.get<Order>(`/orders/${id}`);
+//     return data;
+//   },
+
+//   update: async (id: string, payload: Partial<CreateOrderPayload>): Promise<Order> => {
+//     const { data } = await api.put<Order>(`/orders/${id}`, payload);
+//     return data;
+//   },

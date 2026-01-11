@@ -33,7 +33,9 @@ const ShippingCompanyTable = () => {
   if (isError)
     return (
       <div className='flex h-100 items-center justify-center'>
-        <p className='text-lg text-red-500'>No Data Found in the Table</p>
+        <p className='text-lg text-red-500'>
+          Something went wrong. Please try again
+        </p>
       </div>
     );
 

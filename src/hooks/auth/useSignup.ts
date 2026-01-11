@@ -13,7 +13,7 @@ export const useSignup = () => {
     onSuccess: (data) => {
       saveToken(data.token.token);
       queryClient.setQueryData(['currentUser'], data.user);
-      router.push('/dashboard');
+      router.push('/dashboard/Statistics');
     }
   });
 };

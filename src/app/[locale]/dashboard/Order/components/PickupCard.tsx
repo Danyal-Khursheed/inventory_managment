@@ -54,7 +54,7 @@ const PickupCard: React.FC = () => {
     if (!selectedPickup) return;
 
     dispatch(setPickupAddress(selectedPickup));
-    console.log('✅ Pickup saved to Redux:', selectedPickup);
+    // console.log('✅ Pickup saved to Redux:', selectedPickup);
   }, [selectedPickup, dispatch]);
 
   return (

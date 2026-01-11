@@ -397,6 +397,33 @@
     "serviceName": "Service Name",
     "serviceType": "Service Type",
     "Warehouse": "Warehouse"
+  },
+  "DeleteOrderModal" : {
+  "Delete Order": "Delete Order",
+  "Are you sure you want to delete? This action cannot be undone": "Are you sure you want to delete? This action cannot be undone",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleting": "Deleting..."
+},
+  "OrderheaderHero": {
+    "Order Data": "Order Data",
+    "Create Order": "Create Order"
+  },
+    "OrderTable": {
+    "sNo": "S. No",
+    "originName": "Origin Name",
+    "originCountry": "Origin Country",
+    "receiverName": "Receiver Name",
+    "receiverContact": "Receiver Contact",
+    "pickupName": "Pickup Name",
+    "pickupCountry": "Pickup Country",
+    "warehouseName": "Warehouse Name",
+    "warehouseItem": "Warehouse Item",
+    "quantity": "Quantity",
+    "actions": "Actions",
+    "editOrder": "Edit Order",
+    "deleteOrder": "Delete Order",
+    "errorMessage": "Something went wrong. Please try again."
   }
 }
 

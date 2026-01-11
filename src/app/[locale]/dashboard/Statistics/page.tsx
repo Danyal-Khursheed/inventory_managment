@@ -16,10 +16,16 @@ import {
 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import HeaderHero from './components/HeaderHero';
+import { useRouter } from 'next/navigation';
 
 export default function StatisticsPage() {
   const { data, isLoading, error } = useStatistics();
+  const router = useRouter();
 
+  const handleCreateOrder = () => {
+    router.push('/dashboard/Order');
+  };
   if (isLoading) {
     return (
       <div className='space-y-6'>
@@ -88,6 +94,7 @@ export default function StatisticsPage() {
   return (
     <div className='space-y-6'>
       {/* Statistics Cards */}
+      <HeaderHero buttonName='Create Order' handleButton={handleCreateOrder} />
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <StatCard
           title='Total Orders'

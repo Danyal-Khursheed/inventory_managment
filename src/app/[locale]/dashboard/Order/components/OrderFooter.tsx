@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 import { useCreateOrder } from '../hooks/useOrder';
-import { clearCart } from '@/redux-toolkit/reducers/slice';
 import { resetOrder } from '@/redux-toolkit/reducers/order';
+import { useRouter } from 'next/navigation';
 
 type CreateOrderItem = {
   warehouseItemId: string;
@@ -24,11 +24,10 @@ type CreateOrderPayload = {
 const getId = (value: any): string => String(value?.id ?? value ?? '');
 
 const OrderFooter: React.FC = () => {
-  const dispatch = useDispatch(); // ✅ call at top level
+  const dispatch = useDispatch();
+  const router = useRouter();
   const order = useSelector((state: RootState) => state.order);
   const createOrderMutation = useCreateOrder();
-
-  console.log('hello order', order);
 
   const handleNext = (): void => {
     const items: CreateOrderItem[] =
@@ -41,8 +40,6 @@ const OrderFooter: React.FC = () => {
           totalWeight: Number(i.weight)
         })) || [];
 
-    console.log('itemssss', items);
-
     const payload: CreateOrderPayload = {
       warehouseId: getId(order.warehouse),
       countryOriginId: getId(order.country_origin),
@@ -50,11 +47,10 @@ const OrderFooter: React.FC = () => {
       items
     };
 
-    console.log('Payload for API:', payload);
-
     createOrderMutation.mutate(payload, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         dispatch(resetOrder());
+        router.push('/dashboard/OrderData');
       }
     });
   };

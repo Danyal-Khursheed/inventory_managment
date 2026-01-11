@@ -42,7 +42,7 @@ const ReceiverCard: React.FC = () => {
       })
     );
 
-    console.log('✅ Receiver saved to Redux:', receiver);
+    // console.log('✅ Receiver saved to Redux:', receiver);
   }, [receiver, dispatch]);
 
   return (

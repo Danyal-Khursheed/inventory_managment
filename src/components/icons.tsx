@@ -35,7 +35,8 @@ import {
   IconWorld,
   IconMapPin,
   IconTruck,
-  IconShoppingCart
+  IconShoppingCart,
+  IconClipboardList
 } from '@tabler/icons-react';
 
 export type Icon = React.ComponentType<IconProps>;
@@ -76,5 +77,6 @@ export const Icons = {
   IconWorld: IconWorld,
   IconMapPin: IconMapPin,
   IconTruck: IconTruck,
-  IconShoppingCart: IconShoppingCart
+  IconShoppingCart: IconShoppingCart,
+  IconClipboardList: IconClipboardList
 };

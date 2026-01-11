@@ -367,6 +367,33 @@
     "serviceName": "اسم الخدمة",
     "serviceType": "نوع الخدمة",
     "Warehouse": "المستودع"
+  },
+  "DeleteOrderModal" :{
+  "Delete Order": "حذف الطلب",
+  "Are you sure you want to delete? This action cannot be undone": "هل أنت متأكد من حذف هذا الطلب؟ هذا الإجراء لا يمكن التراجع عنه",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "deleting": "جاري الحذف..."
+},
+  "OrderheaderHero": {
+    "Order Data": "بيانات الطلبات",
+    "Create Order": "إنشاء طلب"
+  },
+    "OrderTable": {
+    "sNo": "م.",
+    "originName": "اسم المصدر",
+    "originCountry": "دولة المصدر",
+    "receiverName": "اسم المستلم",
+    "receiverContact": "تواصل المستلم",
+    "pickupName": "اسم الاستلام",
+    "pickupCountry": "دولة الاستلام",
+    "warehouseName": "اسم المستودع",
+    "warehouseItem": "عنصر المستودع",
+    "quantity": "الكمية",
+    "actions": "الإجراءات",
+    "editOrder": "تعديل الطلب",
+    "deleteOrder": "حذف الطلب",
+    "errorMessage": "حدث خطأ ما. حاول مرة أخرى."
   }
 }
 

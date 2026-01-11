@@ -22,7 +22,7 @@ export const shippingCompanyService = {
     const { data } = await api.get<ShippingCompaniesResponse>(
       '/shipping-companies/get-all-shipping-companies',
       {
-        params: { pageNumber, pageSize } // <-- dynamically pass pageNumber and pageSize
+        params: { pageNumber, pageSize }
       }
     );
     return data;

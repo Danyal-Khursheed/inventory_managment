@@ -25,6 +25,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 import { setWarehouse } from '@/redux-toolkit/reducers/order';
+import ClientOnly from '@/components/ClientOnly';
 
 const PackageSection: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,17 +35,19 @@ const PackageSection: React.FC = () => {
   );
 
   const [selectedWarehouse, setSelectedWarehouse] =
-    useState<SelectedWarehouse | null>(
-      savedWarehouse
-        ? {
-            ...savedWarehouse,
-            warehouseItems: savedWarehouse.warehouseItems.map((item) => ({
+    useState<SelectedWarehouse | null>(() => {
+      if (!savedWarehouse) return null;
+
+      return {
+        ...savedWarehouse,
+        warehouseItems: Array.isArray(savedWarehouse.warehouseItems)
+          ? savedWarehouse.warehouseItems.map((item, index) => ({
               ...item,
-              id: item.id ?? item.itemId ?? `temp-${Date.now()}`
+              id: item.id ?? item.itemId ?? String(index)
             }))
-          }
-        : null
-    );
+          : []
+      };
+    });
 
   const { data: warehousesData, isLoading: warehousesLoading } =
     useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
@@ -54,22 +57,19 @@ const PackageSection: React.FC = () => {
     pageSize: 50
   });
 
-  // Persist local warehouse to Redux
   useEffect(() => {
     if (!selectedWarehouse) return;
 
-    const safeWarehouse: SelectedWarehouse = {
-      ...selectedWarehouse,
-      warehouseItems: selectedWarehouse.warehouseItems.map((item) => ({
-        ...item,
-        id: item.id ?? item.itemId ?? `temp-${Date.now()}`
-      }))
-    };
-
-    dispatch(setWarehouse(safeWarehouse));
+    dispatch(
+      setWarehouse({
+        ...selectedWarehouse,
+        warehouseItems: Array.isArray(selectedWarehouse.warehouseItems)
+          ? selectedWarehouse.warehouseItems
+          : []
+      })
+    );
   }, [selectedWarehouse, dispatch]);
 
-  // Filter items by selected warehouse
   const filteredItems = warehouseItemsData?.data?.filter(
     (item: WarehouseItem) => String(item.warehouseId) === selectedWarehouse?.id
   );
@@ -82,6 +82,7 @@ const PackageSection: React.FC = () => {
       if (!prev) return prev;
       const updatedBox = { ...prev.box, [field]: numericValue };
       const { length, width, height } = updatedBox;
+
       return {
         ...prev,
         box: {
@@ -98,28 +99,30 @@ const PackageSection: React.FC = () => {
   const addItem = () => {
     if (!selectedWarehouse) return;
 
-    setSelectedWarehouse((prev) =>
-      prev
-        ? {
-            ...prev,
-            warehouseItems: [
-              ...prev.warehouseItems,
-              {
-                id: `temp-${Date.now()}`,
-                rowId: Date.now(),
-                itemId: '',
-                name: '',
-                qty: 0,
-                weight: 0,
-                price: 0,
-                originalQty: 0,
-                originalWeight: 0,
-                originalPrice: 0
-              }
-            ]
+    setSelectedWarehouse((prev) => {
+      if (!prev) return prev;
+
+      const nextId = prev.warehouseItems?.length + 1;
+
+      return {
+        ...prev,
+        warehouseItems: [
+          ...prev.warehouseItems,
+          {
+            id: String(nextId),
+            rowId: nextId,
+            itemId: '',
+            name: '',
+            qty: 0,
+            weight: 0,
+            price: 0,
+            originalQty: 0,
+            originalWeight: 0,
+            originalPrice: 0
           }
-        : prev
-    );
+        ]
+      };
+    });
   };
 
   const deleteItem = (rowId: number) => {
@@ -200,46 +203,48 @@ const PackageSection: React.FC = () => {
       <CardHeader>
         <CardTitle>Select your warehouse</CardTitle>
 
-        <Select
-          value={selectedWarehouse?.id || ''}
-          onValueChange={(warehouseId) => {
-            const warehouse = warehousesData?.data?.find(
-              (w: any) => String(w.id) === warehouseId
-            );
+        <ClientOnly>
+          <Select
+            value={selectedWarehouse?.id || ''}
+            onValueChange={(warehouseId) => {
+              const warehouse = warehousesData?.data?.find(
+                (w: any) => String(w.id) === warehouseId
+              );
 
-            if (!warehouse) return;
+              if (!warehouse) return;
 
-            setSelectedWarehouse({
-              id: String(warehouse.id),
-              name:
-                warehouse.name ||
-                warehouse.warehouseName ||
-                warehouse.company_name,
-              box: { length: 0, width: 0, height: 0, volumetricWeight: 0 },
-              warehouseItems: []
-            });
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder='Select warehouse' />
-          </SelectTrigger>
+              setSelectedWarehouse({
+                id: String(warehouse.id),
+                name:
+                  warehouse.name ||
+                  warehouse.warehouseName ||
+                  warehouse.company_name,
+                box: { length: 0, width: 0, height: 0, volumetricWeight: 0 },
+                warehouseItems: []
+              });
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder='Select warehouse' />
+            </SelectTrigger>
 
-          <SelectContent>
-            {warehousesLoading ? (
-              <SelectItem value='loading'>
-                <Spinner />
-              </SelectItem>
-            ) : (
-              warehousesData?.data?.map((warehouse: any) => (
-                <SelectItem key={warehouse.id} value={String(warehouse.id)}>
-                  {warehouse.name ||
-                    warehouse.warehouseName ||
-                    warehouse.company_name}
+            <SelectContent>
+              {warehousesLoading ? (
+                <SelectItem value='loading'>
+                  <Spinner />
                 </SelectItem>
-              ))
-            )}
-          </SelectContent>
-        </Select>
+              ) : (
+                warehousesData?.data?.map((warehouse: any) => (
+                  <SelectItem key={warehouse.id} value={String(warehouse.id)}>
+                    {warehouse.name ||
+                      warehouse.warehouseName ||
+                      warehouse.company_name}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+        </ClientOnly>
       </CardHeader>
 
       {selectedWarehouse && (
@@ -248,30 +253,26 @@ const PackageSection: React.FC = () => {
             <Input
               type='number'
               placeholder='Length (cm)'
-              value={selectedWarehouse.box.length}
+              value={selectedWarehouse?.box?.length}
               onChange={(e) => updateBox('length', e.target.value)}
             />
-
             <Input
               type='number'
               placeholder='Width (cm)'
-              value={selectedWarehouse.box.width}
+              value={selectedWarehouse?.box?.width}
               onChange={(e) => updateBox('width', e.target.value)}
             />
-
             <Input
               type='number'
               placeholder='Height (cm)'
-              value={selectedWarehouse.box.height}
+              value={selectedWarehouse?.box?.height}
               onChange={(e) => updateBox('height', e.target.value)}
             />
-
             <Input
               disabled
-              value={selectedWarehouse.box.volumetricWeight}
+              value={selectedWarehouse?.box?.volumetricWeight}
               placeholder='Volumetric Weight'
             />
-
             <Button onClick={addItem}>
               <Plus className='mr-2 h-4 w-4' /> Add
             </Button>
@@ -279,30 +280,12 @@ const PackageSection: React.FC = () => {
 
           <div className='overflow-x-auto'>
             <table className='w-full border text-sm'>
-              <thead className='bg-primary text-white'>
-                <tr>
-                  <th className='p-3'>#</th>
-                  <th className='p-3'>Item</th>
-                  <th className='p-3'>Qty</th>
-                  <th className='p-3'>Weight</th>
-                  <th className='p-3'>Price</th>
-                  <th className='p-3'>Actions</th>
-                </tr>
-              </thead>
-
               <tbody>
-                {selectedWarehouse.warehouseItems.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className='p-4 text-center'>
-                      No items added
-                    </td>
-                  </tr>
-                ) : (
-                  selectedWarehouse.warehouseItems.map((row, index) => (
-                    <tr key={row.rowId}>
-                      <td className='p-3'>{index + 1}</td>
-
-                      <td className='p-3'>
+                {selectedWarehouse.warehouseItems.map((row, index) => (
+                  <tr key={row.rowId}>
+                    <td className='p-3'>{index + 1}</td>
+                    <td className='p-3'>
+                      <ClientOnly>
                         <Select
                           value={row.itemId || undefined}
                           onValueChange={(value) =>
@@ -313,66 +296,53 @@ const PackageSection: React.FC = () => {
                             <SelectValue placeholder='Select item' />
                           </SelectTrigger>
                           <SelectContent>
-                            {filteredItems?.length ? (
-                              filteredItems.map((item: WarehouseItem) => (
-                                <SelectItem
-                                  key={item.id}
-                                  value={String(item.id)}
-                                >
-                                  {item.name}
-                                </SelectItem>
-                              ))
-                            ) : (
-                              <div className='p-2 text-gray-500'>
-                                No items available
-                              </div>
-                            )}
+                            {filteredItems?.map((item: WarehouseItem) => (
+                              <SelectItem key={item.id} value={String(item.id)}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
-                      </td>
-
-                      <td className='p-3'>
-                        <Input
-                          type='number'
-                          value={row.qty}
-                          onChange={(e) =>
-                            updateItem(row.rowId, 'qty', e.target.value)
-                          }
-                        />
-                      </td>
-
-                      <td className='p-3'>
-                        <Input
-                          type='number'
-                          value={row.weight}
-                          onChange={(e) =>
-                            updateItem(row.rowId, 'weight', e.target.value)
-                          }
-                        />
-                      </td>
-
-                      <td className='p-3'>
-                        <Input
-                          type='number'
-                          value={row.price}
-                          onChange={(e) =>
-                            updateItem(row.rowId, 'price', e.target.value)
-                          }
-                        />
-                      </td>
-
-                      <td className='p-3'>
-                        <Button
-                          size='icon'
-                          variant='destructive'
-                          onClick={() => deleteItem(row.rowId)}
-                        >
-                          <Trash className='h-4 w-4' />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
+                      </ClientOnly>
+                    </td>
+                    <td className='p-3'>
+                      <Input
+                        type='number'
+                        value={row.qty}
+                        onChange={(e) =>
+                          updateItem(row.rowId, 'qty', e.target.value)
+                        }
+                      />
+                    </td>
+                    <td className='p-3'>
+                      <Input
+                        type='number'
+                        value={row.weight}
+                        onChange={(e) =>
+                          updateItem(row.rowId, 'weight', e.target.value)
+                        }
+                      />
+                    </td>
+                    <td className='p-3'>
+                      <Input
+                        type='number'
+                        value={row.price}
+                        onChange={(e) =>
+                          updateItem(row.rowId, 'price', e.target.value)
+                        }
+                      />
+                    </td>
+                    <td className='p-3'>
+                      <Button
+                        size='icon'
+                        variant='destructive'
+                        onClick={() => deleteItem(row.rowId)}
+                      >
+                        <Trash className='h-4 w-4' />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
