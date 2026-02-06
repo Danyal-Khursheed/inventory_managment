@@ -34,7 +34,10 @@ api.interceptors.response.use(
         // Only redirect if not already on an auth page
         const isAuthPage = window.location.pathname.includes('/auth');
         if (!isAuthPage) {
-          window.location.href = '/auth/sign-in';
+          // Extract locale from current path or default to 'en'
+          const localeMatch = window.location.pathname.match(/^\/(en|ar)/);
+          const locale = localeMatch ? localeMatch[1] : 'en';
+          window.location.href = `/${locale}/auth/sign-in`;
         }
       }
     }

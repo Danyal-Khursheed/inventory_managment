@@ -124,7 +124,8 @@
     "Create PickUp":"إنشاء بيك اب",
     "Shipping Company":"شركة  ملاحة",
     "New Shipping Company":"شركة شحن جديدة",
-    "Create Order": "إنشاء طلب"
+    "Create Order": "إنشاء طلب",
+    "Edit Order": "تعديل الطلب"
   },
   "WarehouseItem": {
     "componentName": "عناصر المستودع",
@@ -155,7 +156,8 @@
     "country": "الدولة",
     "actions": "الإجراءات",
     "updateWarehouse": "تحديث المستودع",
-    "deleteWarehouse": "حذف المستودع"
+    "deleteWarehouse": "حذف المستودع",
+    "noRecordsFound": "لا توجد سجلات"
   },
   "PickupToast": {
   "createSuccess": "تم إنشاء الالتقاط بنجاح",
@@ -220,7 +222,8 @@
     "warehouseName": "اسم المستودع",
     "actions": "الإجراءات",
     "updateItem": "تحديث العنصر",
-    "deleteItem": "حذف العنصر"
+    "deleteItem": "حذف العنصر",
+    "noRecordsFound": "لا توجد سجلات"
   },
 
   "WarehouseImportToast": {
@@ -393,7 +396,67 @@
     "actions": "الإجراءات",
     "editOrder": "تعديل الطلب",
     "deleteOrder": "حذف الطلب",
-    "errorMessage": "حدث خطأ ما. حاول مرة أخرى."
+    "errorMessage": "حدث خطأ ما. حاول مرة أخرى.",
+    "noRecordsFound": "لا توجد سجلات"
+  },
+  "common": {
+    "noRecordsFound": "لا توجد سجلات",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "search": "بحث",
+    "filter": "تصفية",
+    "actions": "الإجراءات"
+  },
+  "Order": {
+    "createOrder": "إنشاء طلب",
+    "editOrder": "تعديل الطلب",
+    "creating": "جاري الإنشاء...",
+    "updating": "جاري التحديث...",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "orderCreated": "تم إنشاء الطلب بنجاح!",
+    "orderUpdated": "تم تحديث الطلب بنجاح!",
+    "orderFailed": "فشل إنشاء الطلب",
+    "orderUpdateFailed": "فشل تحديث الطلب",
+    "fillRequiredFields": "يرجى ملء جميع الحقول المطلوبة",
+    "origin": "المصدر",
+    "receiver": "المستلم",
+    "pickup": "الاستلام",
+    "warehouse": "المستودع",
+    "package": "عناصر الطرد"
+  },
+  "Statistics": {
+    "title": "الإحصائيات",
+    "totalOrders": "إجمالي الطلبات",
+    "pendingOrders": "الطلبات المعلقة",
+    "completedOrders": "الطلبات المكتملة",
+    "totalWarehouses": "إجمالي المستودعات",
+    "warehouseItems": "عناصر المستودع",
+    "countryOrigins": "بلدان المنشأ",
+    "pickupAddresses": "عناوين الاستلام",
+    "ordersOverview": "نظرة عامة على الطلبات",
+    "warehousesItems": "المستودعات والعناصر",
+    "systemOverview": "نظرة عامة على النظام",
+    "failedToLoad": "فشل تحميل الإحصائيات",
+    "tryRefreshing": "يرجى محاولة تحديث الصفحة"
+  },
+  "sidebar": {
+    "navigation": "التنقل",
+    "statistics": "الإحصائيات",
+    "warehouse": "المستودع",
+    "warehouseitem": "عنصر المستودع",
+    "countriesorigin": "بلدان المنشأ",
+    "pickupaddress": "عنوان الاستلام",
+    "shippingcompany": "شركة الشحن",
+    "order": "الطلب",
+    "signOut": "تسجيل الخروج"
   }
 }
 

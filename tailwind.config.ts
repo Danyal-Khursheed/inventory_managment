@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        arabic: ['var(--font-brando-arabic)'] // use your CSS variable
+        arabic: ['var(--font-cairo)', 'Cairo', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Inter', 'sans-serif']
       },
       colors: {
         background: 'rgb(var(--background) / <alpha-value>)',

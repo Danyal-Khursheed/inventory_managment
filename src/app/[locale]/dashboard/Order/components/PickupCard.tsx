@@ -15,9 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 import { setPickupAddress } from '@/redux-toolkit/reducers/order';
 import { PickupAddress } from '@/app/[locale]/dashboard/PickupAddress/types/types';
+import { useTranslations } from 'next-intl';
 
 const PickupCard: React.FC = () => {
   const dispatch = useDispatch();
+  const tCommon = useTranslations('common');
 
   /* 🔹 Get persisted pickup from Redux */
   const savedPickup = useSelector(
@@ -58,7 +60,7 @@ const PickupCard: React.FC = () => {
   }, [selectedPickup, dispatch]);
 
   return (
-    <Card className='flex flex-col'>
+    <Card id='pickup-card' className='flex flex-col'>
       <CardHeader className='flex flex-row items-center justify-between'>
         <CardTitle className='text-xl'>Pickup</CardTitle>
       </CardHeader>
@@ -122,7 +124,7 @@ const PickupCard: React.FC = () => {
               ))
             ) : (
               <div className='text-muted-foreground px-3 py-2 text-sm'>
-                No pickup addresses found
+                {tCommon('noRecordsFound')}
               </div>
             )}
           </SelectContent>

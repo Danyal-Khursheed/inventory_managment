@@ -24,17 +24,17 @@ const Layout = ({ children }: LayoutProps) => {
   //   }
   // }, [locale, router, pathname]);
   return (
-    <div className='flex max-h-screen flex-row items-center justify-center'>
-      <div className='hidden h-screen w-full items-center justify-center bg-[#CCCAE6] lg:flex lg:w-1/2'>
+    <div className='flex min-h-screen'>
+      <div className='hidden w-1/2 items-center justify-center bg-[#f0eff4] p-8 lg:flex dark:bg-[#1a1a2e]'>
         <Image
           src={Images.layoutImage}
-          width={800}
-          height={800}
+          width={480}
+          height={480}
           alt='layout image'
-          className='rounded-lg'
+          className='rounded-2xl object-contain shadow-xl'
         />
       </div>
-      <div className='max-h-screen w-full flex-1 items-center justify-center lg:w-1/2'>
+      <div className='flex w-full flex-1 items-center justify-center overflow-y-auto bg-[#fafafa] px-4 py-10 lg:w-1/2 dark:bg-[#12121a]'>
         {children}
       </div>
     </div>

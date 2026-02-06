@@ -21,6 +21,7 @@ const CountryRegionTable = () => {
   const { data, isLoading, isError } = useCountryOrigin(currentPage, pageSize);
   const locale = useLocale();
   const t = useTranslations('CountryRegionTable');
+  const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
 
   if (isLoading) return <SkeletonTable />;
@@ -35,10 +36,7 @@ const CountryRegionTable = () => {
     );
 
   return (
-    <div
-      dir={isRTL ? 'rtl' : 'ltr'}
-      className='overflow-x-auto rounded-md border shadow-sm'
-    >
+    <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
       <div className='min-w-[1200px]'>
         <Table>
           <TableHeader>
@@ -59,31 +57,45 @@ const CountryRegionTable = () => {
           </TableHeader>
 
           <TableBody className='text-md'>
-            {data?.data.map((item, idx) => (
-              <TableRow
-                key={item.id}
-                className={`${
-                  idx % 2 !== 0
-                    ? 'bg-white dark:bg-black'
-                    : 'bg-gray-50 dark:bg-gray-800'
-                } hover:bg-gray-100`}
-              >
-                <TableCell className='px-4 py-2'>
-                  {pageSize * (currentPage - 1) + (idx + 1)}
+            {!data?.data || data.data.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={12}
+                  className='text-muted-foreground h-24 text-center'
+                >
+                  {tCommon('noRecordsFound')}
                 </TableCell>
-                <TableCell className='px-4 py-2'>{item.companyName}</TableCell>
-                <TableCell className='px-4 py-2'>{item.addressNick}</TableCell>
-                <TableCell className='px-4 py-2'>{item.addressLine1}</TableCell>
-                <TableCell className='px-4 py-2'>{item.cityName}</TableCell>
-                <TableCell className='px-4 py-2'>{item.countryName}</TableCell>
-                <TableCell className='px-4 py-2'>{item.countryCode}</TableCell>
-                <TableCell className='px-4 py-2'>{item.zipCode}</TableCell>
-                <TableCell className='px-4 py-2'>{item.latitude}</TableCell>
-                <TableCell className='px-4 py-2'>{item.longitude}</TableCell>
-                <TableCell className='px-4 py-2'>{item.phoneCode}</TableCell>
-                <TableCell className='px-4 py-2'>{item.mobileNo}</TableCell>
               </TableRow>
-            ))}
+            ) : (
+              data.data.map((item, idx) => (
+                <TableRow key={item.id}>
+                  <TableCell className='px-4 py-2'>
+                    {pageSize * (currentPage - 1) + (idx + 1)}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>
+                    {item.companyName}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>
+                    {item.addressNick}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>
+                    {item.addressLine1}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>{item.cityName}</TableCell>
+                  <TableCell className='px-4 py-2'>
+                    {item.countryName}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>
+                    {item.countryCode}
+                  </TableCell>
+                  <TableCell className='px-4 py-2'>{item.zipCode}</TableCell>
+                  <TableCell className='px-4 py-2'>{item.latitude}</TableCell>
+                  <TableCell className='px-4 py-2'>{item.longitude}</TableCell>
+                  <TableCell className='px-4 py-2'>{item.phoneCode}</TableCell>
+                  <TableCell className='px-4 py-2'>{item.mobileNo}</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

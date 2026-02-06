@@ -25,6 +25,7 @@ const PickupTable = () => {
 
   const locale = useLocale();
   const t = useTranslations('PickupTable');
+  const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
 
   if (isLoading) return <SkeletonTable />;
@@ -39,10 +40,7 @@ const PickupTable = () => {
     );
 
   return (
-    <div
-      dir={isRTL ? 'rtl' : 'ltr'}
-      className='overflow-x-auto rounded-md border shadow-sm'
-    >
+    <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
       <div className='min-w-[700px]'>
         <Table>
           <TableHeader>
@@ -60,21 +58,32 @@ const PickupTable = () => {
           </TableHeader>
 
           <TableBody>
-            {data?.data.map((item, idx) => (
-              <TableRow key={item.id}>
-                <TableCell>
-                  {pageSize * (currentPage - 1) + (idx + 1)}
+            {!data?.data || data.data.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={9}
+                  className='text-muted-foreground h-24 text-center'
+                >
+                  {tCommon('noRecordsFound')}
                 </TableCell>
-                <TableCell>{item.addressNick}</TableCell>
-                <TableCell>{item.zipCode}</TableCell>
-                <TableCell>{item.mobileNo}</TableCell>
-                <TableCell>{item.latitude}</TableCell>
-                <TableCell>{item.longitude}</TableCell>
-                <TableCell>{item.cityName}</TableCell>
-                <TableCell>{item.countryName}</TableCell>
-                <TableCell>{item.countryCode}</TableCell>
               </TableRow>
-            ))}
+            ) : (
+              data.data.map((item, idx) => (
+                <TableRow key={item.id}>
+                  <TableCell>
+                    {pageSize * (currentPage - 1) + (idx + 1)}
+                  </TableCell>
+                  <TableCell>{item.addressNick}</TableCell>
+                  <TableCell>{item.zipCode}</TableCell>
+                  <TableCell>{item.mobileNo}</TableCell>
+                  <TableCell>{item.latitude}</TableCell>
+                  <TableCell>{item.longitude}</TableCell>
+                  <TableCell>{item.cityName}</TableCell>
+                  <TableCell>{item.countryName}</TableCell>
+                  <TableCell>{item.countryCode}</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

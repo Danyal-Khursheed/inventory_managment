@@ -121,7 +121,8 @@
     "Create PickUp":"Create PickUp",
     "Shipping Company":"Shipping Company",
     "New Shipping Company":"New Shipping Company",
-    "Create Order": "Create Order"
+    "Create Order": "Create Order",
+    "Edit Order": "Edit Order"
   },
   "WarehouseItem": {
     "componentName": "Warehouse Items",
@@ -152,7 +153,8 @@
     "country": "Country",
     "actions": "Actions",
     "updateWarehouse": "Update Warehouse",
-    "deleteWarehouse": "Delete Warehouse"
+    "deleteWarehouse": "Delete Warehouse",
+    "noRecordsFound": "No records found"
   },
 
   "PickupToast": {
@@ -218,7 +220,8 @@
     "warehouseName": "Warehouse Name",
     "actions": "Actions",
     "updateItem": "Update Item",
-    "deleteItem": "Delete Item"
+    "deleteItem": "Delete Item",
+    "noRecordsFound": "No records found"
   },
   
   "WarehouseImportToast": {
@@ -423,7 +426,67 @@
     "actions": "Actions",
     "editOrder": "Edit Order",
     "deleteOrder": "Delete Order",
-    "errorMessage": "Something went wrong. Please try again."
+    "errorMessage": "Something went wrong. Please try again.",
+    "noRecordsFound": "No records found"
+  },
+  "common": {
+    "noRecordsFound": "No records found",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions"
+  },
+  "Order": {
+    "createOrder": "Create Order",
+    "editOrder": "Edit Order",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "create": "Create",
+    "update": "Update",
+    "orderCreated": "Order created successfully!",
+    "orderUpdated": "Order updated successfully!",
+    "orderFailed": "Failed to create order",
+    "orderUpdateFailed": "Failed to update order",
+    "fillRequiredFields": "Please fill in all required fields",
+    "origin": "Origin",
+    "receiver": "Receiver",
+    "pickup": "Pickup",
+    "warehouse": "Warehouse",
+    "package": "Package Items"
+  },
+  "Statistics": {
+    "title": "Statistics",
+    "totalOrders": "Total Orders",
+    "pendingOrders": "Pending Orders",
+    "completedOrders": "Completed Orders",
+    "totalWarehouses": "Total Warehouses",
+    "warehouseItems": "Warehouse Items",
+    "countryOrigins": "Country Origins",
+    "pickupAddresses": "Pickup Addresses",
+    "ordersOverview": "Orders Overview",
+    "warehousesItems": "Warehouses & Items",
+    "systemOverview": "System Overview",
+    "failedToLoad": "Failed to load statistics",
+    "tryRefreshing": "Please try refreshing the page"
+  },
+  "sidebar": {
+    "navigation": "Navigation",
+    "statistics": "Statistics",
+    "warehouse": "Warehouse",
+    "warehouseitem": "Warehouse Item",
+    "countriesorigin": "Countries Origin",
+    "pickupaddress": "Pickup Address",
+    "shippingcompany": "Shipping Company",
+    "order": "Order",
+    "signOut": "Sign Out"
   }
 }
 

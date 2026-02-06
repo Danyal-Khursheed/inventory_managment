@@ -16,9 +16,11 @@ import { setOrigin } from '@/redux-toolkit/reducers/slice';
 import { setCountryOrigin } from '@/redux-toolkit/reducers/order';
 import { RootState } from '@/redux-toolkit/store/store';
 import { OriginType } from './EditOriginModal';
+import { useTranslations } from 'next-intl';
 
 const OriginCard: React.FC = () => {
   const dispatch = useDispatch();
+  const tCommon = useTranslations('common');
 
   // Get saved origin from Redux
   const savedOrigin = useSelector(
@@ -86,7 +88,7 @@ const OriginCard: React.FC = () => {
   }, [selectedOrigin, dispatch]);
 
   return (
-    <Card>
+    <Card id='origin-card'>
       <CardHeader>
         <CardTitle className='text-xl'>Origin</CardTitle>
       </CardHeader>
@@ -148,7 +150,7 @@ const OriginCard: React.FC = () => {
               ))
             ) : (
               <div className='text-muted-foreground px-3 py-2 text-sm'>
-                No origins found
+                {tCommon('noRecordsFound')}
               </div>
             )}
           </SelectContent>

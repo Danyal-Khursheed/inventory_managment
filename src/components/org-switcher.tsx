@@ -20,18 +20,16 @@ export function OrgSwitcher({ defaultTenant }: { defaultTenant: Tenant }) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size='lg' className='flex items-center gap-2'>
-          {/* Icon */}
-          <div className='bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-            <GalleryVerticalEnd className='size-4' />
+        <SidebarMenuButton
+          size='lg'
+          className='h-14 rounded-none px-6 hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-white/5'
+        >
+          <div className='dark:bg-primary/20 text-primary flex aspect-square size-9 shrink-0 items-center justify-center rounded-md bg-[rgba(25,118,210,0.12)]'>
+            <GalleryVerticalEnd className='size-5' />
           </div>
-
-          {/* Tenant Name */}
-          <div className='flex flex-col gap-1'>
-            <span className='md:text-md mt-2 text-sm font-bold text-gray-900 dark:text-gray-100'>
-              {defaultTenant.name}
-            </span>
-          </div>
+          <span className='text-sm font-semibold text-[#1e1e1e] dark:text-gray-100'>
+            {defaultTenant.name}
+          </span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

@@ -27,30 +27,35 @@ export const useCreateOrder = () => {
 //   });
 // };
 
-// export const useOrder = (id: string) => {
-//   return useQuery({
-//     queryKey: [ORDER_QUERY_KEY, id],
-//     queryFn: () => orderService.getById(id),
-//     enabled: !!id,
-//   });
-// };
+export const useOrder = (id: string | null) => {
+  return useQuery({
+    queryKey: [ORDER_QUERY_KEY, id],
+    queryFn: () => orderService.getById(id!),
+    enabled: !!id
+  });
+};
 
-// export const useUpdateOrder = () => {
-//   const queryClient = useQueryClient();
+export const useUpdateOrder = () => {
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: ({ id, payload }: { id: string; payload: Partial<CreateOrderPayload> }) =>
-//       orderService.update(id, payload),
-//     onSuccess: (data) => {
-//       toast.success('Order updated successfully!');
-//       queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY] });
-//       queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY, data.id] });
-//     },
-//     onError: (error: any) => {
-//       toast.error(error?.response?.data?.message || 'Failed to update order');
-//     },
-//   });
-// };
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload
+    }: {
+      id: string;
+      payload: CreateOrderPayload;
+    }) => orderService.create(payload), // Using create API for now as requested
+    onSuccess: (data) => {
+      toast.success('Order updated successfully!');
+      queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY, data.id] });
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to update order');
+    }
+  });
+};
 
 // export const useDeleteOrder = () => {
 //   const queryClient = useQueryClient();

@@ -47,7 +47,7 @@ const ReceiverCard: React.FC = () => {
 
   return (
     <>
-      <Card>
+      <Card id='receiver-card'>
         <CardHeader className='flex flex-row items-center justify-between'>
           <CardTitle className='text-xl'>Receiver</CardTitle>
           <Button size='lg' onClick={() => setOpenModal(true)}>

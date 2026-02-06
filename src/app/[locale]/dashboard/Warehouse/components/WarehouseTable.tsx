@@ -39,14 +39,12 @@ const WarehouseTable = ({
   onPageChange
 }: Props) => {
   const t = useTranslations('WarehouseTable');
+  const tCommon = useTranslations('common');
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
   return (
-    <div
-      dir={isRTL ? 'rtl' : 'ltr'}
-      className='overflow-x-auto rounded-md border shadow-sm'
-    >
+    <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
       <div className='h-full min-w-[700px] overflow-x-auto'>
         <Table>
           <TableHeader>
@@ -67,53 +65,57 @@ const WarehouseTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouses.map((w, idx) => (
-              <TableRow
-                key={w.id}
-                className={`${
-                  idx % 2 !== 0
-                    ? 'bg-white dark:bg-black'
-                    : 'bg-gray-50 dark:bg-gray-800'
-                } hover:bg-gray-100`}
-              >
-                <TableCell>
-                  {pageSize * (currentPage - 1) + (idx + 1)}
-                </TableCell>
-                <TableCell className='font-medium'>{w.name}</TableCell>
-                <TableCell>{w.address}</TableCell>
-                <TableCell>{w.city}</TableCell>
-                <TableCell>{w.countryName}</TableCell>
-                <TableCell className='text-end'>
-                  <div className='flex justify-end gap-2'>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => onUpdate(w)}
-                        >
-                          <Edit color='blue' size={16} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('updateWarehouse')}</TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => onDelete(w)}
-                        >
-                          <Trash2 color='darkred' size={16} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
-                    </Tooltip>
-                  </div>
+            {warehouses.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  className='text-muted-foreground h-24 text-center'
+                >
+                  {tCommon('noRecordsFound')}
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              warehouses.map((w, idx) => (
+                <TableRow key={w.id}>
+                  <TableCell>
+                    {pageSize * (currentPage - 1) + (idx + 1)}
+                  </TableCell>
+                  <TableCell className='font-medium'>{w.name}</TableCell>
+                  <TableCell>{w.address}</TableCell>
+                  <TableCell>{w.city}</TableCell>
+                  <TableCell>{w.countryName}</TableCell>
+                  <TableCell className='text-end'>
+                    <div className='flex justify-end gap-2'>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => onUpdate(w)}
+                          >
+                            <Edit color='blue' size={16} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('updateWarehouse')}</TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => onDelete(w)}
+                          >
+                            <Trash2 color='darkred' size={16} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('deleteWarehouse')}</TooltipContent>
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

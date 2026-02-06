@@ -50,6 +50,7 @@ const OrderDataTable = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const t = useTranslations('OrderTable');
+  const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
 
   const { data, isLoading, isError } = useGetAllOrders({
@@ -85,7 +86,7 @@ const OrderDataTable = () => {
 
   const handleEdit = (order: any) => {
     setOrderId(order.id);
-    router.push(`/dashboard/Order?mode=edit&id=${order.id}`);
+    router.push(`/${locale}/dashboard/Order?mode=edit&id=${order.id}`);
   };
 
   const handleDeleteClick = (order: any) => {
@@ -98,7 +99,7 @@ const OrderDataTable = () => {
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className='overflow-x-auto rounded-md border shadow-sm'>
+      <div className='overflow-x-auto'>
         <Table>
           <TableHeader>
             <TableRow>
@@ -117,52 +118,75 @@ const OrderDataTable = () => {
           </TableHeader>
 
           <TableBody>
-            {orders.map((order: any, idx: number) => (
-              <TableRow key={order.id}>
-                <TableCell>{(currentPage - 1) * pageSize + idx + 1}</TableCell>
-                <TableCell>{order.countryOrigin?.companyName ?? '-'}</TableCell>
-                <TableCell>{order.countryOrigin?.countryName ?? '-'}</TableCell>
-                <TableCell>{order.pickupAddress?.addressNick ?? '-'}</TableCell>
-                <TableCell>{order.pickupAddress?.mobileNo ?? '-'}</TableCell>
-                <TableCell>{order.pickupAddress?.address ?? '-'}</TableCell>
-                <TableCell>{order.pickupAddress?.countryName ?? '-'}</TableCell>
-                <TableCell>{order.warehouse?.name ?? '-'}</TableCell>
-                <TableCell>
-                  {order.orderItems?.[0]?.warehouseItem?.name ?? '-'}
-                </TableCell>
-                <TableCell>{order.orderItems?.[0]?.quantity ?? '-'}</TableCell>
-
-                <TableCell className='text-end'>
-                  <div className='flex justify-end gap-2'>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => handleEdit(order)}
-                        >
-                          <Edit size={16} className='text-blue-500' />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('editOrder')}</TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => handleDeleteClick(order)}
-                        >
-                          <Trash2 size={16} className='text-red-600' />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('deleteOrder')}</TooltipContent>
-                    </Tooltip>
-                  </div>
+            {orders.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={11}
+                  className='text-muted-foreground h-24 text-center'
+                >
+                  {tCommon('noRecordsFound')}
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              orders.map((order: any, idx: number) => (
+                <TableRow key={order.id}>
+                  <TableCell>
+                    {(currentPage - 1) * pageSize + idx + 1}
+                  </TableCell>
+                  <TableCell>
+                    {order.countryOrigin?.companyName ?? '-'}
+                  </TableCell>
+                  <TableCell>
+                    {order.countryOrigin?.countryName ?? '-'}
+                  </TableCell>
+                  <TableCell>
+                    {order.pickupAddress?.addressNick ?? '-'}
+                  </TableCell>
+                  <TableCell>{order.pickupAddress?.mobileNo ?? '-'}</TableCell>
+                  <TableCell>{order.pickupAddress?.address ?? '-'}</TableCell>
+                  <TableCell>
+                    {order.pickupAddress?.countryName ?? '-'}
+                  </TableCell>
+                  <TableCell>{order.warehouse?.name ?? '-'}</TableCell>
+                  <TableCell>
+                    {order.orderItems?.[0]?.warehouseItem?.name ?? '-'}
+                  </TableCell>
+                  <TableCell>
+                    {order.orderItems?.[0]?.quantity ?? '-'}
+                  </TableCell>
+
+                  <TableCell className='text-end'>
+                    <div className='flex justify-end gap-2'>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => handleEdit(order)}
+                          >
+                            <Edit size={16} className='text-blue-500' />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('editOrder')}</TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => handleDeleteClick(order)}
+                          >
+                            <Trash2 size={16} className='text-red-600' />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('deleteOrder')}</TooltipContent>
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

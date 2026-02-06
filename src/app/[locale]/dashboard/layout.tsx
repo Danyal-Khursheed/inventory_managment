@@ -4,7 +4,10 @@ import Header from '@/components/layout/header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getToken } from '@/auth/utils/auth-helpers';
+import Spinner from '@/components/spinningLoading/Spinner';
+import useAuth from '@/auth/hooks/useAuth';
 
 export default function DashboardLayout({
   children
@@ -13,19 +16,64 @@ export default function DashboardLayout({
 }) {
   const locale = useLocale();
   const router = useRouter();
+  const { user } = useAuth();
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [hasRedirected, setHasRedirected] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('auth_token');
+  useEffect(() => {
+    // Check token immediately on mount (client-side only)
+    const token = getToken();
 
-  //   if (!token) {
-  //     const currentPath = window.location.pathname;
-  //     // Only redirect if we're not already on the sign-in page
-  //     if (!currentPath.includes('/auth/sign-in')) {
-  //       router.push(`/${locale}/auth/sign-in`);
-  //     }
-  //   }
-  // }, [locale, router]);
+    if (!token) {
+      // No token - redirect immediately using window.location for instant redirect
+      if (!hasRedirected) {
+        setHasRedirected(true);
+        window.location.href = `/${locale}/auth/sign-in`;
+      }
+      return;
+    }
 
+    // Token exists - check if user is loaded
+    if (user) {
+      // User is loaded, allow access
+      setIsAuthorized(true);
+    } else {
+      // User not loaded yet - wait for it with timeout
+      const timeout = setTimeout(() => {
+        if (!user) {
+          // No user after timeout - token might be invalid
+          if (!hasRedirected) {
+            setHasRedirected(true);
+            window.location.href = `/${locale}/auth/sign-in`;
+          }
+        } else {
+          setIsAuthorized(true);
+        }
+      }, 2000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [user, locale, router, hasRedirected]);
+
+  // If redirecting, show loading
+  if (hasRedirected) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Show loading while checking - prevents dashboard flash
+  if (isAuthorized === null || !isAuthorized) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Only render dashboard if authorized
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />

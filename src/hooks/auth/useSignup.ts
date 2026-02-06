@@ -13,7 +13,11 @@ export const useSignup = () => {
     onSuccess: (data) => {
       saveToken(data.token.token);
       queryClient.setQueryData(['currentUser'], data.user);
-      router.push('/dashboard/Statistics');
+      // Get locale from current path or default to 'en'
+      const pathname = window.location.pathname;
+      const localeMatch = pathname.match(/^\/(en|ar)/);
+      const locale = localeMatch ? localeMatch[1] : 'en';
+      router.push(`/${locale}/dashboard/Statistics`);
     }
   });
 };

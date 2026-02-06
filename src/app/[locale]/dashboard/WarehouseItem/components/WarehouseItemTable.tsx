@@ -40,15 +40,14 @@ const WarehouseItemTable = ({
   onPageChange
 }: Props) => {
   const t = useTranslations('WarehouseItemTable');
+  const tCommon = useTranslations('common');
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
-      className={`overflow-x-auto rounded-md border shadow-sm ${
-        isRTL ? 'text-right' : 'text-left'
-      }`}
+      className={`overflow-x-auto ${isRTL ? 'text-right' : 'text-left'}`}
     >
       <div className='h-full min-w-[700px]'>
         <Table>
@@ -101,88 +100,92 @@ const WarehouseItemTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouseItems.map((item, idx) => (
-              <TableRow
-                key={`${item.warehouseId}-${idx}`}
-                className={`${
-                  idx % 2 === 0
-                    ? 'bg-gray-50 dark:bg-gray-800'
-                    : 'bg-white dark:bg-black'
-                } hover:bg-gray-100`}
-              >
+            {warehouseItems.length === 0 ? (
+              <TableRow>
                 <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  colSpan={7}
+                  className='text-muted-foreground h-24 text-center'
                 >
-                  {pageSize * (currentPage - 1) + (idx + 1)}
-                </TableCell>
-
-                <TableCell
-                  className={`truncate px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  {item.name}
-                </TableCell>
-
-                <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  {item.pricePerItem}
-                </TableCell>
-
-                <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  {item.quantity}
-                </TableCell>
-
-                <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  {item.weightPerItem}
-                </TableCell>
-
-                <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
-                >
-                  {item.name}
-                </TableCell>
-
-                <TableCell
-                  className={`px-4 py-2 ${isRTL ? 'text-left' : 'text-right'}`}
-                >
-                  <div
-                    className={`flex gap-2 ${
-                      isRTL ? 'justify-start' : 'justify-end'
-                    }`}
-                  >
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => onUpdate(item)}
-                        >
-                          <Edit size={16} className='text-blue-600' />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('updateItem')}</TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size='sm'
-                          variant='ghost'
-                          onClick={() => onDelete(item)}
-                        >
-                          <Trash2 size={16} className='text-red-600' />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>{t('deleteItem')}</TooltipContent>
-                    </Tooltip>
-                  </div>
+                  {tCommon('noRecordsFound')}
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              warehouseItems.map((item, idx) => (
+                <TableRow key={`${item.warehouseId}-${idx}`}>
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {pageSize * (currentPage - 1) + (idx + 1)}
+                  </TableCell>
+
+                  <TableCell
+                    className={`truncate px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.name}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.pricePerItem}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.quantity}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.weightPerItem}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.name}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-left' : 'text-right'}`}
+                  >
+                    <div
+                      className={`flex gap-2 ${
+                        isRTL ? 'justify-start' : 'justify-end'
+                      }`}
+                    >
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => onUpdate(item)}
+                          >
+                            <Edit size={16} className='text-blue-600' />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('updateItem')}</TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size='sm'
+                            variant='ghost'
+                            onClick={() => onDelete(item)}
+                          >
+                            <Trash2 size={16} className='text-red-600' />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('deleteItem')}</TooltipContent>
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

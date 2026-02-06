@@ -26,6 +26,7 @@ const ShippingCompanyTable = () => {
 
   const locale = useLocale();
   const t = useTranslations('ShippingCompanyTable');
+  const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
 
   if (isLoading) return <SkeletonTable />;
@@ -40,10 +41,7 @@ const ShippingCompanyTable = () => {
     );
 
   return (
-    <div
-      dir={isRTL ? 'rtl' : 'ltr'}
-      className='overflow-x-auto rounded-md border shadow-sm'
-    >
+    <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
       <div className='min-w-[700px]'>
         <Table>
           <TableHeader>
@@ -56,23 +54,27 @@ const ShippingCompanyTable = () => {
           </TableHeader>
 
           <TableBody>
-            {data?.data.map((company, idx) => (
-              <TableRow
-                key={company.id}
-                className={`${
-                  idx % 2 !== 0
-                    ? 'bg-white dark:bg-black'
-                    : 'bg-gray-50 dark:bg-gray-800'
-                } hover:bg-gray-100 dark:hover:bg-gray-700`}
-              >
-                <TableCell>
-                  {pageSize * (currentPage - 1) + (idx + 1)}
+            {!data?.data || data.data.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={3}
+                  className='text-muted-foreground h-24 text-center'
+                >
+                  {tCommon('noRecordsFound')}
                 </TableCell>
-                <TableCell>{company.serviceName}</TableCell>
-                <TableCell>{company.serviceType}</TableCell>
-                {/* <TableCell>{company.warehouseId}</TableCell> */}
               </TableRow>
-            ))}
+            ) : (
+              data.data.map((company, idx) => (
+                <TableRow key={company.id}>
+                  <TableCell>
+                    {pageSize * (currentPage - 1) + (idx + 1)}
+                  </TableCell>
+                  <TableCell>{company.serviceName}</TableCell>
+                  <TableCell>{company.serviceType}</TableCell>
+                  {/* <TableCell>{company.warehouseId}</TableCell> */}
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 

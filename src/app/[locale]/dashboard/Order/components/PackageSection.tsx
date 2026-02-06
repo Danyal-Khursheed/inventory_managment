@@ -199,7 +199,7 @@ const PackageSection: React.FC = () => {
   };
 
   return (
-    <Card className='mt-6 w-full'>
+    <Card id='warehouse-card' className='mt-6 w-full'>
       <CardHeader>
         <CardTitle>Select your warehouse</CardTitle>
 
@@ -278,7 +278,7 @@ const PackageSection: React.FC = () => {
             </Button>
           </div>
 
-          <div className='overflow-x-auto'>
+          <div id='package-card' className='overflow-x-auto'>
             <table className='w-full border text-sm'>
               <tbody>
                 {selectedWarehouse.warehouseItems.map((row, index) => (

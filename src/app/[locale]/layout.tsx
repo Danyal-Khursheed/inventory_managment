@@ -1,6 +1,6 @@
 import Providers from '@/components/layout/providers';
 import { Toaster } from '@/components/ui/sonner';
-import { fontVariables } from '@/lib/font';
+import { fontVariables, fontCairo } from '@/lib/font';
 import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
@@ -80,7 +80,7 @@ export default async function RootLayout({
       <body
         className={cn(
           'bg-background selection:bg-primary/20 selection:text-primary overflow-hidden overscroll-none antialiased',
-          locale === 'ar' ? 'font-arabic' : 'font-sans',
+          locale === 'ar' ? fontCairo.className : 'font-sans',
           activeThemeValue ? `theme-${activeThemeValue}` : '',
           isScaled ? 'theme-scaled' : '',
           fontVariables
