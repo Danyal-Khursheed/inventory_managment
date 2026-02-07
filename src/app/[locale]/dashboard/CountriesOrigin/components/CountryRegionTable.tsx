@@ -1,9 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import TablePagination from '@/components/pagination/TablePagination';
 import { useLocale, useTranslations } from 'next-intl';
-import { useCountryOrigin } from '../hook/useGetAllCountryOrigin';
+import TablePagination from '@/components/pagination/TablePagination';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 import {
   Table,
@@ -14,26 +12,25 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-const CountryRegionTable = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+interface Props {
+  data: any;
+  isLoading: boolean;
+  isError: boolean;
+  currentPage: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+}
 
-  const { data, isLoading, isError } = useCountryOrigin(currentPage, pageSize);
+const CountryRegionTable = ({
+  data,
+  currentPage,
+  pageSize,
+  onPageChange
+}: Props) => {
   const locale = useLocale();
   const t = useTranslations('CountryRegionTable');
   const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
-
-  if (isLoading) return <SkeletonTable />;
-
-  if (isError)
-    return (
-      <div className='flex h-100 items-center justify-center'>
-        <p className='text-lg text-red-500'>
-          Something went wrong. Please try again
-        </p>
-      </div>
-    );
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
@@ -57,7 +54,7 @@ const CountryRegionTable = () => {
           </TableHeader>
 
           <TableBody className='text-md'>
-            {!data?.data || data.data.length === 0 ? (
+            {!data?.data || data?.data?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={12}
@@ -67,7 +64,7 @@ const CountryRegionTable = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              data.data.map((item, idx) => (
+              data.data.map((item: any, idx: number) => (
                 <TableRow key={item.id}>
                   <TableCell className='px-4 py-2'>
                     {pageSize * (currentPage - 1) + (idx + 1)}
@@ -104,7 +101,7 @@ const CountryRegionTable = () => {
             totalItems={data?.totalCount || 0}
             pageSize={pageSize}
             currentPage={currentPage}
-            onPageChange={setCurrentPage}
+            onPageChange={onPageChange}
           />
         </div>
       </div>

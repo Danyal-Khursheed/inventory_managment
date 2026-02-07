@@ -65,7 +65,7 @@ const WarehouseTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouses.length === 0 ? (
+            {warehouses?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={6}

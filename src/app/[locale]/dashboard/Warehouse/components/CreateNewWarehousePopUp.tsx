@@ -13,7 +13,11 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CreateNewWarehousePopupProps, FormValues } from '../types/types';
+import {
+  CreateNewWarehousePopupProps,
+  CreateWarehouse,
+  FormValues
+} from '../types/types';
 import {
   Select,
   SelectContent,
@@ -25,20 +29,13 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useCreateWarehouse } from '../hook';
 import { Country, City } from 'country-state-city';
 import { useTranslations, useLocale } from 'next-intl';
-
-interface ApiWarehouse {
-  name: string;
-  address: string;
-  city: string;
-  countryName: string;
-  countryCode: string;
-}
+import { SelectViewport } from '@radix-ui/react-select';
 
 const CreateNewWarehousePopUp = ({
   open,
   onOpenChange,
   initialData
-}: CreateNewWarehousePopupProps & { initialData?: ApiWarehouse }) => {
+}: CreateNewWarehousePopupProps & { initialData?: CreateWarehouse }) => {
   const t = useTranslations('Warehouse');
   const locale = useLocale();
   const isRTL = locale === 'ar';
@@ -158,8 +155,8 @@ const CreateNewWarehousePopUp = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
-                    <SelectContent className='max-h-60 overflow-y-auto'>
-                      <div className='sticky top-0 z-10 bg-white p-2'>
+                    <SelectContent className='p-0'>
+                      <div className='border-b p-2'>
                         <Input
                           placeholder={t('searchCountry')}
                           value={countrySearch}
@@ -167,20 +164,23 @@ const CreateNewWarehousePopUp = ({
                           className='w-full'
                         />
                       </div>
-                      {filteredCountries.length > 0 ? (
-                        filteredCountries.map((country) => (
-                          <SelectItem
-                            key={country.isoCode}
-                            value={country.isoCode}
-                          >
-                            {country.name}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <div className='p-2 text-gray-500'>
-                          {t('noCountriesFound')}
-                        </div>
-                      )}
+
+                      <SelectViewport className='max-h-60'>
+                        {filteredCountries.length > 0 ? (
+                          filteredCountries.map((country) => (
+                            <SelectItem
+                              key={country.isoCode}
+                              value={country.isoCode}
+                            >
+                              {country.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className='p-2 text-gray-500'>
+                            {t('noCountriesFound')}
+                          </div>
+                        )}
+                      </SelectViewport>
                     </SelectContent>
                   </Select>
                 )}
@@ -205,27 +205,29 @@ const CreateNewWarehousePopUp = ({
                     <SelectTrigger className='h-10 w-full'>
                       <SelectValue placeholder={t('selectCity')} />
                     </SelectTrigger>
-                    <SelectContent className='max-h-60 overflow-y-auto'>
-                      <div className='sticky top-0 z-10 bg-white p-2'>
+                    <SelectContent className='p-0'>
+                      <div className='border-b p-2'>
                         <Input
                           placeholder={t('searchCity')}
                           value={citySearch}
                           onChange={(e) => setCitySearch(e.target.value)}
-                          className='w-full'
                           disabled={!selectedCountry}
                         />
                       </div>
-                      {filteredCities.length > 0 ? (
-                        filteredCities.map((city) => (
-                          <SelectItem key={city.name} value={city.name}>
-                            {city.name}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <div className='p-2 text-gray-500'>
-                          {t('noCitiesFound')}
-                        </div>
-                      )}
+
+                      <SelectViewport className='max-h-60'>
+                        {filteredCities.length > 0 ? (
+                          filteredCities.map((city) => (
+                            <SelectItem key={city.name} value={city.name}>
+                              {city.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className='p-2 text-gray-500'>
+                            {t('noCitiesFound')}
+                          </div>
+                        )}
+                      </SelectViewport>
                     </SelectContent>
                   </Select>
                 )}

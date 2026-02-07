@@ -9,6 +9,7 @@ import { DeleteWarehouseModal } from './components/DeleteWarehouseModal';
 import { useGetAllWarehouses } from './hook';
 import { Warehouse } from '@/services/warehouse.service';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { ErrorState } from '@/components/Error/ErrorState';
 
 export default function WarehousePage() {
   const [createOpen, setCreateOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function WarehousePage() {
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 10;
 
-  const { data, isLoading, error, refetch } = useGetAllWarehouses({
+  const { data, isLoading, isError, refetch } = useGetAllWarehouses({
     pageNumber,
     pageSize
   });
@@ -35,12 +36,8 @@ export default function WarehousePage() {
       />
       {isLoading ? (
         <SkeletonTable />
-      ) : error ? (
-        <div className='flex h-100 items-center justify-center'>
-          <p className='text-lg text-red-500'>
-            Something went wrong. Please try again
-          </p>
-        </div>
+      ) : isError ? (
+        <ErrorState />
       ) : (
         <WarehouseTable
           warehouses={data?.data || []}

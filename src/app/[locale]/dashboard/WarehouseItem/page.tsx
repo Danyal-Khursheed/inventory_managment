@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import WarehouseItemTable from './components/WarehouseItemTable';
-import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
 import DeleteWarehouseItemModal from './components/DeleteWarehouseItemModal';
 import HeaderHero from '../WarehouseItem/components/HeaderHero';
 import { useGetAllWarehouseItems } from './hooks/useGetAllWarehouseItems';
 import { WarehouseItem } from '@/app/[locale]/dashboard/WarehouseItem/types/types';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { ErrorState } from '@/components/Error/ErrorState';
+import CreateWarehouseItemModal from './components/CreateWarehouseItemModal';
 
 export default function Page() {
   const [selectedItem, setSelectedItem] = useState<WarehouseItem | null>(null);
@@ -58,11 +59,7 @@ export default function Page() {
       {isLoading ? (
         <SkeletonTable />
       ) : error ? (
-        <div className='flex h-100 items-center justify-center'>
-          <p className='text-lg text-red-500'>
-            Something went wrong. Please try again
-          </p>
-        </div>
+        <ErrorState />
       ) : (
         <WarehouseItemTable
           warehouseItems={data?.data || []}

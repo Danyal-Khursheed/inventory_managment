@@ -246,36 +246,6 @@
       "invalidWarehouseId": "الصف {row}: معرّف المستودع غير صالح."
     }
   },
-  "CountryRegionForm": {
-    "errors": {
-      "required": "حقل {{field}} مطلوب",
-      "min": "حقل {{field}} يجب أن يكون على الأقل {{count}} حروف",
-      "max": "حقل {{field}} يجب أن يكون على الأكثر {{count}} حروف",
-      "zip": "رمز بريدي غير صالح",
-      "latitude": "خط عرض غير صالح",
-      "longitude": "خط طول غير صالح",
-      "phoneCode": "رمز الهاتف غير صالح",
-      "mobile": "رقم الجوال غير صالح"
-    },
-    "title": "إنشاء دولة / منطقة",
-    "companyName": "اسم الشركة",
-    "addressNick": "اسم العنوان",
-    "addressLine1": "السطر الأول للعنوان",
-    "countryName": "الدولة",
-    "cityName": "المدينة",
-    "zipCode": "الرمز البريدي",
-    "latitude": "خط العرض",
-    "longitude": "خط الطول",
-    "phoneCode": "رمز الهاتف",
-    "mobileNo": "رقم الجوال",
-    "warehouse": "المستودع",
-    "selectCountry": "اختر الدولة",
-    "selectCity": "اختر المدينة",
-    "selectWarehouse": "اختر المستودع",
-    "cancel": "إلغاء",
-    "submit": "إرسال",
-    "loading": "جارٍ التحميل..."
-  },
    "CountryRegionTable": {
     "sNo": "رقم",
     "companyName": "اسم الشركة",
@@ -457,6 +427,39 @@
     "shippingcompany": "شركة الشحن",
     "order": "الطلب",
     "signOut": "تسجيل الخروج"
+  },
+    "CountryRegion": {
+    "createTitle": "إنشاء منطقة / دولة",
+    "companyName": "اسم الشركة",
+    "addressNick": "اسم العنوان",
+    "addressLine1": "العنوان خط 1",
+    "country": "الدولة",
+    "city": "المدينة",
+    "phoneNo": "كود الهاتف - رقم الجوال",
+    "zipCode": "الرمز البريدي",
+    "latitude": "خط العرض",
+    "longitude": "خط الطول",
+    "warehouse": "المستودع",
+    "cancel": "إلغاء",
+    "submit": "حفظ",
+    "selectCountry": "اختر الدولة",
+    "selectCity": "اختر المدينة",
+    "selectWarehouse": "اختر المستودع",
+    "noCityFound": "لا توجد مدن",
+    "phonePlaceholder": "أدخل رقم الجوال",
+    "saving": "جارٍ الحفظ...",
+    "errors": {
+      "required": "هذا الحقل مطلوب",
+      "companyNameMax": "الحد الأقصى 100 حرف",
+      "addressNickMax": "الحد الأقصى 50 حرف",
+      "addressLine1Max": "الحد الأقصى 200 حرف",
+      "mobilePattern": "أدخل رقمًا صحيحًا (7-15 رقم)",
+      "zipPattern": "أدخل رمزًا بريديًا صالحًا",
+      "latitudeMin": "الحد الأدنى لخط العرض هو -90",
+      "latitudeMax": "الحد الأقصى لخط العرض هو 90",
+      "longitudeMin": "الحد الأدنى لخط الطول هو -180",
+      "longitudeMax": "الحد الأقصى لخط الطول هو 180"
+    }
   }
 }
 

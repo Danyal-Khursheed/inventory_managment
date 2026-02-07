@@ -244,69 +244,6 @@
       "invalidWarehouseId": "Row {row}: Invalid warehouse ID."
     }
   },
-  "CountryRegionForm": {
-    "errors": {
-      "required": "{{field}} is required",
-      "min": "{{field}} must be at least {{count}} characters",
-      "max": "{{field}} must be at most {{count}} characters",
-      "zip": "Invalid ZIP code",
-      "latitude": "Invalid latitude",
-      "longitude": "Invalid longitude",
-      "phoneCode": "Invalid phone code",
-      "mobile": "Invalid mobile number"
-      
-    },
-
-    "CountryRegionForm": {
-  "errors": {
-    "required": "The {{field}} field is required",
-    "min": "The {{field}} field must be at least {{count}} characters",
-    "max": "The {{field}} field must be at most {{count}} characters",
-    "zip": "Invalid postal code",
-    "latitude": "Invalid latitude",
-    "longitude": "Invalid longitude",
-    "phoneCode": "Invalid phone code",
-    "mobile": "Invalid mobile number"
-  },
-  "title": "Create Country / Region",
-  "companyName": "Company Name",
-  "addressNick": "Address Name",
-  "addressLine1": "Address Line 1",
-  "countryName": "Country",
-  "cityName": "City",
-  "zipCode": "Postal Code",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "phoneCode": "Phone Code",
-  "mobileNo": "Mobile Number",
-  "warehouse": "Warehouse",
-  "selectCountry": "Select Country",
-  "selectCity": "Select City",
-  "selectWarehouse": "Select Warehouse",
-  "cancel": "Cancel",
-  "submit": "Submit",
-  "loading": "Loading..."
-},
-
-    "title": "Create Country / Region",
-    "companyName": "Company Name",
-    "addressNick": "Address Nickname",
-    "addressLine1": "Address Line 1",
-    "countryName": "Country",
-    "cityName": "City",
-    "zipCode": "ZIP Code",
-    "latitude": "Latitude",
-    "longitude": "Longitude",
-    "phoneCode": "Phone Code",
-    "mobileNo": "Mobile Number",
-    "warehouse": "Warehouse",
-    "selectCountry": "Select Country",
-    "selectCity": "Select City",
-    "selectWarehouse": "Select Warehouse",
-    "cancel": "Cancel",
-    "submit": "Submit",
-    "loading": "Loading..."
-  },
    "CountryRegionTable": {
     "sNo": "S.No",
     "companyName": "Company Name",
@@ -487,6 +424,39 @@
     "shippingcompany": "Shipping Company",
     "order": "Order",
     "signOut": "Sign Out"
+  },
+    "CountryRegion": {
+    "createTitle": "Create Country Region",
+    "companyName": "Company Name",
+    "addressNick": "Address Nickname",
+    "addressLine1": "Address Line 1",
+    "country": "Country",
+    "city": "City",
+    "phoneNo": "Phone Code - Mobile Number",
+    "zipCode": "Zip Code",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "warehouse": "Warehouse",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "selectCountry": "Select country",
+    "selectCity": "Select city",
+    "selectWarehouse": "Select warehouse",
+    "noCityFound": "No city found",
+    "phonePlaceholder": "Enter mobile number",
+    "saving": "Saving...",
+    "errors": {
+      "required": "This field is required",
+      "companyNameMax": "Max 100 characters allowed",
+      "addressNickMax": "Max 50 characters allowed",
+      "addressLine1Max": "Max 200 characters allowed",
+      "mobilePattern": "Enter a valid number (7-15 digits)",
+      "zipPattern": "Enter a valid zip code",
+      "latitudeMin": "Minimum latitude is -90",
+      "latitudeMax": "Maximum latitude is 90",
+      "longitudeMin": "Minimum longitude is -180",
+      "longitudeMax": "Maximum longitude is 180"
+    }
   }
 }
 

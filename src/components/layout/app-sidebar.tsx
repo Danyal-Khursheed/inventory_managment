@@ -86,7 +86,11 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar side={isRTL ? 'right' : 'left'}>
+    <Sidebar
+      collapsible='icon'
+      variant='sidebar'
+      side={isRTL ? 'right' : 'left'}
+    >
       <div className='flex h-full min-h-0 w-full flex-col bg-[#fafafa] dark:bg-[#1e1e1e]'>
         <SidebarHeader className='border-b border-[#e0e0e0] bg-transparent px-0 dark:border-white/10'>
           <OrgSwitcher defaultTenant={activeTenant} />

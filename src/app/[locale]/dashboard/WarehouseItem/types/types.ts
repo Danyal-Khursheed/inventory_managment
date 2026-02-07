@@ -5,6 +5,11 @@ export interface Warehouse {
   id: string;
   name: string;
 }
+export interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  warehouseItem: WarehouseItem | null;
+}
 
 export interface WarehouseItem {
   id?: string;
@@ -18,9 +23,9 @@ export interface WarehouseItem {
 export interface FormValues {
   name: string;
   warehouseId: string;
-  price: number;
+  pricePerItem: number;
   quantity: number;
-  weight: number;
+  weightPerItem: number;
 }
 
 export interface HeroHeaderProps {

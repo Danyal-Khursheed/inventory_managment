@@ -26,20 +26,7 @@ import {
 import { useGetAllWarehouses } from '../hooks';
 import { useCreateWarehouseItem } from '../hooks/useCreateWarehouseItem';
 import { WarehouseItem } from '../types/types';
-
-interface Props {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  warehouseItem: WarehouseItem | null;
-}
-
-interface FormValues {
-  name: string;
-  warehouseId: string;
-  pricePerItem: number;
-  quantity: number;
-  weightPerItem: number;
-}
+import { FormValues, Props } from '../types/types';
 
 const CreateWarehouseItemModal = ({
   open,

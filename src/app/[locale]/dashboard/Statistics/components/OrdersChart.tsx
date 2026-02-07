@@ -49,12 +49,12 @@ export const OrdersChart = ({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay }}
     >
-      <Card>
+      <Card className='h-full'>
         <CardHeader>
           <CardTitle>Orders Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className='h-[300px]'>
+          <ChartContainer config={chartConfig} className='h-[350px]'>
             <ResponsiveContainer width='100%' height='100%'>
               <PieChart>
                 <Pie

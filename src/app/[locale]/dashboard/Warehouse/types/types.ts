@@ -1,12 +1,12 @@
 import { Warehouse } from '@/services/warehouse.service';
 import { User } from '@sentry/nextjs';
 
-// create modal interface
-export interface FormValues {
+export interface CreateWarehouse {
   name: string;
   address: string;
   city: string;
-  country: string;
+  countryName: string;
+  countryCode: string;
 }
 
 export interface CreateNewWarehousePopupProps {
@@ -14,6 +14,11 @@ export interface CreateNewWarehousePopupProps {
   onOpenChange: (open: boolean) => void;
 }
 
+export interface DeleteProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  warehouse: Warehouse | null;
+}
 // updat modal interface
 export interface FormValues {
   name: string;

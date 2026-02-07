@@ -49,17 +49,19 @@ export const WarehouseChart = ({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay }}
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>Warehouses & Items</CardTitle>
+      <Card className='h-full'>
+        <CardHeader className='px-3 sm:px-4 md:px-5'>
+          <CardTitle className='text-sm sm:text-base md:text-lg'>
+            Warehouses & Items
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className='h-[300px]'>
+        <CardContent className='px-2 sm:px-3 md:px-4'>
+          <ChartContainer
+            config={chartConfig}
+            className='h-[220px] w-full sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[380px]'
+          >
             <ResponsiveContainer width='100%' height='100%'>
-              <BarChart
-                data={data}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
+              <BarChart data={data} margin={{ top: 10, left: -35 }}>
                 <XAxis
                   dataKey='name'
                   tick={{ fill: 'hsl(var(--muted-foreground))' }}

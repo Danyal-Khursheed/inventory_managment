@@ -1,49 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeaderHero from './components/HeaderHero';
 import CreateCountryRegionModal from './components/CreateCountryRegionModal';
 import CountryRegionTable from './components/CountryRegionTable';
-import { useCreateCountryOrigin } from './hook';
-import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
+import { useCountryOrigin } from './hook/useGetAllCountryOrigin';
+import { ErrorState } from '@/components/Error/ErrorState';
+import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 
 export default function Page() {
   const [createModal, setCreateModal] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
-  const t = useTranslations('headerHero');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
-  const createCountryOriginMutation = useCreateCountryOrigin();
+  const { data, isLoading, isError } = useCountryOrigin(currentPage, pageSize);
 
-  const handleCreate = async (data: any) => {
-    try {
-      setIsCreating(true);
-      await createCountryOriginMutation.mutateAsync(data);
-      setCreateModal(false);
-      toast.success('Country region created successfully');
-    } catch (error) {
-      toast.error('An error occurred while creating the country region');
-    } finally {
-      setIsCreating(false);
-    }
+  const handleModalClose = () => {
+    setCreateModal(false);
   };
 
   return (
     <>
-      <HeaderHero
-        componentName='CountryTitle'
-        buttonName='CountryNewCountry'
-        handleButton={setCreateModal}
-      />
-
-      <CreateCountryRegionModal
-        open={createModal}
-        onOpenChange={setCreateModal}
-        onSubmit={handleCreate}
-        loading={isCreating}
-      />
-
-      <CountryRegionTable />
+      <div className='px-2'>
+        <HeaderHero
+          componentName='CountryTitle'
+          buttonName='CountryNewCountry'
+          handleButton={setCreateModal}
+        />
+        <CreateCountryRegionModal
+          open={createModal}
+          onOpenChange={handleModalClose}
+        />
+        {isLoading ? (
+          <SkeletonTable />
+        ) : isError ? (
+          <ErrorState />
+        ) : (
+          <CountryRegionTable
+            data={data}
+            isLoading={isLoading}
+            isError={isError}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+          />
+        )}
+      </div>
     </>
   );
 }

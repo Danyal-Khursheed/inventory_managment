@@ -13,18 +13,13 @@ import {
 import { Warehouse } from '@/services/warehouse.service';
 import { useDeleteWarehouse } from '../hook';
 import { useLocale, useTranslations } from 'next-intl';
-
-interface Props {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  warehouse: Warehouse | null;
-}
+import { DeleteProps } from '../types/types';
 
 export const DeleteWarehouseModal = ({
   open,
   onOpenChange,
   warehouse
-}: Props) => {
+}: DeleteProps) => {
   const { mutate, isPending } = useDeleteWarehouse();
   const t = useTranslations('DeleteWarehouseModal');
   const locale = useLocale();

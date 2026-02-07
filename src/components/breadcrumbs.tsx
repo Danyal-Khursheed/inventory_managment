@@ -16,13 +16,19 @@ export function Breadcrumbs() {
   if (items.length === 0) return null;
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className='cursor-not-allowed'>
       <BreadcrumbList>
         {items.map((item, index) => (
           <Fragment key={item.title}>
             {index !== items.length - 1 && (
               <BreadcrumbItem className='hidden md:block'>
-                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                <BreadcrumbLink
+                  href='#'
+                  onClick={(e) => e.preventDefault()}
+                  className='pointer-events-none cursor-not-allowed'
+                >
+                  {item.title}
+                </BreadcrumbLink>
               </BreadcrumbItem>
             )}
             {index < items.length - 1 && (

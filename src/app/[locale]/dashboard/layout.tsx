@@ -79,8 +79,8 @@ export default function DashboardLayout({
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <div className='bg-background h-screen'>
-          <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] overflow-y-auto px-4 py-10'>
+        <div className='bg-background h-screen overflow-x-hidden'>
+          <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] px-4 py-10'>
             {children}
           </div>
         </div>

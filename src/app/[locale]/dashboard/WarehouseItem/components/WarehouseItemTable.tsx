@@ -100,7 +100,7 @@ const WarehouseItemTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouseItems.length === 0 ? (
+            {warehouseItems?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={7}
