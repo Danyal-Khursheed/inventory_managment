@@ -13,7 +13,7 @@ import {
   REGISTER
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // localStorage under the hood
-//
+
 // Persist config for the whole store
 const persistConfig = {
   key: 'root', // key for localStorage
