@@ -14,10 +14,11 @@ import TablePagination from '@/components/pagination/TablePagination';
 import { useTranslations, useLocale } from 'next-intl';
 import { useShippingCompanies } from '../hooks/useShippingCompanies';
 import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
+import { ErrorState } from '@/components/Error/ErrorState';
 
 const ShippingCompanyTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const { data, isLoading, isError } = useShippingCompanies({
     pageNumber: currentPage,
@@ -31,14 +32,7 @@ const ShippingCompanyTable = () => {
 
   if (isLoading) return <SkeletonTable />;
 
-  if (isError)
-    return (
-      <div className='flex h-100 items-center justify-center'>
-        <p className='text-lg text-red-500'>
-          Something went wrong. Please try again
-        </p>
-      </div>
-    );
+  if (isError) return <ErrorState />;
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>

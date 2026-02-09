@@ -287,7 +287,7 @@ const PackageSection: React.FC = () => {
                     <td className='p-3'>
                       <ClientOnly>
                         <Select
-                          value={row.itemId || undefined}
+                          value={row.itemId ? String(row.itemId) : undefined}
                           onValueChange={(value) =>
                             updateItem(row.rowId, 'itemId', value)
                           }
@@ -296,11 +296,20 @@ const PackageSection: React.FC = () => {
                             <SelectValue placeholder='Select item' />
                           </SelectTrigger>
                           <SelectContent>
-                            {filteredItems?.map((item: WarehouseItem) => (
-                              <SelectItem key={item.id} value={String(item.id)}>
-                                {item.name}
-                              </SelectItem>
-                            ))}
+                            {filteredItems && filteredItems.length > 0 ? (
+                              filteredItems.map((item: WarehouseItem) => (
+                                <SelectItem
+                                  key={item.id}
+                                  value={String(item.id)}
+                                >
+                                  {item.name}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <div className='text-gray-500 select-none'>
+                                No item found
+                              </div>
+                            )}
                           </SelectContent>
                         </Select>
                       </ClientOnly>

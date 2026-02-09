@@ -20,7 +20,7 @@ export default function WarehousePage() {
   );
 
   const [pageNumber, setPageNumber] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const { data, isLoading, isError, refetch } = useGetAllWarehouses({
     pageNumber,

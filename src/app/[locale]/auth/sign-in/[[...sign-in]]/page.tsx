@@ -48,11 +48,14 @@ export default function Page() {
 
   return (
     <div
-      className={cn('w-full max-w-[400px]', isRTL && 'text-right')}
+      className={cn(
+        'border-border w-full max-w-[440px] rounded-2xl border px-6 py-8 shadow-sm',
+        isRTL && 'text-right'
+      )}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      <div className='mb-8'>
-        <div className='bg-primary/10 text-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl'>
+      <div className='mb-8 flex flex-col items-center text-center'>
+        <div className='bg-primary/10 text-primary mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl'>
           <LogIn className='h-6 w-6' />
         </div>
         <h1 className='text-foreground text-2xl font-semibold tracking-tight'>

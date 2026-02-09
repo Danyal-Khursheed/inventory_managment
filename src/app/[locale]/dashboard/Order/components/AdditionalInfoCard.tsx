@@ -44,7 +44,7 @@ const AdditionalInfoCard: React.FC = () => {
   }, [cod, codAmount, referenceId, instructions, dispatch]);
 
   return (
-    <Card className='rounded-2xl bg-white'>
+    <Card className='rounded-2xl'>
       <CardHeader>
         <CardTitle className='text-bg-primary/90 text-xl'>
           Additional Information

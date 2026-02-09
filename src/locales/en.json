@@ -11,6 +11,7 @@
     "Sign in": "Sign in",
     "John Doe": "John Doe",
     "emailPlaceholder": "name@example.com",
+    "country Code + phone Number":"country Code + phone Number",
     "Phone Number":"Phone Number",
     "Full name is required": "Full name is required",
     "Email is required": "Email is required",
@@ -172,11 +173,19 @@
   "WarehouseItemModal": {
     "createTitle": "Create Warehouse Item",
     "updateTitle": "Update Warehouse Item",
+    "Enter Name":"Enter Name",
 
     "name": "Name",
     "namePlaceholder": "Item name",
     "nameRequired": "Name is required",
+       "SKU": "SKU",
+  "skuPlaceholder": "Enter warehouse SKU",
+  "skuRequired": "SKU is required",
 
+  "UPC": "UPC",
+  "upcPlaceholder": "Enter product UPC code",
+  "upcRequired": "UPC is required",
+    
     "warehouse": "Warehouse",
     "selectWarehouse": "Select Warehouse",
     "warehouseRequired": "Warehouse is required",
@@ -187,16 +196,16 @@
     "priceRequired": "Price is required",
     "priceMin": "Price must be greater than 0",
 
+
     "quantity": "Quantity",
     "quantityRequired": "Quantity is required",
     "quantityMin": "Quantity must be greater than 0",
 
-    "weight": "Weight",
+    "weight": "weight",
     "weightRequired": "Weight is required",
     "weightMin": "Weight must be greater than 0",
 
-    "pricePerItem":"pricePerItem",
-    "weightPerItem":"weightPerItem",
+    "Price":"Price",
 
     "cancel": "Cancel",
     "create": "Create",
@@ -263,7 +272,8 @@
 "warehouse": "Warehouse",
     "address_nick": "Address Nickname",
     "zip_code": "Zip Code",
-    "phone_code": "Phone Code",
+    "CountryCode + MobileNumber": "CountryCode + MobileNumber",
+    "noCityFound":"noCityFound",
     "mobile_no": "Mobile Number",
     "latitude": "Latitude",
     "longitude": "Longitude",
@@ -288,9 +298,11 @@
       "zip_required": "Zip code is required",
       "zip_invalid": "Zip code must be between 3 and 10 digits",
       "latitude_required": "Latitude is required",
-      "latitude_invalid": "Enter a valid latitude",
+      "latitude_min": "Latitude cannot be less than -90",
+      "latitude_max": "Latitude cannot be more than 90",
       "longitude_required": "Longitude is required",
-      "longitude_invalid": "Enter a valid longitude",
+      "longitude_min": "Longitude cannot be less than -180",
+      "longitude_max": "Longitude cannot be more than 180",
       "warehouse_required": "Warehouse is required",
       "min": "Must be at least {count} characters",
       "max": "Must be at most {count} characters"

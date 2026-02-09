@@ -11,6 +11,7 @@
     "Sign in": "تسجيل الدخول",
     "John Doe":"جون دو",
     "emailPlaceholder": "البريد@مثال.com",
+    "country Code + phone Number": "رمز الدولة + رقم الهاتف",
     "Phone Number":"رقم التليفون",
     "Full name is required": "الاسم الكامل مطلوب",
     "Email is required": "البريد الإلكتروني مطلوب",
@@ -174,6 +175,15 @@
   "WarehouseItemModal": {
     "createTitle": "إنشاء عنصر مستودع",
     "updateTitle": "تحديث عنصر المستودع",
+   
+    "Enter Name":"أدخل الاسم",
+    "SKU": "رمز المخزون (SKU)",
+  "skuPlaceholder": "أدخل رمز المخزون للمستودع",
+  "skuRequired": "رمز SKU مطلوب",
+
+  "UPC": "الرمز العالمي للمنتج (UPC)",
+  "upcPlaceholder": "أدخل رمز UPC للمنتج",
+  "upcRequired": "رمز UPC مطلوب",
 
     "name": "الاسم",
     "namePlaceholder": "اسم العنصر",
@@ -197,8 +207,7 @@
     "weightRequired": "الوزن مطلوب",
     "weightMin": "يجب أن يكون الوزن أكبر من 0",
 
-    "pricePerItem":"سعر الوحدة",
-    "weightPerItem":"الوزن لكل عنصر",
+    "Price":"سعر",
 
     "cancel": "إلغاء",
     "create": "إنشاء",
@@ -266,7 +275,8 @@
  "warehouse": "المستودع",
     "address_nick": "اسم العنوان",
     "zip_code": "الرمز البريدي",
-    "phone_code": "مفتاح الدولة",
+    "CountryCode + MobileNumber'": "رمز الدولة + رقم الهاتف المحمول",
+    "noCityFound":"لا توجد مدن",
     "mobile_no": "رقم الجوال",
     "latitude": "خط العرض",
     "longitude": "خط الطول",
@@ -291,9 +301,11 @@
       "zip_required": "الرمز البريدي مطلوب",
       "zip_invalid": "يجب أن يكون الرمز البريدي بين 3 و 10 أرقام",
       "latitude_required": "خط العرض مطلوب",
-      "latitude_invalid": "أدخل خط عرض صحيح",
+      "latitude_min": "خط العرض لا يمكن أن يكون أقل من -90",
+      "latitude_max": "خط العرض لا يمكن أن يكون أكثر من 90",
       "longitude_required": "خط الطول مطلوب",
-      "longitude_invalid": "أدخل خط طول صحيح",
+      "longitude_min": "خط الطول لا يمكن أن يكون أقل من -180",
+      "longitude_max": "خط الطول لا يمكن أن يكون أكثر من 180",
       "warehouse_required": "المستودع مطلوب",
       "min": "يجب ألا يقل عن {count} أحرف",
       "max": "يجب ألا يزيد عن {count} أحرف"

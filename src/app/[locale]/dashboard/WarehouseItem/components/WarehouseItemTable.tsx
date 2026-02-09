@@ -44,6 +44,7 @@ const WarehouseItemTable = ({
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
+  console.log(warehouseItems);
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
@@ -68,6 +69,18 @@ const WarehouseItemTable = ({
               <TableHead
                 className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
               >
+                {t('SKU')}
+              </TableHead>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
+                {t('UPC')}
+              </TableHead>
+
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
                 {t('price')}
               </TableHead>
 
@@ -76,7 +89,6 @@ const WarehouseItemTable = ({
               >
                 {t('quantity')}
               </TableHead>
-
               <TableHead
                 className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
               >
@@ -100,7 +112,7 @@ const WarehouseItemTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouseItems?.length === 0 ? (
+            {!warehouseItems || warehouseItems?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={7}
@@ -110,7 +122,7 @@ const WarehouseItemTable = ({
                 </TableCell>
               </TableRow>
             ) : (
-              warehouseItems.map((item, idx) => (
+              warehouseItems?.map((item, idx) => (
                 <TableRow key={`${item.warehouseId}-${idx}`}>
                   <TableCell
                     className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
@@ -127,9 +139,20 @@ const WarehouseItemTable = ({
                   <TableCell
                     className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    {item.pricePerItem}
+                    {item.sku}
                   </TableCell>
 
+                  <TableCell
+                    className={`truncate px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.upc}
+                  </TableCell>
+
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {item.pricePerItem}
+                  </TableCell>
                   <TableCell
                     className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
@@ -153,7 +176,7 @@ const WarehouseItemTable = ({
                   >
                     <div
                       className={`flex gap-2 ${
-                        isRTL ? 'justify-start' : 'justify-end'
+                        isRTL ? 'justify-end' : 'justify-end'
                       }`}
                     >
                       <Tooltip>
