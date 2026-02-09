@@ -10,23 +10,39 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
-import { SignOutButton, useUser } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
+import useAuth from '@/auth/hooks/useAuth';
+import { usePathname, useRouter } from 'next/navigation';
 import { IconX } from '@tabler/icons-react';
 import * as React from 'react';
 
 export function UserNav() {
-  const { user } = useUser();
+  const { user, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
 
+  const locale = pathname?.match(/^\/(en|ar)/)?.[1] ?? 'en';
+
+  const navUser = user
+    ? {
+        fullName: user.name ?? undefined,
+        email: user.email,
+        emailAddresses: [{ emailAddress: user.email }]
+      }
+    : null;
+
   if (!user) return null;
+
+  const handleLogout = () => {
+    setOpen(false);
+    logout();
+  };
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
-          <UserAvatarProfile user={user} />
+          <UserAvatarProfile user={navUser} />
         </Button>
       </DropdownMenuTrigger>
 
@@ -36,7 +52,6 @@ export function UserNav() {
         sideOffset={10}
         forceMount
       >
-        {/* Close Button */}
         <Button
           size='icon'
           variant='ghost'
@@ -48,9 +63,11 @@ export function UserNav() {
 
         <DropdownMenuLabel className='pt-4 font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm leading-none font-medium'>{user.fullName}</p>
+            <p className='text-sm leading-none font-medium'>
+              {user.name ?? user.email}
+            </p>
             <p className='text-muted-foreground text-xs leading-none'>
-              {user.emailAddresses[0].emailAddress}
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -58,19 +75,16 @@ export function UserNav() {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
+          <DropdownMenuItem
+            onClick={() => router.push(`/${locale}/dashboard/profile`)}
+          >
             Profile
           </DropdownMenuItem>
-          {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
-          {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
-          {/* <DropdownMenuItem>New Team</DropdownMenuItem> */}
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <SignOutButton redirectUrl='/auth/sign-in' />
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Sign out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

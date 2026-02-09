@@ -16,13 +16,6 @@ export default function GlobalError({
     }
   }, [error]);
 
-  const isClerkKey =
-    error?.message?.includes('publishableKey') ||
-    error?.message?.includes('Clerk');
-  const isAuth =
-    error?.message?.includes('AuthProvider') ||
-    error?.message?.includes('useAuth');
-
   return (
     <html>
       <body
@@ -35,11 +28,7 @@ export default function GlobalError({
       >
         <h1>Something went wrong</h1>
         <p>
-          {isClerkKey
-            ? 'Clerk is not configured. Add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY in Netlify → Site configuration → Environment variables, then redeploy.'
-            : isAuth
-              ? 'Auth is not available. Ensure Clerk env vars are set in Netlify (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY).'
-              : 'A client-side error occurred. Check the browser console for details.'}
+          A client-side error occurred. Check the browser console for details.
         </p>
         {process.env.NODE_ENV === 'development' && (
           <pre
