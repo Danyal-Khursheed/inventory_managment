@@ -1,4 +1,9 @@
+import { format } from 'date-fns';
 import localFont from 'next/font/local';
+
+export function formatDate(date: Date): string {
+  return format(date, 'PP');
+}
 
 export const brandoArabic = localFont({
   src: [
