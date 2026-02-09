@@ -66,7 +66,7 @@
     "Password reset successfully!": "تم إعادة تعيين كلمة المرور بنجاح!",
     "resetPasswordFailed": "فشل إعادة تعيين كلمة المرور.",
     "Reset Password Button": "إعادة تعيين كلمة المرور",
-    "Resetting...": "جاري إعادة التعيين..."
+    "Resetting": "جاري إعادة التعيين..."
   },
   "Warehouse": {
     "createTitle": "إنشاء مستودع",
