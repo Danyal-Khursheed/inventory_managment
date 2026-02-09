@@ -3,9 +3,12 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import * as Sentry from '@sentry/nextjs';
 
-if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
+const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
+const sentryDisabled = process.env.NEXT_PUBLIC_SENTRY_DISABLED === 'true';
+
+if (dsn && !sentryDisabled) {
   Sentry.init({
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    dsn,
 
     // Add optional integrations for additional features
     integrations: [Sentry.replayIntegration()],

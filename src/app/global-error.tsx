@@ -1,7 +1,6 @@
 'use client';
 
 import * as Sentry from '@sentry/nextjs';
-import NextError from 'next/error';
 import { useEffect } from 'react';
 
 export default function GlobalError({
@@ -10,17 +9,50 @@ export default function GlobalError({
   error: Error & { digest?: string };
 }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    try {
+      Sentry.captureException(error);
+    } catch (_) {
+      // Sentry may not be configured or may throw; don't crash the error UI
+    }
   }, [error]);
+
+  const isClerkKey =
+    error?.message?.includes('publishableKey') ||
+    error?.message?.includes('Clerk');
+  const isAuth =
+    error?.message?.includes('AuthProvider') ||
+    error?.message?.includes('useAuth');
 
   return (
     <html>
-      <body>
-        {/* `NextError` is the default Next.js error page component. Its type
-        definition requires a `statusCode` prop. However, since the App Router
-        does not expose status codes for errors, we simply pass 0 to render a
-        generic error message. */}
-        <NextError statusCode={0} />
+      <body
+        style={{
+          fontFamily: 'system-ui, sans-serif',
+          padding: '2rem',
+          maxWidth: '480px',
+          margin: '0 auto'
+        }}
+      >
+        <h1>Something went wrong</h1>
+        <p>
+          {isClerkKey
+            ? 'Clerk is not configured. Add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY in Netlify → Site configuration → Environment variables, then redeploy.'
+            : isAuth
+              ? 'Auth is not available. Ensure Clerk env vars are set in Netlify (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY).'
+              : 'A client-side error occurred. Check the browser console for details.'}
+        </p>
+        {process.env.NODE_ENV === 'development' && (
+          <pre
+            style={{
+              fontSize: '12px',
+              overflow: 'auto',
+              background: '#f5f5f5',
+              padding: '1rem'
+            }}
+          >
+            {error?.message}
+          </pre>
+        )}
       </body>
     </html>
   );
