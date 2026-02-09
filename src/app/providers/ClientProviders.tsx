@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/auth/context/AuthProvider';
 import { QueryProvider } from '@/app/providers/query-provider';
-import store from '@/redux-toolkit/store';
+import { store } from '@/redux-toolkit/store/store';
 
 export default function ClientProviders({
   children

@@ -1,6 +1,4 @@
-import { Config } from 'tailwind-merge';
-
-const config: Config = {
+const config = {
   darkMode: 'class', // dark mode controlled via class
   content: [
     './app/**/*.{ts,tsx,js,jsx}', // include JS/TS files
