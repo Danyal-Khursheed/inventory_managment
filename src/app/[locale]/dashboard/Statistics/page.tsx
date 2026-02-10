@@ -18,14 +18,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import HeaderHero from './components/HeaderHero';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function StatisticsPage() {
+  const t = useTranslations('StatisticsPage');
   const { data, isLoading, error } = useStatistics();
   const router = useRouter();
 
   const handleCreateOrder = () => {
     router.push('/dashboard/Order');
   };
+
   if (isLoading) {
     return (
       <div className='space-y-6'>
@@ -68,10 +71,10 @@ export default function StatisticsPage() {
       <div className='flex h-[400px] items-center justify-center'>
         <div className='text-center'>
           <p className='text-destructive text-lg font-semibold'>
-            Failed to load statistics
+            {t('errorTitle')}
           </p>
           <p className='text-muted-foreground mt-2 text-sm'>
-            Please try refreshing the page
+            {t('errorDescription')}
           </p>
         </div>
       </div>
@@ -79,95 +82,98 @@ export default function StatisticsPage() {
   }
 
   const stats = data?.statistics;
-
-  if (!stats) {
-    return null;
-  }
+  if (!stats) return null;
 
   const overviewData = [
-    { name: 'Warehouses', value: stats.totalWarehouses },
-    { name: 'Warehouse Items', value: stats.totalWarehouseItems },
-    { name: 'Country Origins', value: stats.totalCountryOrigins },
-    { name: 'Pickup Addresses', value: stats.totalPickupAddresses }
+    { name: 'warehouses', value: stats.totalWarehouses },
+    { name: 'items', value: stats.totalWarehouseItems },
+    { name: 'countryOrigins', value: stats.totalCountryOrigins },
+    { name: 'pickupAddresses', value: stats.totalPickupAddresses }
   ];
 
   return (
     <div className='space-y-6'>
-      {/* Statistics Cards */}
       <HeaderHero buttonName='Create Order' handleButton={handleCreateOrder} />
+
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <StatCard
-          title='Total Orders'
+          title={t('totalOrders')}
           value={stats.totalOrders}
           icon={ShoppingCart}
-          description='All time orders'
+          description={t('allTimeOrders')}
           delay={0}
           gradient='bg-blue-500'
           iconColor='bg-blue-500/10 text-blue-600 dark:text-blue-400'
         />
+
         <StatCard
-          title='Pending Orders'
+          title={t('pendingOrders')}
           value={stats.pendingOrders}
           icon={Clock}
-          description='Awaiting processing'
+          description={t('awaitingProcessing')}
           delay={0.1}
           gradient='bg-yellow-500'
           iconColor='bg-yellow-500/10 text-yellow-600 dark:text-yellow-400'
         />
+
         <StatCard
-          title='Completed Orders'
+          title={t('completedOrders')}
           value={stats.completedOrders}
           icon={CheckCircle2}
-          description='Successfully processed'
+          description={t('successfullyProcessed')}
           delay={0.2}
           gradient='bg-green-500'
           iconColor='bg-green-500/10 text-green-600 dark:text-green-400'
         />
+
         <StatCard
-          title='Total Warehouses'
+          title={t('totalWarehouses')}
           value={stats.totalWarehouses}
           icon={Warehouse}
-          description='Active warehouses'
+          description={t('activeWarehouses')}
           delay={0.3}
           gradient='bg-purple-500'
           iconColor='bg-purple-500/10 text-purple-600 dark:text-purple-400'
         />
+
         <StatCard
-          title='Warehouse Items'
+          title={t('warehouseItems')}
           value={stats.totalWarehouseItems}
           icon={Package}
-          description='Items in stock'
+          description={t('itemsInStock')}
           delay={0.4}
           gradient='bg-indigo-500'
           iconColor='bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
         />
+
         <StatCard
-          title='Country Origins'
+          title={t('countryOrigins')}
           value={stats.totalCountryOrigins}
           icon={Globe}
-          description='Available origins'
+          description={t('availableOrigins')}
           delay={0.5}
           gradient='bg-teal-500'
           iconColor='bg-teal-500/10 text-teal-600 dark:text-teal-400'
         />
+
         <StatCard
-          title='Pickup Addresses'
+          title={t('pickupAddresses')}
           value={stats.totalPickupAddresses}
           icon={MapPin}
-          description='Active locations'
+          description={t('activeLocations')}
           delay={0.6}
           gradient='bg-pink-500'
           iconColor='bg-pink-500/10 text-pink-600 dark:text-pink-400'
         />
       </div>
 
-      {/* Charts Section */}
-      <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2'>
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
         <OrdersChart
           pendingOrders={stats.pendingOrders}
           completedOrders={stats.completedOrders}
           delay={0.7}
         />
+
         <WarehouseChart
           warehouses={stats.totalWarehouses}
           warehouseItems={stats.totalWarehouseItems}
@@ -175,7 +181,6 @@ export default function StatisticsPage() {
         />
       </div>
 
-      {/* Overview Chart */}
       <OverviewChart data={overviewData} delay={0.9} />
     </div>
   );

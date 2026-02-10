@@ -34,7 +34,7 @@ const CountryRegionTable = ({
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
-      <div className='min-w-[1200px]'>
+      <div className='h-full w-full max-w-[1600px]'>
         <Table>
           <TableHeader>
             <TableRow className='text-[14px]'>
@@ -64,7 +64,7 @@ const CountryRegionTable = ({
                 </TableCell>
               </TableRow>
             ) : (
-              data.data.map((item: any, idx: number) => (
+              data?.data?.map((item: any, idx: number) => (
                 <TableRow key={item.id}>
                   <TableCell className='px-4 py-2'>
                     {pageSize * (currentPage - 1) + (idx + 1)}

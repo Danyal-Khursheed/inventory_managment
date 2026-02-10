@@ -78,9 +78,12 @@ export default function SignUpViewPage() {
   };
 
   const inputBase = cn(
-    'h-11 rounded-lg border border-input bg-background px-4 transition-colors placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/20',
+    'h-11 rounded-lg border border-input bg-background px-4 transition-all',
+    'placeholder:text-muted-foreground',
+    'focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary',
     'disabled:opacity-50'
   );
+
   const inputError = 'border-destructive focus-visible:ring-destructive/20';
   const iconLeft = isRTL ? 'right-3' : 'left-3';
   const iconPadding = isRTL ? 'pl-4 pr-10' : 'pl-10 pr-4';
@@ -88,17 +91,22 @@ export default function SignUpViewPage() {
 
   return (
     <div
-      className={cn('w-full max-w-[440px]', isRTL && 'text-right')}
+      className={cn(
+        'border-border w-full max-w-[440px] rounded-2xl border px-6 py-8 shadow-sm',
+        isRTL && 'text-right'
+      )}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      <div className='mb-6'>
-        <div className='bg-primary/10 text-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl'>
-          <UserPlus className='h-6 w-6' />
+      <div className='mb-8 flex flex-col items-center text-center'>
+        <div className='bg-primary/10 text-primary mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl'>
+          <UserPlus className='h-7 w-7' />
         </div>
+
         <h1 className='text-foreground text-2xl font-semibold tracking-tight'>
           {t('Create Account')}
         </h1>
-        <p className='text-muted-foreground mt-2 text-sm'>
+
+        <p className='text-text-foreground mt-1 text-sm font-medium'>
           {t('Enter your information to register your new account')}
         </p>
       </div>
@@ -110,8 +118,8 @@ export default function SignUpViewPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
-        <div className='grid gap-4 sm:grid-cols-2'>
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
+        <div className='grid gap-4 sm:grid-cols-1'>
           <div className='space-y-2'>
             <Label
               htmlFor='fullName'
@@ -239,61 +247,65 @@ export default function SignUpViewPage() {
           )}
         </div>
 
-        <div className='grid gap-4 sm:grid-cols-2'>
+        <div className='grid gap-4 sm:grid-cols-1'>
           <div className='min-w-0 space-y-2'>
             <Label className='text-foreground text-sm font-medium'>
-              {t('Phone')}
+              {t('country Code + phone Number')}
             </Label>
-            <div className='flex min-w-0 gap-2'>
+
+            <div
+              className={cn(
+                'bg-background flex h-11 min-w-0 items-center overflow-hidden rounded-lg border transition-all',
+                'focus-within:ring-primary/20 focus-within:border-primary focus-within:ring-2',
+                (errors.countryCode || errors.phoneNumber) &&
+                  'border-destructive focus-within:ring-destructive/20'
+              )}
+            >
               <Controller
                 name='countryCode'
                 control={control}
                 rules={{ required: t('Country code is required') }}
                 render={({ field }) => (
-                  <div className='w-24 shrink-0'>
+                  <div className='shrink-0 border-r px-2'>
                     <PhoneInput
                       international
                       defaultCountry='PK'
                       value={field.value}
-                      onChange={(value) => field.onChange(value)}
+                      onChange={field.onChange}
                       onCountryChange={(country) => {
                         if (country) {
                           field.onChange(`+${getCountryCallingCode(country)}`);
                         }
                       }}
                       className={cn(
-                        'border-input bg-background focus-within:ring-primary/20 flex h-11 w-full min-w-0 items-center rounded-lg border px-2 transition-colors focus-within:ring-2',
-                        '[&_.PhoneInputInput]:placeholder:text-muted-foreground [&_.PhoneInputInput]:min-w-0 [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none',
-                        '[&_.PhoneInputCountrySelect]:cursor-pointer',
-                        errors.countryCode &&
-                          'border-destructive focus-within:ring-destructive/20'
+                        'flex h-full items-center',
+                        '[&_.PhoneInputInput]:w-12 [&_.PhoneInputInput]:cursor-pointer [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent',
+                        '[&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:outline-none',
+                        '[&_.PhoneInputCountrySelect]:h-10 [&_.PhoneInputCountrySelect]:cursor-pointer'
                       )}
                     />
                   </div>
                 )}
               />
-              <div className='relative min-w-0 flex-1'>
-                <Phone
-                  className={cn(
-                    'text-muted-foreground absolute top-1/2 h-5 w-5 -translate-y-1/2',
-                    iconLeft
-                  )}
-                />
-                <Input
-                  type='tel'
-                  placeholder={t('Phone Number')}
-                  disabled={isLoading}
-                  className={cn(
-                    inputBase,
-                    iconPadding,
-                    errors.phoneNumber && inputError
-                  )}
-                  {...register('phoneNumber', {
-                    required: t('Phone number is required')
-                  })}
-                />
-              </div>
+
+              <Phone
+                className={cn('text-muted-foreground mx-2 h-5 w-5 shrink-0')}
+              />
+
+              <Input
+                type='tel'
+                placeholder={t('Phone Number')}
+                disabled={isLoading}
+                className={cn(
+                  'h-full flex-1 border-0 bg-transparent px-2 focus-visible:ring-0 focus-visible:ring-offset-0',
+                  errors.phoneNumber && inputError
+                )}
+                {...register('phoneNumber', {
+                  required: t('Phone number is required')
+                })}
+              />
             </div>
+
             {(errors.countryCode || errors.phoneNumber) && (
               <p className='text-destructive text-xs'>
                 {errors.countryCode?.message || errors.phoneNumber?.message}
@@ -337,7 +349,7 @@ export default function SignUpViewPage() {
 
         <Button
           type='submit'
-          className='mt-2 h-11 w-full rounded-lg font-medium'
+          className='mt-6 h-11 w-full rounded-lg font-medium shadow-sm'
           disabled={isLoading}
         >
           {isLoading ? (
@@ -356,7 +368,7 @@ export default function SignUpViewPage() {
         </Button>
       </form>
 
-      <p className='text-muted-foreground mt-8 text-center text-sm'>
+      <p className='text-muted-foreground mt-10 text-center text-sm'>
         {t('Already have an account?')}{' '}
         <Link
           href={`/${locale}/auth/sign-in`}

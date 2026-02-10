@@ -44,7 +44,7 @@ const WarehouseTable = ({
   const isRTL = locale === 'ar';
 
   return (
-    <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
+    <div className='overflow-x-auto'>
       <div className='h-full min-w-[700px] overflow-x-auto'>
         <Table>
           <TableHeader>
@@ -65,7 +65,7 @@ const WarehouseTable = ({
           </TableHeader>
 
           <TableBody>
-            {warehouses?.length === 0 ? (
+            {!warehouses || warehouses?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={6}
@@ -75,7 +75,7 @@ const WarehouseTable = ({
                 </TableCell>
               </TableRow>
             ) : (
-              warehouses.map((w, idx) => (
+              warehouses?.map((w, idx) => (
                 <TableRow key={w.id}>
                   <TableCell>
                     {pageSize * (currentPage - 1) + (idx + 1)}

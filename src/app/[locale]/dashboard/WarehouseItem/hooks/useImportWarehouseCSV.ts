@@ -2,20 +2,22 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { WarehouseCSV } from '../components/ImportWarehouseCSV';
+import { WarehouseCSVItem } from '../components/ImportWarehouseCSV';
+
+// New payload type
+export type ImportWarehouseCSVPayload = {
+  items: WarehouseCSVItem[];
+};
 
 export function useImportWarehouseCSV(onSuccess?: () => void) {
   const queryClient = useQueryClient();
   const token = localStorage.getItem('auth_token');
 
   const mutation = useMutation({
-    mutationFn: async (data: WarehouseCSV[]) => {
-      const payload = {
-        items: data
-      };
-
+    // Now mutationFn expects the correct payload
+    mutationFn: async (payload: ImportWarehouseCSVPayload) => {
       const res = await fetch(
-        'https://kingshipbackend-production.up.railway.app/api/warehouse-items/create-warehouse-items-bulk',
+        'https://20.108.32.24:449/api/warehouse-items/create-warehouse-items-bulk',
         {
           method: 'POST',
           headers: {
@@ -35,8 +37,7 @@ export function useImportWarehouseCSV(onSuccess?: () => void) {
       return json;
     },
 
-    onSuccess: (response) => {
-      toast.success('Warehouses imported successfully');
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['warehouses'] });
       onSuccess?.();
     },
@@ -47,7 +48,7 @@ export function useImportWarehouseCSV(onSuccess?: () => void) {
   });
 
   return {
-    importCSV: mutation.mutate,
+    importCSV: mutation.mutate, // now expects { items: WarehouseCSVItem[] }
     loading: mutation.isPending
   };
 }

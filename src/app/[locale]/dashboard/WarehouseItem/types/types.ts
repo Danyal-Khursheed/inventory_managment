@@ -18,6 +18,8 @@ export interface WarehouseItem {
   pricePerItem: number;
   quantity: number;
   weightPerItem: number;
+  upc: string;
+  sku: string;
 }
 
 export interface FormValues {
@@ -26,6 +28,8 @@ export interface FormValues {
   pricePerItem: number;
   quantity: number;
   weightPerItem: number;
+  upc: string;
+  sku: string;
 }
 
 export interface HeroHeaderProps {

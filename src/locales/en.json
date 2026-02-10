@@ -11,6 +11,7 @@
     "Sign in": "Sign in",
     "John Doe": "John Doe",
     "emailPlaceholder": "name@example.com",
+    "country Code + phone Number":"country Code + phone Number",
     "Phone Number":"Phone Number",
     "Full name is required": "Full name is required",
     "Email is required": "Email is required",
@@ -67,6 +68,54 @@
     "resetPasswordFailed": "Failed to reset password.",
     "Reset Password Button": "Reset Password",
     "Resetting": "Resetting"
+  },
+    "OrdersChart": {
+    "title": "Orders Overview",
+    "pending": "Pending",
+    "completed": "Completed"
+  },
+    "WarehouseChart": {
+    "title": "Warehouses & Items",
+    "warehouses": "Warehouses",
+    "items": "Warehouse Items"
+  },
+     "OverviewChart": {
+    "title": "System Overview",
+    "count": "Count",
+
+    "users": "Users",
+    "orders": "Orders",
+    "warehouses": "Warehouses",
+    "items": "Items",
+    "products": "Products",
+    "categories": "Categories"
+  },
+    "StatisticsPage": {
+    "createOrder": "Create Order",
+
+    "errorTitle": "Failed to load statistics",
+    "errorDescription": "Please try refreshing the page",
+
+    "totalOrders": "Total Orders",
+    "allTimeOrders": "All time orders",
+
+    "pendingOrders": "Pending Orders",
+    "awaitingProcessing": "Awaiting processing",
+
+    "completedOrders": "Completed Orders",
+    "successfullyProcessed": "Successfully processed",
+
+    "totalWarehouses": "Total Warehouses",
+    "activeWarehouses": "Active warehouses",
+
+    "warehouseItems": "Warehouse Items",
+    "itemsInStock": "Items in stock",
+
+    "countryOrigins": "Country Origins",
+    "availableOrigins": "Available origins",
+
+    "pickupAddresses": "Pickup Addresses",
+    "activeLocations": "Active locations"
   },
   "Warehouse": {
     "createTitle": "Create Warehouse",
@@ -172,11 +221,19 @@
   "WarehouseItemModal": {
     "createTitle": "Create Warehouse Item",
     "updateTitle": "Update Warehouse Item",
+    "Enter Name":"Enter Name",
 
     "name": "Name",
     "namePlaceholder": "Item name",
     "nameRequired": "Name is required",
+       "SKU": "SKU",
+  "skuPlaceholder": "Enter warehouse SKU",
+  "skuRequired": "SKU is required",
 
+  "UPC": "UPC",
+  "upcPlaceholder": "Enter product UPC code",
+  "upcRequired": "UPC is required",
+    
     "warehouse": "Warehouse",
     "selectWarehouse": "Select Warehouse",
     "warehouseRequired": "Warehouse is required",
@@ -187,16 +244,16 @@
     "priceRequired": "Price is required",
     "priceMin": "Price must be greater than 0",
 
+
     "quantity": "Quantity",
     "quantityRequired": "Quantity is required",
     "quantityMin": "Quantity must be greater than 0",
 
-    "weight": "Weight",
+    "weight": "weight",
     "weightRequired": "Weight is required",
     "weightMin": "Weight must be greater than 0",
 
-    "pricePerItem":"pricePerItem",
-    "weightPerItem":"weightPerItem",
+    "Price":"Price",
 
     "cancel": "Cancel",
     "create": "Create",
@@ -215,6 +272,8 @@
     "sNo": "S No",
     "name": "Name",
     "price": "Price",
+    "SKU":"SKU",
+    "UPC":"UPC",
     "quantity": "Quantity",
     "weight": "Weight",
     "warehouseName": "Warehouse Name",
@@ -263,7 +322,8 @@
 "warehouse": "Warehouse",
     "address_nick": "Address Nickname",
     "zip_code": "Zip Code",
-    "phone_code": "Phone Code",
+    "CountryCode + MobileNumber": "CountryCode + MobileNumber",
+    "noCityFound":"noCityFound",
     "mobile_no": "Mobile Number",
     "latitude": "Latitude",
     "longitude": "Longitude",
@@ -288,9 +348,11 @@
       "zip_required": "Zip code is required",
       "zip_invalid": "Zip code must be between 3 and 10 digits",
       "latitude_required": "Latitude is required",
-      "latitude_invalid": "Enter a valid latitude",
+      "latitude_min": "Latitude cannot be less than -90",
+      "latitude_max": "Latitude cannot be more than 90",
       "longitude_required": "Longitude is required",
-      "longitude_invalid": "Enter a valid longitude",
+      "longitude_min": "Longitude cannot be less than -180",
+      "longitude_max": "Longitude cannot be more than 180",
       "warehouse_required": "Warehouse is required",
       "min": "Must be at least {count} characters",
       "max": "Must be at most {count} characters"
@@ -457,6 +519,75 @@
       "longitudeMin": "Minimum longitude is -180",
       "longitudeMax": "Maximum longitude is 180"
     }
+  },
+   "OriginCard": {
+    "title": "Origin",
+    "selectOrigin": "Select Origin",
+
+    "nickname": "Nickname",
+    "company": "Company",
+    "country": "Country",
+    "mobile": "Mobile No"
+  },
+    "ReceiverCard": {
+    "title": "Receiver",
+    "createNew": "Create New",
+    "name": "Name",
+    "company": "Company",
+    "email": "Email",
+    "mobile": "Mobile No"
+  },
+    "ReceiverModal": {
+    "title": "Create Receiver",
+    "name": "Name",
+    "company": "Company Name",
+    "email": "Email",
+    "mobile": "Mobile No",
+    "create": "Create",
+    "cancel": "Cancel",
+    "errors": {
+      "nameRequired": "Name is required",
+      "companyRequired": "Company name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email",
+      "mobileRequired": "Mobile number is required",
+      "mobileInvalid": "Enter a valid mobile number"
+    }
+  },
+    "PickupCard": {
+    "title": "Pickup",
+    "nickname": "Nickname",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "selectPlaceholder": "Select Pickup Address",
+    "noRecordsFound": "No records found"
+  },
+   "AdditionalInfoCard": {
+    "title": "Additional Information",
+    "codQuestion": "Cash On Delivery (COD)?",
+    "yes": "Yes",
+    "no": "No",
+    "referenceId": "Reference ID (Optional)",
+    "referenceIdPlaceholder": "Reference ID",
+    "codAmount": "COD Amount in *",
+    "codAmountPlaceholder": "Enter amount",
+    "instructions": "Instructions (Optional)",
+    "instructionsPlaceholder": "Type any special request here (optional)"
+  },
+    "PackageSection": {
+    "title": "Select your warehouse",
+    "selectWarehouse": "Select warehouse",
+    "length": "Length (cm)",
+    "width": "Width (cm)",
+    "height": "Height (cm)",
+    "volumetricWeight": "Volumetric Weight",
+    "add": "Add",
+    "selectItem": "Select item",
+    "noItemFound": "No item found",
+    "qtyExceed": "Quantity cannot exceed {max}",
+    "weightExceed": "Weight cannot exceed {max}",
+    "priceExceed": "Price cannot exceed {max}"
   }
 }
 

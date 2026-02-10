@@ -13,10 +13,11 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import { ErrorState } from '@/components/Error/ErrorState';
 
 const PickupTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const { data, isLoading, isError } = useGetAllPickups({
     pageNumber: currentPage,
@@ -30,14 +31,7 @@ const PickupTable = () => {
 
   if (isLoading) return <SkeletonTable />;
 
-  if (isError)
-    return (
-      <div className='flex h-100 items-center justify-center'>
-        <p className='text-lg text-red-500'>
-          Something went wrong. Please try again
-        </p>
-      </div>
-    );
+  if (isError) return <ErrorState />;
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='overflow-x-auto'>
@@ -58,7 +52,7 @@ const PickupTable = () => {
           </TableHeader>
 
           <TableBody>
-            {!data?.data || data.data.length === 0 ? (
+            {!data?.data || data?.data?.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={9}
@@ -68,7 +62,7 @@ const PickupTable = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              data.data.map((item, idx) => (
+              data?.data?.map((item, idx) => (
                 <TableRow key={item.id}>
                   <TableCell>
                     {pageSize * (currentPage - 1) + (idx + 1)}

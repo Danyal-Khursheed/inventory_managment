@@ -21,14 +21,17 @@ import {
   SelectedWarehouse,
   WarehouseItem
 } from '../types/types';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 import { setWarehouse } from '@/redux-toolkit/reducers/order';
 import ClientOnly from '@/components/ClientOnly';
+import { useTranslations, useLocale } from 'next-intl';
 
 const PackageSection: React.FC = () => {
   const dispatch = useDispatch();
+  const t = useTranslations('PackageSection');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
 
   const savedWarehouse = useSelector(
     (state: RootState) => state.order.warehouse
@@ -37,7 +40,6 @@ const PackageSection: React.FC = () => {
   const [selectedWarehouse, setSelectedWarehouse] =
     useState<SelectedWarehouse | null>(() => {
       if (!savedWarehouse) return null;
-
       return {
         ...savedWarehouse,
         warehouseItems: Array.isArray(savedWarehouse.warehouseItems)
@@ -51,7 +53,6 @@ const PackageSection: React.FC = () => {
 
   const { data: warehousesData, isLoading: warehousesLoading } =
     useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
-
   const { data: warehouseItemsData } = useGetAllWarehouseItems({
     pageNumber: 1,
     pageSize: 50
@@ -101,7 +102,6 @@ const PackageSection: React.FC = () => {
 
     setSelectedWarehouse((prev) => {
       if (!prev) return prev;
-
       const nextId = prev.warehouseItems?.length + 1;
 
       return {
@@ -127,7 +127,6 @@ const PackageSection: React.FC = () => {
 
   const deleteItem = (rowId: number) => {
     if (!selectedWarehouse) return;
-
     setSelectedWarehouse((prev) =>
       prev
         ? {
@@ -178,17 +177,17 @@ const PackageSection: React.FC = () => {
           const numericValue = Number(value);
 
           if (field === 'qty' && numericValue > row.originalQty) {
-            toast(`Quantity cannot exceed ${row.originalQty}`);
+            toast(t('qtyExceed', { max: row.originalQty }));
             return row;
           }
 
           if (field === 'weight' && numericValue > row.originalWeight) {
-            toast(`Weight cannot exceed ${row.originalWeight}`);
+            toast(t('weightExceed', { max: row.originalWeight }));
             return row;
           }
 
           if (field === 'price' && numericValue > row.originalPrice) {
-            toast(`Price cannot exceed ${row.originalPrice}`);
+            toast(t('priceExceed', { max: row.originalPrice }));
             return row;
           }
 
@@ -199,9 +198,13 @@ const PackageSection: React.FC = () => {
   };
 
   return (
-    <Card id='warehouse-card' className='mt-6 w-full'>
+    <Card
+      id='warehouse-card'
+      className='mt-6 w-full'
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
       <CardHeader>
-        <CardTitle>Select your warehouse</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
 
         <ClientOnly>
           <Select
@@ -210,7 +213,6 @@ const PackageSection: React.FC = () => {
               const warehouse = warehousesData?.data?.find(
                 (w: any) => String(w.id) === warehouseId
               );
-
               if (!warehouse) return;
 
               setSelectedWarehouse({
@@ -225,7 +227,7 @@ const PackageSection: React.FC = () => {
             }}
           >
             <SelectTrigger>
-              <SelectValue placeholder='Select warehouse' />
+              <SelectValue placeholder={t('selectWarehouse')} />
             </SelectTrigger>
 
             <SelectContent>
@@ -252,29 +254,29 @@ const PackageSection: React.FC = () => {
           <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5'>
             <Input
               type='number'
-              placeholder='Length (cm)'
+              placeholder={t('length')}
               value={selectedWarehouse?.box?.length}
               onChange={(e) => updateBox('length', e.target.value)}
             />
             <Input
               type='number'
-              placeholder='Width (cm)'
+              placeholder={t('width')}
               value={selectedWarehouse?.box?.width}
               onChange={(e) => updateBox('width', e.target.value)}
             />
             <Input
               type='number'
-              placeholder='Height (cm)'
+              placeholder={t('height')}
               value={selectedWarehouse?.box?.height}
               onChange={(e) => updateBox('height', e.target.value)}
             />
             <Input
               disabled
               value={selectedWarehouse?.box?.volumetricWeight}
-              placeholder='Volumetric Weight'
+              placeholder={t('volumetricWeight')}
             />
             <Button onClick={addItem}>
-              <Plus className='mr-2 h-4 w-4' /> Add
+              <Plus className='mr-2 h-4 w-4' /> {t('add')}
             </Button>
           </div>
 
@@ -287,20 +289,29 @@ const PackageSection: React.FC = () => {
                     <td className='p-3'>
                       <ClientOnly>
                         <Select
-                          value={row.itemId || undefined}
+                          value={row.itemId ? String(row.itemId) : undefined}
                           onValueChange={(value) =>
                             updateItem(row.rowId, 'itemId', value)
                           }
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder='Select item' />
+                            <SelectValue placeholder={t('selectItem')} />
                           </SelectTrigger>
                           <SelectContent>
-                            {filteredItems?.map((item: WarehouseItem) => (
-                              <SelectItem key={item.id} value={String(item.id)}>
-                                {item.name}
-                              </SelectItem>
-                            ))}
+                            {filteredItems && filteredItems.length > 0 ? (
+                              filteredItems.map((item: WarehouseItem) => (
+                                <SelectItem
+                                  key={item.id}
+                                  value={String(item.id)}
+                                >
+                                  {item.name}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <div className='text-gray-500 select-none'>
+                                {t('noItemFound')}
+                              </div>
+                            )}
                           </SelectContent>
                         </Select>
                       </ClientOnly>

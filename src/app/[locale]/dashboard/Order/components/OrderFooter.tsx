@@ -149,7 +149,7 @@ const OrderFooter: React.FC<OrderFooterProps> = ({ orderId }) => {
     : createOrderMutation.isPending;
 
   return (
-    <div className='mt-4 flex items-center justify-end'>
+    <div className='mb-20 flex items-center justify-end'>
       <Button size='lg' onClick={handleNext} disabled={isPending}>
         {isPending
           ? isEditMode

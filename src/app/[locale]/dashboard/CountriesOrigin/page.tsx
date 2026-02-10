@@ -11,7 +11,7 @@ import SkeletonTable from '@/components/SkeletonLoading/TableSkelton';
 export default function Page() {
   const [createModal, setCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const { data, isLoading, isError } = useCountryOrigin(currentPage, pageSize);
 

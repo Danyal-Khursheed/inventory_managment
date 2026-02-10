@@ -47,6 +47,8 @@ const CreateWarehouseItemModal = ({
   } = useForm<FormValues>({
     defaultValues: {
       name: '',
+      sku: '',
+      upc: '',
       warehouseId: '',
       pricePerItem: undefined,
       quantity: undefined,
@@ -59,13 +61,14 @@ const CreateWarehouseItemModal = ({
     isLoading,
     error
   } = useGetAllWarehouses({ pageNumber: 1, pageSize: 10 });
-
   const { mutate: createWarehouseItem, isPending } = useCreateWarehouseItem();
 
   useEffect(() => {
     if (warehouseItem) {
       reset({
         name: warehouseItem.name,
+        sku: warehouseItem.sku,
+        upc: warehouseItem.upc,
         warehouseId: warehouseItem.warehouseId,
         pricePerItem: warehouseItem.pricePerItem,
         quantity: warehouseItem.quantity,
@@ -74,6 +77,8 @@ const CreateWarehouseItemModal = ({
     } else {
       reset({
         name: '',
+        sku: '',
+        upc: '',
         warehouseId: '',
         pricePerItem: undefined,
         quantity: undefined,
@@ -83,9 +88,12 @@ const CreateWarehouseItemModal = ({
   }, [warehouseItem, reset]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log('Form Data', data);
     const payload: WarehouseItem = {
       ...(isEditMode && { id: warehouseItem!.id }),
       name: data.name,
+      sku: data.sku,
+      upc: data.upc,
       warehouseId: data.warehouseId,
       pricePerItem: data.pricePerItem,
       quantity: data.quantity,
@@ -122,13 +130,42 @@ const CreateWarehouseItemModal = ({
             <div className='flex flex-col gap-2'>
               <Label>{t('name')}</Label>
               <Input
+                placeholder='Enter Name'
+                type='text'
                 {...register('name', {
-                  required: t('nameRequired'),
-                  minLength: { value: 3, message: t('nameMinLength') }
+                  required: t('nameRequired')
                 })}
               />
               {errors.name && (
                 <p className='text-sm text-red-500'>{errors.name.message}</p>
+              )}
+            </div>
+
+            <div className='flex flex-col gap-2'>
+              <Label>{t('SKU')}</Label>
+              <Input
+                placeholder='Enter SKU'
+                type='text'
+                {...register('sku', {
+                  required: t('skuRequired')
+                })}
+              />
+              {errors.sku && (
+                <p className='text-sm text-red-500'>{errors.sku.message}</p>
+              )}
+            </div>
+
+            <div className='flex flex-col gap-2'>
+              <Label>{t('UPC')}</Label>
+              <Input
+                placeholder='Enter UPC'
+                type='text'
+                {...register('upc', {
+                  required: t('upcRequired')
+                })}
+              />
+              {errors.upc && (
+                <p className='text-sm text-red-500'>{errors.upc.message}</p>
               )}
             </div>
 
@@ -169,8 +206,9 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
-              <Label>{t('pricePerItem')}</Label>
+              <Label>{t('Price')}</Label>
               <Input
+                placeholder='Enter Price'
                 type='number'
                 {...register('pricePerItem', {
                   required: t('priceRequired'),
@@ -188,6 +226,7 @@ const CreateWarehouseItemModal = ({
             <div className='flex flex-col gap-2'>
               <Label>{t('quantity')}</Label>
               <Input
+                placeholder='Enter Quantity'
                 type='number'
                 {...register('quantity', {
                   required: t('quantityRequired'),
@@ -202,9 +241,11 @@ const CreateWarehouseItemModal = ({
               )}
             </div>
 
+            {/* Weight */}
             <div className='flex flex-col gap-2'>
-              <Label>{t('weightPerItem')}</Label>
+              <Label>{t('weight')}</Label>
               <Input
+                placeholder='Enter Weight'
                 type='number'
                 {...register('weightPerItem', {
                   required: t('weightRequired'),

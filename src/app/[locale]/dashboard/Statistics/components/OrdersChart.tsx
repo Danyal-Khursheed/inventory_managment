@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/chart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface OrdersChartProps {
   pendingOrders: number;
@@ -20,39 +21,51 @@ const COLORS = {
   completed: 'var(--color-chart-2)'
 };
 
-const chartConfig = {
-  pending: {
-    label: 'Pending',
-    color: 'var(--color-chart-1)'
-  },
-  completed: {
-    label: 'Completed',
-    color: 'var(--color-chart-2)'
-  }
-};
-
 export const OrdersChart = ({
   pendingOrders,
   completedOrders,
   delay = 0
 }: OrdersChartProps) => {
+  const t = useTranslations('OrdersChart');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
+
   const data = [
-    { name: 'Pending', value: pendingOrders, fill: COLORS.pending },
-    { name: 'Completed', value: completedOrders, fill: COLORS.completed }
+    {
+      name: t('pending'),
+      value: pendingOrders,
+      fill: COLORS.pending
+    },
+    {
+      name: t('completed'),
+      value: completedOrders,
+      fill: COLORS.completed
+    }
   ];
 
-  const total = pendingOrders + completedOrders;
+  const chartConfig = {
+    pending: {
+      label: t('pending'),
+      color: COLORS.pending
+    },
+    completed: {
+      label: t('completed'),
+      color: COLORS.completed
+    }
+  };
 
   return (
     <motion.div
+      dir={isRTL ? 'rtl' : 'ltr'}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay }}
     >
       <Card className='h-full'>
         <CardHeader>
-          <CardTitle>Orders Overview</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
         </CardHeader>
+
         <CardContent>
           <ChartContainer config={chartConfig} className='h-[350px]'>
             <ResponsiveContainer width='100%' height='100%'>
@@ -63,10 +76,11 @@ export const OrdersChart = ({
                   cy='50%'
                   labelLine={false}
                   label={({ name, percent }) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
+                    isRTL
+                      ? `${name} ${(percent * 100).toFixed(0)}٪`
+                      : `${name}: ${(percent * 100).toFixed(0)}%`
                   }
                   outerRadius={80}
-                  fill='#8884d8'
                   dataKey='value'
                   animationBegin={delay * 1000}
                   animationDuration={1000}
@@ -75,27 +89,51 @@ export const OrdersChart = ({
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
+
                 <ChartTooltip content={<ChartTooltipContent />} />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>
-          <div className='mt-4 flex justify-center gap-6'>
-            <div className='flex items-center gap-2'>
+
+          {/* Legend */}
+          <div
+            className={`mt-4 flex justify-center gap-6 ${
+              isRTL ? 'flex-row-reverse' : ''
+            }`}
+          >
+            {/* Pending */}
+            <div
+              className={`flex items-center gap-2 ${
+                isRTL ? 'flex-row-reverse text-right' : ''
+              }`}
+            >
               <div
                 className='h-3 w-3 rounded-full'
                 style={{ backgroundColor: COLORS.pending }}
               />
-              <span className='text-muted-foreground text-sm'>
-                Pending: {pendingOrders}
+              <span
+                className='text-muted-foreground text-sm'
+                dir={isRTL ? 'rtl' : 'ltr'}
+              >
+                {t('pending')} {isRTL ? '' : ':'} {pendingOrders}
               </span>
             </div>
-            <div className='flex items-center gap-2'>
+
+            {/* Completed */}
+            <div
+              className={`flex items-center gap-2 ${
+                isRTL ? 'flex-row-reverse text-right' : ''
+              }`}
+            >
               <div
                 className='h-3 w-3 rounded-full'
                 style={{ backgroundColor: COLORS.completed }}
               />
-              <span className='text-muted-foreground text-sm'>
-                Completed: {completedOrders}
+              <span
+                className='text-muted-foreground text-sm'
+                dir={isRTL ? 'rtl' : 'ltr'}
+              >
+                {t('completed')} {isRTL ? '' : ':'} {completedOrders}
               </span>
             </div>
           </div>

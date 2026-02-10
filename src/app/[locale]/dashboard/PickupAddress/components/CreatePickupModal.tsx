@@ -63,6 +63,7 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
   const createPickupMutation = useCreatePickup();
 
   const selectedCountryIso = watch('country_iso_code');
+  const phoneCode = watch('phone_code');
 
   const countries = Country.getAllCountries();
   const cities = selectedCountryIso
@@ -90,31 +91,37 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
 
     createPickupMutation.mutate(payload as any, {
       onSuccess: () => {
-        reset();
         onOpenChange(false);
+        reset();
       }
     });
+  };
+
+  const handleCancel = () => {
+    reset();
+    onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         dir={isRTL ? 'rtl' : 'ltr'}
-        className='max-h-[90vh] w-[95vw] p-0 sm:max-w-lg'
+        className={`max-h-[95vh] w-[95vw] p-0 sm:max-w-lg ${isRTL ? 'text-right' : ''}`}
       >
         <DialogHeader className='px-6 pt-6'>
-          <DialogTitle className='text-center text-xl font-semibold'>
+          <DialogTitle className='text-center text-xl font-semibold sm:text-2xl'>
             {t('title')}
           </DialogTitle>
         </DialogHeader>
 
-        <div className='max-h-[calc(90vh-140px)] overflow-y-auto px-6 py-4'>
+        <div className='max-h-[calc(90vh-140px)] overflow-y-auto px-4 py-4'>
           <form onSubmit={handleSubmit(handleFormSubmit)} className='space-y-3'>
             <Field
               label={t('address_nick')}
               error={errors.address_nick?.message}
             >
               <Input
+                className='mt-2'
                 {...register('address_nick', {
                   required: t('errors.address_nick_required'),
                   minLength: {
@@ -131,6 +138,7 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
 
             <Field label={t('address')} error={errors.address?.message}>
               <Input
+                className='mt-2'
                 {...register('address', {
                   required: t('errors.address_required'),
                   minLength: {
@@ -155,24 +163,27 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
                 rules={{ required: t('errors.country_required') }}
                 render={({ field }) => (
                   <Select
-                    value={field.value}
+                    value={field.value || undefined}
                     onValueChange={(value) => {
                       field.onChange(value);
                       const country = countries.find(
                         (c) => c.isoCode === value
                       );
-                      setValue('country_name', country?.name || '');
+                      setValue('country_name', country?.name || '', {
+                        shouldDirty: true
+                      });
                       setValue('city_name', '');
                       setValue(
                         'phone_code',
-                        country?.phonecode ? `+${country.phonecode}` : ''
+                        country?.phonecode ? `+${country.phonecode}` : '',
+                        { shouldDirty: true }
                       );
                     }}
                   >
-                    <SelectTrigger className='w-full'>
+                    <SelectTrigger className='mt-2 w-full'>
                       <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
-                    <SelectContent className='max-h-64'>
+                    <SelectContent className='max-h-60 overflow-y-auto'>
                       {countries.map((c) => (
                         <SelectItem key={c.isoCode} value={c.isoCode}>
                           {c.name}
@@ -191,48 +202,57 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
                 rules={{ required: t('errors.city_required') }}
                 render={({ field }) => (
                   <Select
-                    value={field.value}
+                    value={field.value || undefined}
                     onValueChange={field.onChange}
                     disabled={!selectedCountryIso}
                   >
-                    <SelectTrigger className='w-full'>
+                    <SelectTrigger className='mt-2 w-full'>
                       <SelectValue placeholder={t('selectCity')} />
                     </SelectTrigger>
-                    <SelectContent className='max-h-64'>
-                      {cities.map((city) => (
-                        <SelectItem key={city.name} value={city.name}>
-                          {city.name}
+                    <SelectContent className='max-h-60 overflow-y-auto'>
+                      {cities.length > 0 ? (
+                        cities.map((city) => (
+                          <SelectItem key={city.name} value={city.name}>
+                            {city.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem key='no-city' value='no-city' disabled>
+                          {t('noCityFound')}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 )}
               />
             </Field>
 
-            <div className='flex gap-2'>
-              <div className='w-[30%]'>
-                <Field label={t('country_code')}>
-                  <Input {...register('phone_code')} readOnly />
-                </Field>
+            <Field
+              label={t('CountryCode + MobileNumber')}
+              error={errors.mobile_no?.message}
+            >
+              <div className='bg-background mt-2 flex h-11 w-full items-center rounded-md border'>
+                <span className='text-muted-foreground w-[20%] pl-3 text-sm font-medium'>
+                  {phoneCode || '-/-'}
+                </span>
+                <Input
+                  type='text'
+                  placeholder={t('mobile_no')}
+                  {...register('mobile_no', {
+                    required: t('errors.mobile_required'),
+                    pattern: {
+                      value: /^[0-9]{7,15}$/,
+                      message: t('errors.mobile_invalid')
+                    }
+                  })}
+                />
               </div>
-              <div className='w-[70%]'>
-                <Field label={t('mobile_no')} error={errors.mobile_no?.message}>
-                  <Input
-                    {...register('mobile_no', {
-                      required: t('errors.mobile_required'),
-                      pattern: {
-                        value: /^[0-9]{7,15}$/,
-                        message: t('errors.mobile_invalid')
-                      }
-                    })}
-                  />
-                </Field>
-              </div>
-            </div>
+            </Field>
 
             <Field label={t('zip_code')} error={errors.zip_code?.message}>
               <Input
+                type='text'
+                className='mt-2'
                 {...register('zip_code', {
                   required: t('errors.zip_required'),
                   pattern: {
@@ -245,24 +265,28 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
 
             <Field label={t('latitude')} error={errors.latitude?.message}>
               <Input
+                type='number'
+                className='mt-2'
+                step='any'
                 {...register('latitude', {
                   required: t('errors.latitude_required'),
-                  pattern: {
-                    value: /^-?\d+(\.\d+)?$/,
-                    message: t('errors.latitude_invalid')
-                  }
+                  valueAsNumber: true,
+                  min: { value: -90, message: t('errors.latitude_min') },
+                  max: { value: 90, message: t('errors.latitude_max') }
                 })}
               />
             </Field>
 
             <Field label={t('longitude')} error={errors.longitude?.message}>
               <Input
+                type='number'
+                className='mt-2'
+                step='any'
                 {...register('longitude', {
                   required: t('errors.longitude_required'),
-                  pattern: {
-                    value: /^-?\d+(\.\d+)?$/,
-                    message: t('errors.longitude_invalid')
-                  }
+                  valueAsNumber: true,
+                  min: { value: -180, message: t('errors.longitude_min') },
+                  max: { value: 180, message: t('errors.longitude_max') }
                 })}
               />
             </Field>
@@ -273,8 +297,11 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
                 control={control}
                 rules={{ required: t('errors.warehouse_required') }}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className='w-full'>
+                  <Select
+                    value={field.value || undefined}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className='mt-2 w-full'>
                       <SelectValue placeholder={t('selectWarehouse')} />
                     </SelectTrigger>
                     <SelectContent>
@@ -289,9 +316,11 @@ const CreatePickupModal = ({ open, onOpenChange }: Props) => {
               />
             </Field>
 
-            <DialogFooter className='pt-4'>
+            <DialogFooter className='flex justify-end gap-2 pt-4'>
               <DialogClose asChild>
-                <Button variant='outline'>{t('cancel')}</Button>
+                <Button variant='outline' onClick={handleCancel}>
+                  {t('cancel')}
+                </Button>
               </DialogClose>
               <Button type='submit' disabled={createPickupMutation.isPending}>
                 {createPickupMutation.isPending ? t('loading') : t('submit')}
