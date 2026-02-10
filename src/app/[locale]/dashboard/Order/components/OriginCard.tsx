@@ -12,7 +12,6 @@ import {
 import { useCountryOrigin } from '../hooks';
 import Spinner from '@/components/spinningLoading/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOrigin } from '@/redux-toolkit/reducers/slice';
 import { setCountryOrigin } from '@/redux-toolkit/reducers/order';
 import { RootState } from '@/redux-toolkit/store/store';
 import { OriginType } from './EditOriginModal';
@@ -20,6 +19,8 @@ import { useTranslations } from 'next-intl';
 
 const OriginCard: React.FC = () => {
   const dispatch = useDispatch();
+
+  const t = useTranslations('OriginCard');
   const tCommon = useTranslations('common');
 
   // Get saved origin from Redux
@@ -90,27 +91,30 @@ const OriginCard: React.FC = () => {
   return (
     <Card id='origin-card'>
       <CardHeader>
-        <CardTitle className='text-xl'>Origin</CardTitle>
+        <CardTitle className='text-xl'>{t('title')}</CardTitle>
       </CardHeader>
 
       <CardContent className='space-y-4'>
-        {/* Show selected origin details */}
+        {/* Selected origin details */}
         {selectedOrigin && (
           <div className='bg-muted/30 grid grid-cols-1 gap-4 rounded-lg border p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             <div>
-              <p className='text-xs font-bold uppercase'>Nickname</p>
+              <p className='text-xs font-bold uppercase'>{t('nickname')}</p>
               <p>{selectedOrigin.addressNick || '—'}</p>
             </div>
+
             <div>
-              <p className='text-xs font-bold uppercase'>Company</p>
+              <p className='text-xs font-bold uppercase'>{t('company')}</p>
               <p>{selectedOrigin.companyName || '—'}</p>
             </div>
+
             <div>
-              <p className='text-xs font-bold uppercase'>Country</p>
+              <p className='text-xs font-bold uppercase'>{t('country')}</p>
               <p>{selectedOrigin.countryName || '—'}</p>
             </div>
+
             <div>
-              <p className='text-xs font-bold uppercase'>Mobile No</p>
+              <p className='text-xs font-bold uppercase'>{t('mobile')}</p>
               <p>
                 {selectedOrigin.phoneCode && selectedOrigin.mobileNo
                   ? `${selectedOrigin.phoneCode} ${selectedOrigin.mobileNo}`
@@ -133,7 +137,7 @@ const OriginCard: React.FC = () => {
         >
           <SelectTrigger className='w-full'>
             <SelectValue
-              placeholder={selectedOrigin?.companyName || 'Select Origin'}
+              placeholder={selectedOrigin?.companyName || t('selectOrigin')}
             />
           </SelectTrigger>
 

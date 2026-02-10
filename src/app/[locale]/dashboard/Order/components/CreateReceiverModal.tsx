@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useEffect } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 
 export interface ReceiverType {
   name: string;
@@ -24,7 +25,7 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: ReceiverType) => void;
-  defaultValues?: ReceiverType | null; // 🔹 add default values prop
+  defaultValues?: ReceiverType | null;
 }
 
 const CreateReceiverModal = ({
@@ -33,6 +34,10 @@ const CreateReceiverModal = ({
   onSubmit,
   defaultValues
 }: Props) => {
+  const t = useTranslations('ReceiverModal');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
+
   const {
     register,
     handleSubmit,
@@ -44,23 +49,23 @@ const CreateReceiverModal = ({
       companyName: '',
       email: '',
       mobileNo: ''
-    } // 🔹 use defaultValues
+    }
   });
 
   const onFormSubmit: SubmitHandler<ReceiverType> = (data) => {
     onSubmit(data);
-    reset(data); // 🔹 reset with current values
+    reset(data);
     onOpenChange(false);
   };
 
   const handleClose = () => {
     reset(
       defaultValues || { name: '', companyName: '', email: '', mobileNo: '' }
-    ); // 🔹 reset to last values
+    );
     onOpenChange(false);
   };
 
-  // 🔹 Reset form values whenever defaultValues changes
+  // Reset form when defaultValues change
   useEffect(() => {
     reset(
       defaultValues || { name: '', companyName: '', email: '', mobileNo: '' }
@@ -69,34 +74,37 @@ const CreateReceiverModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[95vw] max-w-lg rounded-xl px-4 sm:px-6'>
+      <DialogContent
+        dir={isRTL ? 'rtl' : 'ltr'}
+        className='w-[95vw] max-w-lg rounded-xl px-4 sm:px-6'
+      >
         <DialogHeader>
-          <DialogTitle className='text-lg sm:text-xl'>
-            Create Receiver
-          </DialogTitle>
+          <DialogTitle className='text-lg sm:text-xl'>{t('title')}</DialogTitle>
         </DialogHeader>
 
         <form
           onSubmit={handleSubmit(onFormSubmit)}
           className='flex flex-col gap-4'
         >
+          {/* Name */}
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='name'>Name</Label>
+            <Label htmlFor='name'>{t('name')}</Label>
             <Input
               id='name'
-              {...register('name', { required: 'Name is required' })}
+              {...register('name', { required: t('errors.nameRequired') })}
             />
             {errors.name && (
               <p className='text-sm text-red-500'>{errors.name.message}</p>
             )}
           </div>
 
+          {/* Company */}
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='companyName'>Company Name</Label>
+            <Label htmlFor='companyName'>{t('company')}</Label>
             <Input
               id='companyName'
               {...register('companyName', {
-                required: 'Company name is required'
+                required: t('errors.companyRequired')
               })}
             />
             {errors.companyName && (
@@ -106,16 +114,17 @@ const CreateReceiverModal = ({
             )}
           </div>
 
+          {/* Email */}
           <div className='flex flex-col gap-2 sm:col-span-2'>
-            <Label htmlFor='email'>Email</Label>
+            <Label htmlFor='email'>{t('email')}</Label>
             <Input
               id='email'
               type='email'
               {...register('email', {
-                required: 'Email is required',
+                required: t('errors.emailRequired'),
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Enter a valid email'
+                  message: t('errors.emailInvalid')
                 }
               })}
             />
@@ -124,15 +133,16 @@ const CreateReceiverModal = ({
             )}
           </div>
 
+          {/* Mobile */}
           <div className='flex flex-col gap-2 sm:col-span-2'>
-            <Label htmlFor='mobileNo'>Mobile No</Label>
+            <Label htmlFor='mobileNo'>{t('mobile')}</Label>
             <Input
               id='mobileNo'
               {...register('mobileNo', {
-                required: 'Mobile number is required',
+                required: t('errors.mobileRequired'),
                 pattern: {
                   value: /^[0-9]{7,15}$/,
-                  message: 'Enter a valid mobile number'
+                  message: t('errors.mobileInvalid')
                 }
               })}
             />
@@ -141,6 +151,7 @@ const CreateReceiverModal = ({
             )}
           </div>
 
+          {/* Footer */}
           <DialogFooter className='flex flex-col-reverse gap-2 pt-2 sm:col-span-2 sm:flex-row sm:justify-end'>
             <Button
               type='button'
@@ -148,10 +159,10 @@ const CreateReceiverModal = ({
               className='w-full sm:w-auto'
               onClick={handleClose}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button type='submit' className='w-full sm:w-auto'>
-              Create
+              {t('create')}
             </Button>
           </DialogFooter>
         </form>

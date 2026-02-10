@@ -36,7 +36,7 @@ import {
 
 import { useRouter } from 'next/navigation';
 
-const OrderDataTable = () => {
+const OrderDataTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<{
@@ -50,7 +50,6 @@ const OrderDataTable = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const t = useTranslations('OrderTable');
-  const tCommon = useTranslations('common');
   const isRTL = locale === 'ar';
 
   const { data, isLoading, isError } = useGetAllOrders({
@@ -65,7 +64,6 @@ const OrderDataTable = () => {
   useEffect(() => {
     if (data) {
       console.log('GET ALL Orders API:', data);
-      console.log('Orders Array:', data.data);
     }
   }, [data]);
 
@@ -113,7 +111,9 @@ const OrderDataTable = () => {
               <TableHead>{t('warehouseName')}</TableHead>
               <TableHead>{t('warehouseItem')}</TableHead>
               <TableHead>{t('quantity')}</TableHead>
-              <TableHead className='text-end'>{t('actions')}</TableHead>
+              <TableHead className={isRTL ? 'text-start' : 'text-end'}>
+                {t('actions')}
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -124,7 +124,7 @@ const OrderDataTable = () => {
                   colSpan={11}
                   className='text-muted-foreground h-24 text-center'
                 >
-                  {tCommon('noRecordsFound')}
+                  {t('noRecordsFound')}
                 </TableCell>
               </TableRow>
             ) : (
@@ -155,7 +155,7 @@ const OrderDataTable = () => {
                     {order.orderItems?.[0]?.quantity ?? '-'}
                   </TableCell>
 
-                  <TableCell className='text-end'>
+                  <TableCell className={isRTL ? 'text-start' : 'text-end'}>
                     <div className='flex justify-end gap-2'>
                       <Tooltip>
                         <TooltipTrigger asChild>

@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface OverviewChartProps {
   data: Array<{ name: string; value: number }>;
@@ -29,15 +30,26 @@ const COLORS = [
   'var(--color-chart-5)'
 ];
 
-const chartConfig = {
-  value: {
-    label: 'Count'
-  }
-};
-
 export const OverviewChart = ({ data, delay = 0 }: OverviewChartProps) => {
+  const t = useTranslations('OverviewChart');
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
+
+  // Translate incoming data keys → localized labels
+  const translatedData = data.map((item) => ({
+    ...item,
+    name: t(item.name)
+  }));
+
+  const chartConfig = {
+    value: {
+      label: t('count')
+    }
+  };
+
   return (
     <motion.div
+      dir={isRTL ? 'rtl' : 'ltr'}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay }}
@@ -46,7 +58,7 @@ export const OverviewChart = ({ data, delay = 0 }: OverviewChartProps) => {
         <Card className='h-full'>
           <CardHeader className='px-3 sm:px-4 md:px-5'>
             <CardTitle className='text-sm sm:text-base md:text-lg'>
-              System Overview
+              {t('title')}
             </CardTitle>
           </CardHeader>
 
@@ -56,27 +68,42 @@ export const OverviewChart = ({ data, delay = 0 }: OverviewChartProps) => {
               className='h-[220px] w-full sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[380px]'
             >
               <ResponsiveContainer width='100%' height='100%'>
-                <BarChart data={data} margin={{ top: 10, left: -35 }}>
+                <BarChart
+                  data={translatedData}
+                  margin={{
+                    top: 10,
+                    left: isRTL ? 0 : -35,
+                    right: isRTL ? -35 : 0
+                  }}
+                >
+                  {/* X Axis */}
                   <XAxis
                     dataKey='name'
-                    angle={-45}
-                    textAnchor='end'
-                    height={80}
+                    angle={isRTL ? 0 : -45}
+                    textAnchor={isRTL ? 'middle' : 'end'}
+                    height={isRTL ? 60 : 80}
                     tick={{
                       fill: 'hsl(var(--muted-foreground))',
                       fontSize: 12
                     }}
                   />
-                  <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+
+                  {/* Y Axis */}
+                  <YAxis
+                    orientation={isRTL ? 'right' : 'left'}
+                    tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  />
+
                   <ChartTooltip content={<ChartTooltipContent />} />
 
+                  {/* Bars */}
                   <Bar
                     dataKey='value'
                     radius={[8, 8, 0, 0]}
                     animationBegin={delay * 1000}
                     animationDuration={1000}
                   >
-                    {data.map((entry, index) => (
+                    {translatedData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}

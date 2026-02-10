@@ -69,6 +69,54 @@
     "Reset Password Button": "إعادة تعيين كلمة المرور",
     "Resetting...": "جاري إعادة التعيين..."
   },
+    "OrdersChart": {
+    "title": "نظرة عامة على الطلبات",
+    "pending": "قيد الانتظار",
+    "completed": "مكتملة"
+  },
+    "WarehouseChart": {
+    "title": "المستودعات والعناصر",
+    "warehouses": "المستودعات",
+    "items": "عناصر المستودع"
+  },
+    "OverviewChart": {
+    "title": "نظرة عامة على النظام",
+    "count": "العدد",
+
+    "users": "المستخدمون",
+    "orders": "الطلبات",
+    "warehouses": "المستودعات",
+    "items": "العناصر",
+    "products": "المنتجات",
+    "categories": "الفئات"
+  },
+    "StatisticsPage": {
+    "createOrder": "إنشاء طلب",
+
+    "errorTitle": "فشل في تحميل الإحصائيات",
+    "errorDescription": "يرجى تحديث الصفحة والمحاولة مرة أخرى",
+
+    "totalOrders": "إجمالي الطلبات",
+    "allTimeOrders": "جميع الطلبات",
+
+    "pendingOrders": "الطلبات قيد الانتظار",
+    "awaitingProcessing": "بانتظار المعالجة",
+
+    "completedOrders": "الطلبات المكتملة",
+    "successfullyProcessed": "تمت المعالجة بنجاح",
+
+    "totalWarehouses": "إجمالي المستودعات",
+    "activeWarehouses": "المستودعات النشطة",
+
+    "warehouseItems": "عناصر المستودع",
+    "itemsInStock": "العناصر المتوفرة",
+
+    "countryOrigins": "بلدان المنشأ",
+    "availableOrigins": "المنشأ المتاح",
+
+    "pickupAddresses": "عناوين الاستلام",
+    "activeLocations": "المواقع النشطة"
+  },
   "Warehouse": {
     "createTitle": "إنشاء مستودع",
     "createDescription": "أدخل تفاصيل المستودع ثم احفظ.",
@@ -227,6 +275,8 @@
     "name": "الاسم",
     "price": "السعر",
     "quantity": "الكمية",
+    "SKU": "رمز المخزون",
+    "UPC": "الرمز الشامل للمنتج",
     "weight": "الوزن",
     "warehouseName": "اسم المستودع",
     "actions": "الإجراءات",
@@ -472,6 +522,75 @@
       "longitudeMin": "الحد الأدنى لخط الطول هو -180",
       "longitudeMax": "الحد الأقصى لخط الطول هو 180"
     }
+  },
+    "OriginCard": {
+    "title": "المنشأ",
+    "selectOrigin": "اختر المنشأ",
+
+    "nickname": "الاسم المختصر",
+    "company": "الشركة",
+    "country": "الدولة",
+    "mobile": "رقم الجوال"
+  },
+    "ReceiverCard": {
+    "title": "المستلم",
+    "createNew": "إنشاء جديد",
+    "name": "الاسم",
+    "company": "الشركة",
+    "email": "البريد الإلكتروني",
+    "mobile": "رقم الجوال"
+  },
+    "ReceiverModal": {
+    "title": "إنشاء مستلم",
+    "name": "الاسم",
+    "company": "اسم الشركة",
+    "email": "البريد الإلكتروني",
+    "mobile": "رقم الجوال",
+    "create": "إنشاء",
+    "cancel": "إلغاء",
+    "errors": {
+      "nameRequired": "الاسم مطلوب",
+      "companyRequired": "اسم الشركة مطلوب",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "أدخل بريدًا إلكترونيًا صحيحًا",
+      "mobileRequired": "رقم الجوال مطلوب",
+      "mobileInvalid": "أدخل رقم جوال صحيح"
+    }
+  },
+"PickupCard": {
+    "title": "نقطة الاستلام",
+    "nickname": "الاسم المختصر",
+    "address": "العنوان",
+    "city": "المدينة",
+    "country": "البلد",
+    "selectPlaceholder": "اختر عنوان الاستلام",
+    "noRecordsFound": "لا توجد سجلات"
+  },
+    "AdditionalInfoCard": {
+    "title": "معلومات إضافية",
+    "codQuestion": "الدفع عند التسليم؟",
+    "yes": "نعم",
+    "no": "لا",
+    "referenceId": "معرّف المرجع (اختياري)",
+    "referenceIdPlaceholder": "معرّف المرجع",
+    "codAmount": "مبلغ الدفع عند التسليم *",
+    "codAmountPlaceholder": "أدخل المبلغ",
+    "instructions": "تعليمات (اختياري)",
+    "instructionsPlaceholder": "اكتب أي طلب خاص هنا (اختياري)"
+  },
+   "PackageSection": {
+    "title": "اختر المستودع الخاص بك",
+    "selectWarehouse": "اختر المستودع",
+    "length": "الطول (سم)",
+    "width": "العرض (سم)",
+    "height": "الارتفاع (سم)",
+    "volumetricWeight": "الوزن الحجمي",
+    "add": "إضافة",
+    "selectItem": "اختر العنصر",
+    "noItemFound": "لم يتم العثور على عنصر",
+    "qtyExceed": "لا يمكن أن تتجاوز الكمية {max}",
+    "weightExceed": "لا يمكن أن يتجاوز الوزن {max}",
+    "priceExceed": "لا يمكن أن يتجاوز السعر {max}"
   }
 }
 

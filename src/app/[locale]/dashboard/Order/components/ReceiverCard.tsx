@@ -7,9 +7,11 @@ import CreateReceiverModal, { ReceiverType } from './CreateReceiverModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux-toolkit/store/store';
 import { setReciever } from '@/redux-toolkit/reducers/order';
+import { useTranslations } from 'next-intl';
 
 const ReceiverCard: React.FC = () => {
   const dispatch = useDispatch();
+  const t = useTranslations('ReceiverCard');
 
   // 🔹 Get persisted receiver from Redux
   const savedReceiver = useSelector((state: RootState) => state.order.reciever);
@@ -41,28 +43,26 @@ const ReceiverCard: React.FC = () => {
         phone_number: receiver.mobileNo
       })
     );
-
-    // console.log('✅ Receiver saved to Redux:', receiver);
   }, [receiver, dispatch]);
 
   return (
     <>
       <Card id='receiver-card'>
         <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle className='text-xl'>Receiver</CardTitle>
+          <CardTitle className='text-xl'>{t('title')}</CardTitle>
           <Button size='lg' onClick={() => setOpenModal(true)}>
-            Create new
+            {t('createNew')}
           </Button>
         </CardHeader>
 
         <CardContent className='space-y-4'>
           {receiver && (
-            <div className='bg-muted/30 rounded-lg border p-4 text-white'>
+            <div className='bg-muted/30 rounded-lg border p-4'>
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                <Info label='Name' value={receiver.name} />
-                <Info label='Company' value={receiver.companyName} />
-                <Info label='Email' value={receiver.email} />
-                <Info label='Mobile No' value={receiver.mobileNo} />
+                <Info label={t('name')} value={receiver.name} />
+                <Info label={t('company')} value={receiver.companyName} />
+                <Info label={t('email')} value={receiver.email} />
+                <Info label={t('mobile')} value={receiver.mobileNo} />
               </div>
             </div>
           )}
@@ -73,9 +73,9 @@ const ReceiverCard: React.FC = () => {
       <CreateReceiverModal
         open={openModal}
         onOpenChange={setOpenModal}
-        defaultValues={receiver} // 🔹 pass the current receiver
+        defaultValues={receiver}
         onSubmit={(data: ReceiverType) => {
-          setReceiver(data); // update local state & redux
+          setReceiver(data);
           setOpenModal(false);
         }}
       />
