@@ -56,6 +56,13 @@ const PickupCard: React.FC = () => {
     dispatch(setPickupAddress(selectedPickup));
   }, [selectedPickup, dispatch]);
 
+  /* 🔹 Sync from Redux when prefill runs (e.g. edit order) */
+  useEffect(() => {
+    if (savedPickup?.id) {
+      setSelectedPickup({ ...savedPickup });
+    }
+  }, [savedPickup?.id]);
+
   return (
     <Card
       id='pickup-card'

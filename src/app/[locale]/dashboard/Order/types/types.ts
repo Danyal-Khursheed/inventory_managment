@@ -66,6 +66,20 @@ export interface OrderItem {
   totalWeight: number;
 }
 
+export interface CreateOrderReceiver {
+  name: string;
+  companyName: string;
+  email: string;
+  mobileNo: string;
+}
+
+export interface CreateOrderBox {
+  length: number;
+  width: number;
+  height: number;
+  volumetricWeight: number;
+}
+
 export interface OrderState {
   warehouseId: string;
   countryOriginId: string;
@@ -77,6 +91,12 @@ export interface CreateOrderPayload {
   warehouseId: string;
   countryOriginId: string;
   pickupAddressId: string;
+  receiver: CreateOrderReceiver;
+  cod: boolean;
+  referenceId: string;
+  codAmount: number;
+  instructions: string;
+  box: CreateOrderBox;
   items: OrderItem[];
 }
 

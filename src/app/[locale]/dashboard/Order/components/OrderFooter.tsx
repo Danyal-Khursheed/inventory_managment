@@ -8,28 +8,18 @@ import { resetOrder } from '@/redux-toolkit/reducers/order';
 import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-
-type CreateOrderItem = {
-  warehouseItemId: string;
-  quantity: number;
-  totalPrice: number;
-  totalWeight: number;
-};
-
-type CreateOrderPayload = {
-  warehouseId: string;
-  countryOriginId: string;
-  pickupAddressId: string;
-  items: CreateOrderItem[];
-};
+import type { CreateOrderPayload } from '../types/types';
+import type { OrderDetail, UpdateOrderPayload } from '@/services/orderService';
 
 const getId = (value: any): string => String(value?.id ?? value ?? '');
 
 interface OrderFooterProps {
   orderId?: string | null;
+  /** When editing, the fetched order so we can send orderStatus, paymentStatus, deliveryDate, shippingCompanyId */
+  initialOrder?: OrderDetail | null;
 }
 
-const OrderFooter: React.FC<OrderFooterProps> = ({ orderId }) => {
+const OrderFooter: React.FC<OrderFooterProps> = ({ orderId, initialOrder }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useParams();
@@ -107,7 +97,7 @@ const OrderFooter: React.FC<OrderFooterProps> = ({ orderId }) => {
       return;
     }
 
-    const items: CreateOrderItem[] =
+    const items =
       order.warehouse?.warehouseItems
         .filter((i) => i.itemId && i.qty > 0)
         .map((i) => ({
@@ -117,16 +107,47 @@ const OrderFooter: React.FC<OrderFooterProps> = ({ orderId }) => {
           totalWeight: Number(i.weight)
         })) || [];
 
-    const payload: CreateOrderPayload = {
+    const box = order.warehouse?.box ?? {
+      length: 0,
+      width: 0,
+      height: 0,
+      volumetricWeight: 0
+    };
+
+    const basePayload: CreateOrderPayload = {
       warehouseId: getId(order.warehouse),
       countryOriginId: getId(order.country_origin),
       pickupAddressId: getId(order.pickup_address),
+      receiver: {
+        name: order.reciever!.name,
+        companyName: order.reciever!.company_name,
+        email: order.reciever!.email,
+        mobileNo: order.reciever!.phone_number
+      },
+      cod: order.cod,
+      referenceId: order.reference_id ?? '',
+      codAmount: Number(order.cod_amount) || 0,
+      instructions: order.instructions ?? '',
+      box: {
+        length: Number(box.length) || 0,
+        width: Number(box.width) || 0,
+        height: Number(box.height) || 0,
+        volumetricWeight: Number(box.volumetricWeight) || 0
+      },
       items
     };
 
     if (isEditMode && orderId) {
+      const { items: _items, ...baseWithoutItems } = basePayload;
+      const updatePayload: UpdateOrderPayload = {
+        ...baseWithoutItems,
+        orderStatus: initialOrder?.orderStatus ?? 'pending',
+        paymentStatus: initialOrder?.paymentStatus ?? 'pending',
+        deliveryDate: initialOrder?.deliveryDate ?? null,
+        shippingCompanyId: initialOrder?.shippingCompanyId ?? null
+      };
       updateOrderMutation.mutate(
-        { id: orderId, payload },
+        { id: orderId, payload: updatePayload },
         {
           onSuccess: (data) => {
             dispatch(resetOrder());
@@ -135,7 +156,7 @@ const OrderFooter: React.FC<OrderFooterProps> = ({ orderId }) => {
         }
       );
     } else {
-      createOrderMutation.mutate(payload, {
+      createOrderMutation.mutate(basePayload, {
         onSuccess: (data) => {
           dispatch(resetOrder());
           router.push(`/${locale}/dashboard/OrderData`);

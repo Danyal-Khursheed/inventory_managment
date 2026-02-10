@@ -88,6 +88,26 @@ const OriginCard: React.FC = () => {
     }
   }, [selectedOrigin, dispatch]);
 
+  // Sync from Redux when prefill runs (e.g. edit order)
+  useEffect(() => {
+    if (savedOrigin?.id) {
+      setSelectedOrigin({
+        id: savedOrigin.id,
+        companyName: savedOrigin.companyName ?? '',
+        addressNick: savedOrigin.addressNick ?? '',
+        addressLine1: savedOrigin.addressLine1 ?? '',
+        cityName: savedOrigin.cityName ?? '',
+        countryName: savedOrigin.countryName ?? '',
+        countryCode: savedOrigin.countryCode ?? '',
+        zipCode: savedOrigin.zipCode ?? '',
+        latitude: savedOrigin.latitude ?? 0,
+        longitude: savedOrigin.longitude ?? 0,
+        phoneCode: savedOrigin.phoneCode ?? '',
+        mobileNo: savedOrigin.mobileNo ?? ''
+      });
+    }
+  }, [savedOrigin?.id]);
+
   return (
     <Card id='origin-card'>
       <CardHeader>

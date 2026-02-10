@@ -42,7 +42,9 @@ const CreateReceiverModal = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setValue,
+    watch
   } = useForm<ReceiverType>({
     defaultValues: defaultValues || {
       name: '',
@@ -50,6 +52,13 @@ const CreateReceiverModal = ({
       email: '',
       mobileNo: ''
     }
+  });
+
+  const mobileNo = watch('mobileNo');
+  // Register validation only (value is controlled below)
+  register('mobileNo', {
+    required: t('errors.mobileRequired'),
+    pattern: { value: /^[0-9]{7,15}$/, message: t('errors.mobileInvalid') }
   });
 
   const onFormSubmit: SubmitHandler<ReceiverType> = (data) => {
@@ -133,18 +142,19 @@ const CreateReceiverModal = ({
             )}
           </div>
 
-          {/* Mobile */}
+          {/* Mobile — numbers only */}
           <div className='flex flex-col gap-2 sm:col-span-2'>
             <Label htmlFor='mobileNo'>{t('mobile')}</Label>
             <Input
               id='mobileNo'
-              {...register('mobileNo', {
-                required: t('errors.mobileRequired'),
-                pattern: {
-                  value: /^[0-9]{7,15}$/,
-                  message: t('errors.mobileInvalid')
-                }
-              })}
+              inputMode='numeric'
+              autoComplete='tel'
+              value={mobileNo ?? ''}
+              onChange={(e) => {
+                const v = e.target.value.replace(/\D/g, '').slice(0, 15);
+                setValue('mobileNo', v, { shouldValidate: true });
+              }}
+              onBlur={register('mobileNo').onBlur}
             />
             {errors.mobileNo && (
               <p className='text-sm text-red-500'>{errors.mobileNo.message}</p>

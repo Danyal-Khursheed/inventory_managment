@@ -20,7 +20,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail
+  SidebarRail,
+  useSidebar
 } from '@/components/ui/sidebar';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
 import { navItems } from '@/constants/data';
@@ -41,6 +42,9 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { useTranslations } from 'next-intl';
 import useAuth from '@/auth/hooks/useAuth';
+import { UserNav } from './user-nav';
+import { ThemeSelector } from '../theme-selector';
+import { ModeToggle } from './ThemeToggle/theme-toggle';
 
 export const company = {
   name: 'Inventory Managment',
@@ -54,6 +58,7 @@ export default function AppSidebar() {
   const { locale } = useParams();
   const pathname = usePathname();
   const { isOpen } = useMediaQuery();
+  const { isMobile } = useSidebar();
   const { user, logout } = useAuth();
   const t = useTranslations('sidebar');
   const isRTL = locale === 'ar';
@@ -95,6 +100,15 @@ export default function AppSidebar() {
         <SidebarHeader className='border-b border-[#e0e0e0] bg-transparent px-0 dark:border-white/10'>
           <OrgSwitcher defaultTenant={activeTenant} />
         </SidebarHeader>
+
+        {/* Mobile: header actions (theme, user) moved here from app header */}
+        {isMobile && (
+          <div className='flex items-center justify-end gap-2 border-b border-[#e0e0e0] px-4 py-3 dark:border-white/10'>
+            <UserNav />
+            <ModeToggle />
+            <ThemeSelector />
+          </div>
+        )}
 
         <SidebarContent className='overflow-x-hidden bg-transparent'>
           <SidebarGroup className='p-0'>

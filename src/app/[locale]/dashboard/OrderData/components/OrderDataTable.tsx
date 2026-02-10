@@ -28,6 +28,7 @@ import DeleteOrderModal from './DeleteOrderModal';
 
 import { useDispatch } from 'react-redux';
 import {
+  clearOrder,
   setCountryOrigin,
   setPickupAddress,
   setWarehouse,
@@ -162,7 +163,10 @@ const OrderDataTable: React.FC = () => {
                           <Button
                             size='sm'
                             variant='ghost'
-                            onClick={() => handleEdit(order)}
+                            onClick={() => {
+                              dispatch(clearOrder());
+                              handleEdit(order);
+                            }}
                           >
                             <Edit size={16} className='text-blue-500' />
                           </Button>

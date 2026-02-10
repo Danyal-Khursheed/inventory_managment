@@ -3,11 +3,15 @@
 import { useRouter } from 'next/navigation';
 import HeaderHero from './components/HeaderHero';
 import OrderDataTable from './components/OrderDataTable';
+import { useDispatch } from 'react-redux';
+import { clearOrder } from '@/redux-toolkit/reducers/order';
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleCreateOrder = () => {
+    dispatch(clearOrder());
     router.push('/dashboard/Order');
   };
 

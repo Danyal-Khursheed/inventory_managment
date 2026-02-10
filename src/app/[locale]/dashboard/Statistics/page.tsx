@@ -32,7 +32,7 @@ export default function StatisticsPage() {
   if (isLoading) {
     return (
       <div className='space-y-6'>
-        <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+        <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4'>
           {[...Array(7)].map((_, i) => (
             <Card key={i}>
               <CardHeader>
@@ -92,10 +92,10 @@ export default function StatisticsPage() {
   ];
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-6 px-2'>
       <HeaderHero buttonName='Create Order' handleButton={handleCreateOrder} />
 
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4'>
         <StatCard
           title={t('totalOrders')}
           value={stats.totalOrders}

@@ -15,7 +15,12 @@ import {
   setCountryOrigin,
   setPickupAddress,
   setReciever,
-  setWarehouse
+  setWarehouse,
+  setCod,
+  setReferenceId,
+  setCodAmount,
+  setInstructions,
+  resetOrder
 } from '@/redux-toolkit/reducers/order';
 import Spinner from '@/components/spinningLoading/Spinner';
 
@@ -27,131 +32,112 @@ const Page: React.FC = () => {
   const isEditMode = mode === 'edit' && orderId;
   const { data: orderData, isLoading } = useOrder(isEditMode ? orderId : null);
 
-  // Prefill form when editing
+  // Clear order state when opening create (not edit) so form starts empty
   useEffect(() => {
-    if (orderData && isEditMode && orderId) {
-      // Handle API response that might be wrapped in 'data' property
-      const order = (orderData as any)?.data || orderData;
-
-      // Set country origin
-      if (order.countryOriginId) {
-        dispatch(
-          setCountryOrigin({
-            id: order.countryOriginId,
-            companyName:
-              order.origin?.companyName ||
-              order.countryOrigin?.companyName ||
-              '',
-            addressNick:
-              order.origin?.addressNick ||
-              order.countryOrigin?.addressNick ||
-              '',
-            addressLine1:
-              order.origin?.addressLine1 ||
-              order.countryOrigin?.addressLine1 ||
-              '',
-            cityName:
-              order.origin?.cityName || order.countryOrigin?.cityName || '',
-            countryName:
-              order.origin?.countryName ||
-              order.countryOrigin?.countryName ||
-              '',
-            countryCode:
-              order.origin?.countryCode ||
-              order.countryOrigin?.countryCode ||
-              '',
-            zipCode:
-              order.origin?.zipCode || order.countryOrigin?.zipCode || '',
-            latitude:
-              order.origin?.latitude || order.countryOrigin?.latitude || 0,
-            longitude:
-              order.origin?.longitude || order.countryOrigin?.longitude || 0,
-            phoneCode:
-              order.origin?.phoneCode || order.countryOrigin?.phoneCode || '',
-            mobileNo:
-              order.origin?.mobileNo || order.countryOrigin?.mobileNo || ''
-          })
-        );
-      }
-
-      // Set receiver
-      if (order.receiver) {
-        dispatch(
-          setReciever({
-            name: order.receiver.name || '',
-            company_name: order.receiver.companyName || '',
-            email: order.receiver.email || '',
-            phone_number: order.receiver.mobileNo || ''
-          })
-        );
-      }
-
-      // Set pickup address
-      if (order.pickupAddressId) {
-        dispatch(
-          setPickupAddress({
-            id: order.pickupAddressId,
-            addressNick:
-              order.pickup?.addressNick ||
-              order.pickupAddress?.addressNick ||
-              '',
-            address:
-              order.pickup?.address || order.pickupAddress?.address || '',
-            cityName:
-              order.pickup?.cityName || order.pickupAddress?.cityName || '',
-            countryName:
-              order.pickup?.countryName ||
-              order.pickupAddress?.countryName ||
-              '',
-            countryCode:
-              order.pickup?.countryCode ||
-              order.pickupAddress?.countryCode ||
-              '',
-            zipCode:
-              order.pickup?.zipCode || order.pickupAddress?.zipCode || '',
-            latitude: String(
-              order.pickup?.latitude || order.pickupAddress?.latitude || ''
-            ),
-            longitude: String(
-              order.pickup?.longitude || order.pickupAddress?.longitude || ''
-            ),
-            mobileNo: String(
-              order.pickup?.mobileNo || order.pickupAddress?.mobileNo || ''
-            )
-          })
-        );
-      }
-
-      // Set warehouse and items
-      if (order.warehouseId) {
-        dispatch(
-          setWarehouse({
-            id: order.warehouseId,
-            name: order.warehouse?.name || '',
-            box: {
-              length: order.box?.length || 0,
-              width: order.box?.width || 0,
-              height: order.box?.height || 0,
-              volumetricWeight: order.box?.volumetricWeight || 0
-            },
-            warehouseItems: (order.items || []).map(
-              (item: any, index: number) => ({
-                id: item.warehouseItemId || item.id,
-                rowId: index + 1,
-                itemId: item.warehouseItemId || item.id,
-                name: item.name || item.warehouseItem?.name || '',
-                qty: item.quantity || 0,
-                weight: item.totalWeight || item.weight || 0,
-                price: item.totalPrice || item.price || 0,
-                originalQty: item.quantity || 0,
-                originalWeight: item.totalWeight || item.weight || 0,
-                originalPrice: item.totalPrice || item.price || 0
-              })
-            )
-          })
-        );
-      }
+    if (!isEditMode) {
+      dispatch(resetOrder());
     }
+  }, [isEditMode, dispatch]);
+
+  // Prefill form when editing — GET /api/orders/:id response mapped to Redux
+  useEffect(() => {
+    if (!orderData || !isEditMode || !orderId) return;
+
+    const order = orderData;
+    const origin = order.countryOrigin;
+    const pickup = order.pickupAddress;
+    const warehouse = order.warehouse;
+    const orderItems = order.orderItems ?? [];
+
+    // Country origin (countryOriginId + countryOrigin)
+    if (order.countryOriginId && origin) {
+      dispatch(
+        setCountryOrigin({
+          id: origin.id ?? order.countryOriginId,
+          companyName: origin.companyName ?? '',
+          addressNick: origin.addressNick ?? '',
+          addressLine1: origin.addressLine1 ?? '',
+          cityName: origin.cityName ?? '',
+          countryName: origin.countryName ?? '',
+          countryCode: origin.countryCode ?? '',
+          zipCode: origin.zipCode ?? '',
+          latitude: Number(origin.latitude) || 0,
+          longitude: Number(origin.longitude) || 0,
+          phoneCode: origin.phoneCode ?? '',
+          mobileNo: origin.mobileNo ?? ''
+        })
+      );
+    }
+
+    // Receiver (flat: receiverName, receiverCompanyName, receiverEmail, receiverMobileNo)
+    if (
+      order.receiverName != null ||
+      order.receiverEmail != null ||
+      order.receiverCompanyName != null ||
+      order.receiverMobileNo != null
+    ) {
+      dispatch(
+        setReciever({
+          name: order.receiverName ?? '',
+          company_name: order.receiverCompanyName ?? '',
+          email: order.receiverEmail ?? '',
+          phone_number: order.receiverMobileNo ?? ''
+        })
+      );
+    }
+
+    // Pickup address (pickupAddressId + pickupAddress)
+    if (order.pickupAddressId && pickup) {
+      dispatch(
+        setPickupAddress({
+          id: pickup.id ?? order.pickupAddressId,
+          addressNick: pickup.addressNick ?? '',
+          address: pickup.address ?? '',
+          cityName: pickup.cityName ?? '',
+          countryName: pickup.countryName ?? '',
+          countryCode: pickup.countryCode ?? '',
+          zipCode: pickup.zipCode ?? '',
+          latitude: String(pickup.latitude ?? ''),
+          longitude: String(pickup.longitude ?? ''),
+          mobileNo: String(pickup.mobileNo ?? '')
+        })
+      );
+    }
+
+    // Warehouse + box (flat boxLength/boxWidth/boxHeight/volumetricWeight) + orderItems
+    if (order.warehouseId) {
+      dispatch(
+        setWarehouse({
+          id: order.warehouseId,
+          name: warehouse?.name ?? '',
+          box: {
+            length: Number(order.boxLength) || 0,
+            width: Number(order.boxWidth) || 0,
+            height: Number(order.boxHeight) || 0,
+            volumetricWeight: Number(order.volumetricWeight) || 0
+          },
+          warehouseItems: orderItems.map((item, index: number) => ({
+            id: item.warehouseItemId ?? item.id,
+            rowId: index + 1,
+            itemId: item.warehouseItemId ?? item.id,
+            name: item.warehouseItem?.name ?? '',
+            qty: Number(item.quantity) || 0,
+            weight: Number(item.totalWeight) || 0,
+            price: Number(item.totalPrice) || Number(item.unitPrice) || 0,
+            originalQty: Number(item.quantity) || 0,
+            originalWeight: Number(item.totalWeight) || 0,
+            originalPrice:
+              Number(item.totalPrice) || Number(item.unitPrice) || 0
+          }))
+        })
+      );
+    }
+
+    // Additional info
+    dispatch(setCod(!!order.cod));
+    dispatch(setReferenceId(order.referenceId ?? ''));
+    dispatch(setCodAmount(Number(order.codAmount) || 0));
+    dispatch(setInstructions(order.instructions ?? ''));
   }, [orderData, isEditMode, orderId, dispatch]);
 
   if (isLoading && isEditMode) {
@@ -173,7 +159,10 @@ const Page: React.FC = () => {
         <PickupCard />
         <AdditionalInfoCard />
         <PackageSection />
-        <OrderFooter orderId={isEditMode ? orderId : null} />
+        <OrderFooter
+          orderId={isEditMode ? orderId : null}
+          initialOrder={isEditMode ? (orderData ?? null) : null}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { CreateOrderPayload } from '../types/types';
-import { orderService } from '@/services/orderService';
+import { orderService, UpdateOrderPayload } from '@/services/orderService';
 
 export const ORDER_QUERY_KEY = 'orders';
 
@@ -20,13 +20,6 @@ export const useCreateOrder = () => {
   });
 };
 
-// export const useOrders = () => {
-//   return useQuery({
-//     queryKey: [ORDER_QUERY_KEY],
-//     queryFn: () => orderService.getAll(),
-//   });
-// };
-
 export const useOrder = (id: string | null) => {
   return useQuery({
     queryKey: [ORDER_QUERY_KEY, id],
@@ -44,8 +37,8 @@ export const useUpdateOrder = () => {
       payload
     }: {
       id: string;
-      payload: CreateOrderPayload;
-    }) => orderService.create(payload), // Using create API for now as requested
+      payload: UpdateOrderPayload;
+    }) => orderService.update(id, payload),
     onSuccess: (data) => {
       toast.success('Order updated successfully!');
       queryClient.invalidateQueries({ queryKey: [ORDER_QUERY_KEY] });

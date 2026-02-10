@@ -18,9 +18,9 @@ const HeaderHero: FC<HeroHeaderProps> = ({
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='w-full'>
-      <div className='flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between'>
+      <div className='flex flex-col gap-4 p-1 sm:flex-row sm:items-center sm:justify-between md:p-4'>
         <h1
-          className={`w-full text-xl font-bold sm:w-auto sm:text-4xl md:text-3xl ${
+          className={`w-full text-3xl font-bold sm:w-auto md:text-3xl ${
             isRTL ? 'text-right' : 'text-left'
           }`}
         >
@@ -30,7 +30,7 @@ const HeaderHero: FC<HeroHeaderProps> = ({
         <div className='flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center'>
           {onCSVSuccess && <ImportWarehouseCSV onSuccess={onCSVSuccess} />}
           <Button
-            className='w-full cursor-pointer sm:w-auto'
+            className='h-10 w-[80%] cursor-pointer sm:w-auto md:w-auto'
             onClick={() => handleButton(true)}
           >
             {t(buttonName)}

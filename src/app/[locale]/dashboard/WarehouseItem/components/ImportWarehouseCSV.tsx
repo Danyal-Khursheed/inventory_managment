@@ -208,7 +208,7 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
   };
 
   return (
-    <div className='flex w-full justify-center sm:w-auto sm:justify-start'>
+    <div className='flex w-full justify-start sm:w-auto md:justify-center'>
       <input
         type='file'
         accept='.csv,.xlsx'
@@ -223,7 +223,7 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
       />
 
       <Button
-        className='bg-primary w-full'
+        className='bg-primary h-10 w-[80%] md:w-full'
         disabled={loading}
         onClick={() => document.getElementById('warehouse-csv')?.click()}
       >

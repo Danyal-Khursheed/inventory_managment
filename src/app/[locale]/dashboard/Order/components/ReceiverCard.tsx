@@ -45,6 +45,18 @@ const ReceiverCard: React.FC = () => {
     );
   }, [receiver, dispatch]);
 
+  // 🔹 Sync from Redux when prefill runs (e.g. edit order)
+  useEffect(() => {
+    if (savedReceiver?.name || savedReceiver?.email) {
+      setReceiver({
+        name: savedReceiver.name,
+        companyName: savedReceiver.company_name,
+        email: savedReceiver.email,
+        mobileNo: savedReceiver.phone_number
+      });
+    }
+  }, [savedReceiver?.name, savedReceiver?.email]);
+
   return (
     <>
       <Card id='receiver-card'>

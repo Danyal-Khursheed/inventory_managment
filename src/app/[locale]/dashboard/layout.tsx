@@ -1,6 +1,7 @@
 'use client';
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
+import { CloseSidebarOnNavigate } from '@/components/layout/close-sidebar-on-navigate';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -76,11 +77,12 @@ export default function DashboardLayout({
   // Only render dashboard if authorized
   return (
     <SidebarProvider defaultOpen={true}>
+      <CloseSidebarOnNavigate />
       <AppSidebar />
       <SidebarInset>
         <Header />
         <div className='bg-background h-screen overflow-x-hidden'>
-          <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] px-4 py-10'>
+          <div className='mx-auto h-[calc(100vh-100px)] w-full max-w-[1400px] py-10 md:px-4'>
             {children}
           </div>
         </div>

@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { useTranslations } from 'next-intl';
 
 export interface OriginType {
   id: string;
@@ -41,7 +42,9 @@ const EditOriginModal = ({
   defaultValues,
   onSubmit
 }: Props) => {
-  const { register, handleSubmit, reset } = useForm<OriginType>();
+  const { register, handleSubmit, reset, setValue, watch } =
+    useForm<OriginType>();
+  const t = useTranslations('OriginCard');
 
   useEffect(() => {
     if (open && defaultValues) {
@@ -53,7 +56,7 @@ const EditOriginModal = ({
     onSubmit(data);
   };
 
-  const fields: (keyof OriginType)[] = [
+  const textFields: (keyof OriginType)[] = [
     'companyName',
     'addressNick',
     'addressLine1',
@@ -63,8 +66,7 @@ const EditOriginModal = ({
     'zipCode',
     'latitude',
     'longitude',
-    'phoneCode',
-    'mobileNo'
+    'phoneCode'
   ];
 
   return (
@@ -78,12 +80,28 @@ const EditOriginModal = ({
           onSubmit={handleSubmit(onFormSubmit)}
           className='grid grid-cols-1 gap-4 sm:grid-cols-2'
         >
-          {fields.map((field) => (
+          {textFields.map((field) => (
             <div key={field} className='flex flex-col gap-1'>
               <Label className='text-sm capitalize'>{field}</Label>
               <Input {...register(field)} />
             </div>
           ))}
+          <div className='flex flex-col gap-1'>
+            <Label className='text-sm capitalize'>
+              {t('mobile')} (numbers only)
+            </Label>
+            <Input
+              inputMode='numeric'
+              value={watch('mobileNo') ?? ''}
+              onChange={(e) =>
+                setValue(
+                  'mobileNo',
+                  e.target.value.replace(/\D/g, '').slice(0, 15)
+                )
+              }
+              onBlur={register('mobileNo').onBlur}
+            />
+          </div>
 
           <DialogFooter className='flex flex-col-reverse gap-2 pt-4 sm:col-span-2 sm:flex-row sm:justify-end'>
             <Button

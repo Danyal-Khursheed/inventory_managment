@@ -47,6 +47,14 @@ const AdditionalInfoCard: React.FC = () => {
     dispatch(setInstructions(instructions));
   }, [cod, codAmount, referenceId, instructions, dispatch]);
 
+  // 🔹 Sync from Redux when prefill runs (e.g. edit order)
+  useEffect(() => {
+    setCodLocal(codState ? 'yes' : 'no');
+    setCodAmountLocal(String(codAmountState ?? 0));
+    setReferenceIdLocal(referenceIdState ?? '');
+    setInstructionsLocal(instructionsState ?? '');
+  }, [codState, codAmountState, referenceIdState, instructionsState]);
+
   return (
     <Card className='rounded-2xl' dir={isRTL ? 'rtl' : 'ltr'}>
       <CardHeader>
