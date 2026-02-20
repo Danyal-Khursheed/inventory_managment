@@ -27,6 +27,7 @@ import { useGetAllWarehouses } from '../hooks';
 import { useCreateWarehouseItem } from '../hooks/useCreateWarehouseItem';
 import { WarehouseItem } from '../types/types';
 import { FormValues, Props } from '../types/types';
+import { PRODUCT_CATEGORIES } from '@/lib/product-category';
 
 const CreateWarehouseItemModal = ({
   open,
@@ -52,7 +53,9 @@ const CreateWarehouseItemModal = ({
       warehouseId: '',
       pricePerItem: undefined,
       quantity: undefined,
-      weightPerItem: undefined
+      weightPerItem: undefined,
+      productCategory: '',
+      retrnxboxDamaged: 0
     }
   });
 
@@ -72,7 +75,9 @@ const CreateWarehouseItemModal = ({
         warehouseId: warehouseItem.warehouseId,
         pricePerItem: warehouseItem.pricePerItem,
         quantity: warehouseItem.quantity,
-        weightPerItem: warehouseItem.weightPerItem
+        weightPerItem: warehouseItem.weightPerItem,
+        productCategory: warehouseItem.productCategory ?? '',
+        retrnxboxDamaged: warehouseItem.retrnxboxDamaged ?? 0
       });
     } else {
       reset({
@@ -82,7 +87,9 @@ const CreateWarehouseItemModal = ({
         warehouseId: '',
         pricePerItem: undefined,
         quantity: undefined,
-        weightPerItem: undefined
+        weightPerItem: undefined,
+        productCategory: '',
+        retrnxboxDamaged: 0
       });
     }
   }, [warehouseItem, reset]);
@@ -97,7 +104,9 @@ const CreateWarehouseItemModal = ({
       warehouseId: data.warehouseId,
       pricePerItem: data.pricePerItem,
       quantity: data.quantity,
-      weightPerItem: data.weightPerItem
+      weightPerItem: data.weightPerItem,
+      productCategory: data.productCategory || undefined,
+      retrnxboxDamaged: data.retrnxboxDamaged ?? 0
     };
 
     createWarehouseItem(payload, {
@@ -170,6 +179,31 @@ const CreateWarehouseItemModal = ({
             </div>
 
             <div className='flex flex-col gap-2'>
+              <Label>{t('productCategory')}</Label>
+              <Controller
+                name='productCategory'
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={field.value || ''}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder={t('selectProductCategory')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PRODUCT_CATEGORIES.map((cat) => (
+                        <SelectItem key={cat} value={cat}>
+                          {cat}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
+
+            <div className='flex flex-col gap-2'>
               <Label>{t('warehouse')}</Label>
               {isLoading ? (
                 <p className='text-sm'>{t('loadingWarehouses')}</p>
@@ -237,6 +271,24 @@ const CreateWarehouseItemModal = ({
               {errors.quantity && (
                 <p className='text-sm text-red-500'>
                   {errors.quantity.message}
+                </p>
+              )}
+            </div>
+
+            <div className='flex flex-col gap-2'>
+              <Label>{t('retrnxboxDamaged')}</Label>
+              <Input
+                placeholder='0'
+                type='number'
+                min={0}
+                {...register('retrnxboxDamaged', {
+                  valueAsNumber: true,
+                  min: { value: 0, message: t('retrnxboxDamagedMin') }
+                })}
+              />
+              {errors.retrnxboxDamaged && (
+                <p className='text-sm text-red-500'>
+                  {errors.retrnxboxDamaged.message}
                 </p>
               )}
             </div>

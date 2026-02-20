@@ -44,18 +44,17 @@ const WarehouseItemTable = ({
   const locale = useLocale();
   const isRTL = locale === 'ar';
 
-  console.log(warehouseItems);
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
-      className={`overflow-x-auto ${isRTL ? 'text-right' : 'text-left'}`}
+      className={`${isRTL ? 'text-right' : 'text-left'}`}
     >
-      <div className='h-full min-w-[700px]'>
-        <Table>
+      <div className='-mx-2 overflow-x-auto px-2 sm:mx-0 sm:px-0'>
+        <Table className='w-full min-w-[700px]'>
           <TableHeader>
             <TableRow>
               <TableHead
-                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+                className={`w-12 shrink-0 px-2 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {t('sNo')}
               </TableHead>
@@ -94,17 +93,23 @@ const WarehouseItemTable = ({
               >
                 {t('weight')}
               </TableHead>
-
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
+                {t('productCategory')}
+              </TableHead>
+              <TableHead
+                className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+              >
+                {t('retrnxboxDamaged')}
+              </TableHead>
               <TableHead
                 className={`px-4 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {t('warehouseName')}
               </TableHead>
-
               <TableHead
-                className={`px-4 py-2 text-xs sm:text-sm ${
-                  isRTL ? 'text-left' : 'text-right'
-                }`}
+                className={`w-[90px] shrink-0 px-2 py-2 text-xs sm:text-sm ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {t('actions')}
               </TableHead>
@@ -115,7 +120,7 @@ const WarehouseItemTable = ({
             {!warehouseItems || warehouseItems?.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={11}
                   className='text-muted-foreground h-24 text-center'
                 >
                   {tCommon('noRecordsFound')}
@@ -125,13 +130,13 @@ const WarehouseItemTable = ({
               warehouseItems?.map((item, idx) => (
                 <TableRow key={`${item.warehouseId}-${idx}`}>
                   <TableCell
-                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                    className={`w-12 shrink-0 px-2 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     {pageSize * (currentPage - 1) + (idx + 1)}
                   </TableCell>
 
                   <TableCell
-                    className={`truncate px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                    className={`max-w-[120px] truncate px-4 py-2 sm:max-w-none ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     {item.name}
                   </TableCell>
@@ -164,26 +169,32 @@ const WarehouseItemTable = ({
                   >
                     {item.weightPerItem}
                   </TableCell>
-
                   <TableCell
                     className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    {item.name}
+                    {item.productCategory ?? '-'}
                   </TableCell>
-
                   <TableCell
-                    className={`px-4 py-2 ${isRTL ? 'text-left' : 'text-right'}`}
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
-                    <div
-                      className={`flex gap-2 ${
-                        isRTL ? 'justify-end' : 'justify-end'
-                      }`}
-                    >
+                    {item.retrnxboxDamaged ?? 0}
+                  </TableCell>
+                  <TableCell
+                    className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}
+                  >
+                    {(item as { warehouse?: { name?: string } }).warehouse
+                      ?.name ??
+                      item.warehouseId ??
+                      '-'}
+                  </TableCell>
+                  <TableCell className='w-[90px] shrink-0 px-2 py-2'>
+                    <div className='flex shrink-0 gap-1 sm:gap-2'>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button
                             size='sm'
                             variant='ghost'
+                            className='h-8 w-8 p-0'
                             onClick={() => onUpdate(item)}
                           >
                             <Edit size={16} className='text-blue-600' />
@@ -191,12 +202,12 @@ const WarehouseItemTable = ({
                         </TooltipTrigger>
                         <TooltipContent>{t('updateItem')}</TooltipContent>
                       </Tooltip>
-
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button
                             size='sm'
                             variant='ghost'
+                            className='h-8 w-8 p-0'
                             onClick={() => onDelete(item)}
                           >
                             <Trash2 size={16} className='text-red-600' />
@@ -211,15 +222,15 @@ const WarehouseItemTable = ({
             )}
           </TableBody>
         </Table>
+      </div>
 
-        <div className='mx-4 mt-4'>
-          <TablePagination
-            totalItems={totalItems}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={onPageChange}
-          />
-        </div>
+      <div className='mx-4 mt-4'>
+        <TablePagination
+          totalItems={totalItems}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );

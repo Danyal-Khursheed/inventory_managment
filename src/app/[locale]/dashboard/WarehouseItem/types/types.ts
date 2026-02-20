@@ -20,6 +20,10 @@ export interface WarehouseItem {
   weightPerItem: number;
   upc: string;
   sku: string;
+  /** Enum: Carry-On | Check-In */
+  productCategory?: string;
+  /** RETRNXBOX-DAMAGED count from PDF */
+  retrnxboxDamaged?: number;
 }
 
 export interface FormValues {
@@ -30,6 +34,8 @@ export interface FormValues {
   weightPerItem: number;
   upc: string;
   sku: string;
+  productCategory: string;
+  retrnxboxDamaged: number;
 }
 
 export interface HeroHeaderProps {

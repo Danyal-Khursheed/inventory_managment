@@ -6,6 +6,10 @@ import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { useTranslations } from 'next-intl';
 import { useImportWarehouseCSV } from '../hooks/useImportWarehouseCSV';
+import {
+  rawRowToWarehouseItem,
+  isRowEmpty
+} from '@/lib/warehouse-import-utils';
 
 export type WarehouseCSVItem = {
   name: string;
@@ -15,26 +19,17 @@ export type WarehouseCSVItem = {
   weightPerItem: number;
   quantity: number;
   warehouseId: string;
+  productCategory: string;
+  retrnxboxDamaged: number;
 };
 
 interface Props {
   onSuccess?: () => void;
 }
 
-// New payload type
 export type ImportCSVPayload = {
   items: WarehouseCSVItem[];
 };
-
-const REQUIRED_KEYS = [
-  'name',
-  'sku',
-  'upc',
-  'pricePerItem',
-  'weightPerItem',
-  'quantity',
-  'warehouseId'
-];
 
 const isValidUUID = (value: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
@@ -50,43 +45,31 @@ type ValidationErrorKey =
   | 'invalidWarehouseId';
 
 const validateRow = (
-  row: Partial<WarehouseCSVItem>,
+  row: WarehouseCSVItem,
   rowIndex: number
 ): { key: ValidationErrorKey; row: number } | null => {
-  for (const key of REQUIRED_KEYS) {
-    if (!(key in row)) {
-      return { key: 'missingColumn', row: rowIndex + 1 };
-    }
-  }
-
   if (!row.name || typeof row.name !== 'string') {
     return { key: 'invalidName', row: rowIndex + 1 };
   }
-
   if (!row.sku || typeof row.sku !== 'string') {
     return { key: 'invalidSKU', row: rowIndex + 1 };
   }
-
-  if (!row.upc || typeof row.upc !== 'string') {
+  if (typeof row.upc !== 'string') {
     return { key: 'invalidUPC', row: rowIndex + 1 };
   }
-
-  if (isNaN(Number(row.pricePerItem))) {
+  if (!Number.isFinite(Number(row.pricePerItem))) {
     return { key: 'invalidPrice', row: rowIndex + 1 };
   }
-
-  if (isNaN(Number(row.quantity))) {
+  if (!Number.isFinite(Number(row.quantity))) {
     return { key: 'invalidQuantity', row: rowIndex + 1 };
   }
-
-  if (isNaN(Number(row.weightPerItem))) {
+  if (!Number.isFinite(Number(row.weightPerItem))) {
     return { key: 'invalidWeight', row: rowIndex + 1 };
   }
-
-  if (!isValidUUID(row.warehouseId ?? '')) {
+  const warehouseId = (row.warehouseId ?? '').trim();
+  if (warehouseId && !isValidUUID(warehouseId)) {
     return { key: 'invalidWarehouseId', row: rowIndex + 1 };
   }
-
   return null;
 };
 
@@ -115,24 +98,27 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
           return toast.error(t('emptyCSV'));
         }
 
+        // Debug: log raw column names and first rows from CSV
+        const first = data[0] as Record<string, unknown>;
+        console.log('[Import CSV] Column names:', Object.keys(first));
+        console.log('[Import CSV] First 3 raw rows:', data.slice(0, 3));
+
         const items: WarehouseCSVItem[] = [];
 
         for (let i = 0; i < data.length; i++) {
-          const row: Partial<WarehouseCSVItem> = {
-            name: String(data[i].name ?? ''),
-            sku: String(data[i].sku ?? ''),
-            upc: String(data[i].upc ?? ''),
-            pricePerItem: Number(data[i].pricePerItem ?? 0),
-            weightPerItem: Number(data[i].weightPerItem ?? 0),
-            quantity: Number(data[i].quantity ?? 0),
-            warehouseId: String(data[i].warehouseId ?? '')
-          };
+          const raw = data[i] as Record<string, unknown>;
+          if (isRowEmpty(raw)) continue;
 
+          const row = rawRowToWarehouseItem(raw);
+          if (items.length < 3)
+            console.log(`[Import CSV] Row ${i + 1} normalized:`, { ...row });
           const error = validateRow(row, i);
           if (error) return showRowError(error.key, error.row);
 
-          items.push(row as WarehouseCSVItem);
+          items.push(row);
         }
+
+        if (!items.length) return toast.error(t('emptyCSV'));
 
         importCSV({ items });
         toast.success(t('csvSuccess'));
@@ -159,33 +145,27 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
         return toast.error(t('emptyXLSX'));
       }
 
+      // Debug: log raw column names and first rows from Excel
+      const firstX = rawData[0] as Record<string, unknown>;
+      console.log('[Import XLSX] Column names:', Object.keys(firstX));
+      console.log('[Import XLSX] First 3 raw rows:', rawData.slice(0, 3));
+
       const items: WarehouseCSVItem[] = [];
 
       for (let i = 0; i < rawData.length; i++) {
-        const row: Partial<WarehouseCSVItem> = {
-          name: String(rawData[i].name ?? rawData[i].Name ?? ''),
-          sku: String(rawData[i].sku ?? rawData[i].SKU ?? ''),
-          upc: String(rawData[i].upc ?? rawData[i].UPC ?? ''),
-          pricePerItem: Number(
-            rawData[i].pricePerItem ?? rawData[i].PricePerItem ?? 0
-          ),
-          weightPerItem: Number(
-            rawData[i].weightPerItem ?? rawData[i].WeightPerItem ?? 0
-          ),
-          quantity: Number(rawData[i].quantity ?? rawData[i].Quantity ?? 0),
-          warehouseId: String(
-            rawData[i].warehouseId ??
-              rawData[i].WarehouseId ??
-              rawData[i].warehouseid ??
-              ''
-          )
-        };
+        const raw = rawData[i] as Record<string, unknown>;
+        if (isRowEmpty(raw)) continue;
 
+        const row = rawRowToWarehouseItem(raw);
+        if (items.length < 3)
+          console.log(`[Import XLSX] Row ${i + 1} normalized:`, { ...row });
         const error = validateRow(row, i);
         if (error) return showRowError(error.key, error.row);
 
-        items.push(row as WarehouseCSVItem);
+        items.push(row);
       }
+
+      if (!items.length) return toast.error(t('emptyXLSX'));
 
       importCSV({ items });
       toast.success(t('xlsxSuccess'));

@@ -234,6 +234,11 @@
   "upcPlaceholder": "Enter product UPC code",
   "upcRequired": "UPC is required",
     
+    "productCategory": "Product Category",
+    "selectProductCategory": "Select category",
+    "retrnxboxDamaged": "RETRNXBOX Damaged",
+    "retrnxboxDamagedMin": "Must be 0 or more",
+
     "warehouse": "Warehouse",
     "selectWarehouse": "Select Warehouse",
     "warehouseRequired": "Warehouse is required",
@@ -276,6 +281,8 @@
     "UPC":"UPC",
     "quantity": "Quantity",
     "weight": "Weight",
+    "productCategory": "Product Category",
+    "retrnxboxDamaged": "RETRNXBOX Damaged",
     "warehouseName": "Warehouse Name",
     "actions": "Actions",
     "updateItem": "Update Item",

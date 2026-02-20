@@ -16,8 +16,8 @@ export function Breadcrumbs() {
   if (items.length === 0) return null;
 
   return (
-    <Breadcrumb className='cursor-not-allowed'>
-      <BreadcrumbList>
+    <Breadcrumb className='min-w-0 cursor-not-allowed overflow-hidden'>
+      <BreadcrumbList className='min-w-0'>
         {items.map((item, index) => (
           <Fragment key={item.title}>
             {index !== items.length - 1 && (

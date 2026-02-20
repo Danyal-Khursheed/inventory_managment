@@ -237,6 +237,11 @@
     "namePlaceholder": "اسم العنصر",
     "nameRequired": "الاسم مطلوب",
 
+    "productCategory": "فئة المنتج",
+    "selectProductCategory": "اختر الفئة",
+    "retrnxboxDamaged": "RETRNXBOX تالف",
+    "retrnxboxDamagedMin": "يجب أن يكون 0 أو أكثر",
+
     "warehouse": "المستودع",
     "selectWarehouse": "اختر المستودع",
     "warehouseRequired": "المستودع مطلوب",
@@ -278,6 +283,8 @@
     "SKU": "رمز المخزون",
     "UPC": "الرمز الشامل للمنتج",
     "weight": "الوزن",
+    "productCategory": "فئة المنتج",
+    "retrnxboxDamaged": "RETRNXBOX تالف",
     "warehouseName": "اسم المستودع",
     "actions": "الإجراءات",
     "updateItem": "تحديث العنصر",
