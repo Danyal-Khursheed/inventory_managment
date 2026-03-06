@@ -11,6 +11,49 @@ import {
   isRowEmpty
 } from '@/lib/warehouse-import-utils';
 
+/** CSV template columns and one example row for bulk upload */
+const WAREHOUSE_IMPORT_TEMPLATE_HEADERS = [
+  'name',
+  'sku',
+  'upc',
+  'pricePerItem',
+  'weightPerItem',
+  'quantity',
+  'productCategory',
+  'retrnxboxDamaged',
+  'warehouseId'
+] as const;
+
+const WAREHOUSE_IMPORT_TEMPLATE_SAMPLE_ROW: Record<string, string> = {
+  name: 'Sample Product',
+  sku: 'SKU-001',
+  upc: '123456789012',
+  pricePerItem: '10.99',
+  weightPerItem: '0.5',
+  quantity: '100',
+  productCategory: 'Carry-On',
+  retrnxboxDamaged: '0',
+  warehouseId: ''
+};
+
+function getWarehouseImportTemplateCSV(): string {
+  const headers = WAREHOUSE_IMPORT_TEMPLATE_HEADERS.join(',');
+  const sampleValues = WAREHOUSE_IMPORT_TEMPLATE_HEADERS.map(
+    (h) => WAREHOUSE_IMPORT_TEMPLATE_SAMPLE_ROW[h] ?? ''
+  ).join(',');
+  return `${headers}\n${sampleValues}`;
+}
+
+function downloadTemplate(filename: string, content: string, mimeType: string) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export type WarehouseCSVItem = {
   name: string;
   sku: string;
@@ -187,8 +230,17 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
     extension === 'csv' ? handleCSV(file) : handleXLSX(file);
   };
 
+  const handleDownloadTemplate = () => {
+    const csv = getWarehouseImportTemplateCSV();
+    downloadTemplate(
+      'warehouse-items-import-template.csv',
+      csv,
+      'text/csv;charset=utf-8;'
+    );
+  };
+
   return (
-    <div className='flex w-full justify-start sm:w-auto md:justify-center'>
+    <div className='flex w-full flex-col gap-2 sm:w-auto md:flex-row md:items-center md:justify-center md:gap-3'>
       <input
         type='file'
         accept='.csv,.xlsx'
@@ -201,6 +253,14 @@ export default function ImportWarehouseCSV({ onSuccess }: Props) {
           }
         }}
       />
+
+      <Button
+        variant='outline'
+        className='h-10 w-[80%] md:w-auto'
+        onClick={handleDownloadTemplate}
+      >
+        {t('downloadTemplate')}
+      </Button>
 
       <Button
         className='bg-primary h-10 w-[80%] md:w-full'

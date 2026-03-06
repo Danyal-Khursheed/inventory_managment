@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FC } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { HeroHeaderProps } from '../types/types';
-import ImportWarehouseCSV from './ImportWarehouseCSV';
+import BulkUploadModal from './BulkUploadModal';
 
 const HeaderHero: FC<HeroHeaderProps> = ({
   handleButton,
@@ -15,6 +16,7 @@ const HeaderHero: FC<HeroHeaderProps> = ({
   const locale = useLocale();
   const isRTL = locale === 'ar';
   const t = useTranslations('headerHero');
+  const [bulkUploadOpen, setBulkUploadOpen] = useState(false);
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className='w-full'>
@@ -28,7 +30,22 @@ const HeaderHero: FC<HeroHeaderProps> = ({
         </h1>
 
         <div className='flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center'>
-          {onCSVSuccess && <ImportWarehouseCSV onSuccess={onCSVSuccess} />}
+          {onCSVSuccess && (
+            <>
+              <Button
+                variant='outline'
+                className='h-10 w-[80%] cursor-pointer sm:w-auto md:w-auto'
+                onClick={() => setBulkUploadOpen(true)}
+              >
+                {t('bulkUpload')}
+              </Button>
+              <BulkUploadModal
+                open={bulkUploadOpen}
+                onOpenChange={setBulkUploadOpen}
+                onSuccess={onCSVSuccess}
+              />
+            </>
+          )}
           <Button
             className='h-10 w-[80%] cursor-pointer sm:w-auto md:w-auto'
             onClick={() => handleButton(true)}

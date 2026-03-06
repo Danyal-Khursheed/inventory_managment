@@ -149,7 +149,7 @@ const Page: React.FC = () => {
   }
 
   return (
-    <div className='mx-auto max-h-screen max-w-4xl px-4'>
+    <div className='mx-auto max-w-4xl px-4 pb-24'>
       <HeaderHero componentName={isEditMode ? 'Edit Order' : 'Create Order'} />
       <div className='grid grid-cols-1 gap-6'>
         <OriginCard />

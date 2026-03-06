@@ -81,7 +81,7 @@ export default function DashboardLayout({
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <div className='bg-background flex min-h-0 min-w-0 flex-1 flex-col overflow-auto'>
+        <div className='bg-background flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto'>
           <div className='mx-auto w-full max-w-[1400px] min-w-0 flex-1 py-6 sm:py-10 md:px-4'>
             {children}
           </div>
